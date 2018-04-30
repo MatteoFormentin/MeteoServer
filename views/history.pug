@@ -1,29 +1,50 @@
 extends layout
 
 block content
-    h1= title
-    p Hystory
+        .padding-font
+            h1 Data Hystory
 
-    p limit:
+            form.form-inline(method='GET' action='/history')
+                label(for='date_start') Inizio:
+                input.form-control.form-margin(id='date_start' name='date_start' type='datetime-local')
+                label(for='date_end') Fine:
+                input.form-control.form-margin(id='date_end' name='date_end' type='datetime-local')
+                button.btn.btn-m.btn-primary.form-margin(type='submit') OK
 
-    form(method='GET' action='/history')
-        div
-            label(for='limit') Limit results to:
-            input(name='limit' type='text' placeholder='limit')
-            button(type='submit') Sign up
+            //Aggiungere un li per ogni tabella
+            ul.nav.nav-tabs(role='tablist')
+                li.nav-item
+                    a.nav-link.active(data-toggle='tab' href='#temp') TEMPERATURA
+                li.nav-item
+                    a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
 
-    div#temp_history
-        p temperatura
-        table
-            each item in temperatura
-                tr
-                    td=item.StationName
-                    td=item.Val
+        div.tab-content
+            //Temperatura
+            div.container.tab-pane.active(id='temp')
+                table.table.table-bordered
+                    thead
+                        tr
+                            th Stazione
+                            th Valore
+                            th Data
 
-    div#pres_history
-        p pressione
-        table
-            each item in pressione
-                tr
-                    td=item.StationName
-                    td=item.Val
+                    each item in temperatura
+                        tr
+                            td=item.StationName
+                            td=item.Val
+                            td=item.Stamp
+
+            //Pressione
+            div.container.tab-pane.fade(id='pres')
+                table.table.table-bordered
+                    thead
+                        tr
+                            th Stazione
+                            th Valore
+                            th Data
+
+                    each item in pressione
+                        tr
+                            td=item.StationName
+                            td=item.Val
+                            td=item.Stamp

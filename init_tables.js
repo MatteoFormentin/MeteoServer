@@ -1,6 +1,8 @@
 var express = require('express');
 
-var setup = function () {
+var setup_db = function () {
+    /*Crea Tabelle se non presenti*/
+
     database.query('CREATE TABLE IF NOT EXISTS station(\n' +
         '    StationName Varchar(255),\n' +
         '    Location Varchar(255),\n' +
@@ -10,7 +12,6 @@ var setup = function () {
         if (err) throw err;
     });
 
-    /*Crea Tabella per la temperatura se non presente*/
     database.query('CREATE TABLE IF NOT EXISTS temperature(\n' +
         '    StationName Varchar(255),\n' +
         '    Val Float,\n' +
@@ -27,7 +28,6 @@ var setup = function () {
         if (err) throw err;
     });
 
-
 };
 
-module.exports = setup;
+module.exports = setup_db;
