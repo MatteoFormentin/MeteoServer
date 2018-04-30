@@ -1,0 +1,29 @@
+extends layout
+
+block content
+    h1= title
+    p Hystory
+
+    p limit:
+
+    form(method='GET' action='/history')
+        div
+            label(for='limit') Limit results to:
+            input(name='limit' type='text' placeholder='limit')
+            button(type='submit') Sign up
+
+    div#temp_history
+        p temperatura
+        table
+            each item in temperatura
+                tr
+                    td=item.StationName
+                    td=item.Val
+
+    div#pres_history
+        p pressione
+        table
+            each item in pressione
+                tr
+                    td=item.StationName
+                    td=item.Val
