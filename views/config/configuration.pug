@@ -1,0 +1,45 @@
+extends ../layout
+
+block content
+    .padding-font
+        h1 Configurazione
+        ul.nav.nav-tabs(role='tablist')
+            li.nav-item
+                a.nav-link.active(data-toggle='tab' href='#stat') Stazioni
+
+    div.tab-content
+
+        div.container.tab-pane.active(id='stat')
+            form.form-inline(method='POST' action='/config/station/new_station')
+                label(for='StationName') AGGIUNGI Nome:
+                input.form-control.form-margin(id='StationName' name='StationName' type='text')
+
+                label(for='Location') Luogo:
+                input.form-control.form-margin(id='Location' name='Location' type='text')
+
+                label(for='IP') Indirizzo IP:
+                input.form-control.form-margin(id='IP' name='IP' type='text')
+
+                button.btn.btn-m.btn-primary.form-margin(type='submit') CREA
+
+            table.table.table-bordered
+                thead
+                    tr
+                        th Nome
+                        th Luogo
+                        th Indirizzo IP
+                        th Token
+                        th Modifica
+
+                each item in station
+                    tr
+                        td=item.StationName
+                        td=item.Location
+                        td=item.IP
+                        td=item.Token
+                        td
+                            form.form-inline(method='POST' action='/config/station/delete_station')
+                                input.form-control.form-margin(name='Id' type='hidden' value=item.Id)
+                                button.btn-danger.btn-xs.btn-primary.form-margin(type='submit') ELIMINA
+
+                            button.btn-danger.btn-xs.btn-primary.form-margin(type='submit') MODIFICA

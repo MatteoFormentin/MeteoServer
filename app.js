@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+uuidv4 = require('uuid/v4');
 
 /*DATABASE MySQL*/
 var mysql = require('mysql');
@@ -13,15 +14,17 @@ database = mysql.createConnection({
     password: 'password'
 });
 
-var init_tables=require('./init_tables.js'); //Modulo che crea le tabelle
+var init_tables = require('./init_tables.js'); //Modulo che crea le tabelle
 database.connect();
 init_tables();
 
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var postData = require('./routes/post_data');
 var history = require('./routes/history');
+var configuration = require('./routes/config/configuration');
+var configuration_new_station = require('./routes/config/station/new_station');
+var configuration_delete_station = require('./routes/config/station/delete_station');
 
 var app = express();
 
@@ -37,9 +40,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/post_data', postData);
 app.use('/history', history);
+app.use('/config/configuration', configuration);
+app.use('/config/station/new_station', configuration_new_station);
+app.use('/config/station/delete_station', configuration_delete_station);
 
 
 // catch 404 and forward to error handler

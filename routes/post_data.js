@@ -4,30 +4,72 @@ var router = express.Router();
 /* POST new data from sensor. */
 router.post('/', function (req, res, next) {
 
+    /*
+        STRUTTURA RICHIESTA JSON
+        {
+            "Id":
+            "Token": 49294b3d-a08a-4e35-a422-037b0fad735f
+            "Table":
+            "Val":
+        }
+     */
+
     let data = req.body;
 
-    switch (data.table) {
+    console.log('Request from Id: ' + data.Id + ' Token: ' + data.Token);
 
-        //Inserimento temperatura
-        case 'temperature':
-            database.query('INSERT INTO  temperature (StationName, Val) VALUES (\'' + data.StationName + '\', \'' + data.Val + '\')',
-                function (err, rows, fields) {
-                    if (err) throw err;
-                    console.log('INSERTED IN temperature (StationName: ' + data.StationName + ', Val: ' + data.Val + ')');
-                });
-            break;
 
-        //Inserimento pressione
-        case 'pressure':
-            database.query('INSERT INTO pressure (StationName, Val) VALUES (\'' + data.StationName + '\', \'' + data.Val + '\')',
-                function (err, rows, fields) {
-                    if (err) throw err;
-                    console.log('INSERTED IN pressure (StationName: ' + data.StationName + ', Val: ' + data.Val + ')');
-                });
-            break;
-    }
+    database.query('SELECT * FROM Station WHERE Id= \'' + data.Id + '\' AND Token= \'' + data.Token + '\'', function (err, rows) {
+        if (err) throw err;
+        if (rows[0] === undefined) {
+            res.send('unauthorized');
+            console.log('unauthorized request');
+        }
+        else {
+            switch (data.Table) {
 
-    res.send('ok');
+                //Inserimento temperatura
+                case 'Temperature':
+                    database.query('INSERT INTO  Temperature (Id, Val) VALUES (\'' + data.Id + '\', \'' + data.Val + '\')',
+                        function (err, rows, fields) {
+                            if (err) throw err;
+                            console.log('INSERTED IN Temperature (Id: ' + data.Id + ', Val: ' + data.Val + ')');
+                        });
+                    break;
+
+                //Inserimento pressione
+                case 'Pressure':
+                    database.query('INSERT INTO Pressure (Id, Val) VALUES (\'' + data.Id + '\', \'' + data.Val + '\')',
+                        function (err, rows, fields) {
+                            if (err) throw err;
+                            console.log('INSERTED IN Pressure (Id: ' + data.Id + ', Val: ' + data.Val + ')');
+                        });
+                    break;
+
+                case 'Humidity':
+                    database.query('INSERT INTO Humidity (Id, Val) VALUES (\'' + data.Id + '\', \'' + data.Val + '\')',
+                        function (err, rows, fields) {
+                            if (err) throw err;
+                            console.log('INSERTED IN Humidity (Id: ' + data.Id + ', Val: ' + data.Val + ')');
+                        });
+                    break;
+
+                case 'Rain':
+                    database.query('INSERT INTO Rain (Id, Val) VALUES (\'' + data.Id + '\', \'' + data.Val + '\')',
+                        function (err, rows, fields) {
+                            if (err) throw err;
+                            console.log('INSERTED IN Rain (Id: ' + data.Id + ', Val: ' + data.Val + ')');
+                        });
+                    break;
+
+                default:
+                    console.log('Unable to Log');
+            }
+
+            res.send('ok');
+        }
+    });
+
 })
 ;
 
