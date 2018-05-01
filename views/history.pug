@@ -1,50 +1,84 @@
 extends layout
 
 block content
-        .padding-font
-            h1 Data Hystory
+    .padding-font
+        h1 Data History
+        h2 Stazione: #{selected_station.StationName} - Luogo: #{selected_station.Location}
 
-            form.form-inline(method='GET' action='/history')
-                label(for='date_start') Inizio:
-                input.form-control.form-margin(id='date_start' name='date_start' type='datetime-local')
-                label(for='date_end') Fine:
-                input.form-control.form-margin(id='date_end' name='date_end' type='datetime-local')
-                button.btn.btn-m.btn-primary.form-margin(type='submit') OK
 
-            //Aggiungere un li per ogni tabella
-            ul.nav.nav-tabs(role='tablist')
-                li.nav-item
-                    a.nav-link.active(data-toggle='tab' href='#temp') TEMPERATURA
-                li.nav-item
-                    a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
+        form.form-inline(method='GET' action='/history')
+            label(for='station') Stazione:
+            select.form-control.form-margin(id='station' name='station')
+                option(value=0) Seleziona...
+                each item in data.station
+                    option(value=item.Id) #{item.StationName} - #{item.Location}
 
-        div.tab-content
-            //Temperatura
-            div.container.tab-pane.active(id='temp')
-                table.table.table-bordered
-                    thead
-                        tr
-                            th Stazione
-                            th Valore
-                            th Data
+            label(for='date_start') Inizio:
+            input.form-control.form-margin(id='date_start' name='date_start' type='datetime-local')
+            label(for='date_end') Fine:
+            input.form-control.form-margin(id='date_end' name='date_end' type='datetime-local')
+            button.btn.btn-m.btn-primary.form-margin(type='submit') OK
 
-                    each item in temperatura
-                        tr
-                            td=item.StationName
-                            td=item.Val
-                            td=item.Stamp
+        //Aggiungere un li per ogni tabella
+        ul.nav.nav-tabs(role='tablist')
+            li.nav-item
+                a.nav-link.active(data-toggle='tab' href='#temp') TEMPERATURA
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
 
-            //Pressione
-            div.container.tab-pane.fade(id='pres')
-                table.table.table-bordered
-                    thead
-                        tr
-                            th Stazione
-                            th Valore
-                            th Data
+    div.tab-content
+        //Temperatura
+        div.container.tab-pane.active(id='temp')
+            table.table.table-bordered
+                thead
+                    tr
+                        th Valore
+                        th Data
 
-                    each item in pressione
-                        tr
-                            td=item.StationName
-                            td=item.Val
-                            td=item.Stamp
+                each item in data.temperature
+                    tr
+                        td=item.Val
+                        td=item.Stamp
+
+        //Pressione
+        div.container.tab-pane.fade(id='pres')
+            table.table.table-bordered
+                thead
+                    tr
+                        th Valore
+                        th Data
+
+                each item in data.pressure
+                    tr
+                        td=item.Val
+                        td=item.Stamp
+
+        //Umidità
+        div.container.tab-pane.fade(id='hum')
+            table.table.table-bordered
+                thead
+                    tr
+                        th Valore
+                        th Data
+
+                each item in data.humidity
+                    tr
+                        td=item.Val
+                        td=item.Stamp
+
+        //Pioggia
+        div.container.tab-pane.fade(id='rain')
+            table.table.table-bordered
+                thead
+                    tr
+                        th Valore
+                        th Data
+
+                each item in data.rain
+                    tr
+                        td=item.Val
+                        td=item.Stamp
