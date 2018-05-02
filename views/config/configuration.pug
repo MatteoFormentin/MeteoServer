@@ -25,6 +25,7 @@ block content
             table.table.table-bordered
                 thead
                     tr
+                        th ID
                         th Nome
                         th Luogo
                         th Indirizzo IP
@@ -33,6 +34,7 @@ block content
 
                 each item in station
                     tr
+                        td=item.Id
                         td=item.StationName
                         td=item.Location
                         td=item.IP

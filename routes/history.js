@@ -39,18 +39,24 @@ router.get('/', function (req, res, next) {
         }
 
         if (req.query.date_end === undefined) {
-            temp_query += ' AND \'2100-01-01T00:00\'';
-            pres_query += ' AND \'2100-01-01T00:00\'';
-            hum_query += ' AND \'2100-01-01T00:00\'';
-            rain_query += ' AND \'2100-01-01T00:00\'';
+            temp_query += ' AND \'2100-01-01T00:00\' ORDER BY Stamp DESC';
+            pres_query += ' AND \'2100-01-01T00:00\' ORDER BY Stamp DESC';
+            hum_query += ' AND \'2100-01-01T00:00\' ORDER BY Stamp DESC';
+            rain_query += ' AND \'2100-01-01T00:00\' ORDER BY Stamp DESC';
         }
         else {
-            temp_query += ' AND \'' + req.query.date_end + '\'';
-            pres_query += ' AND \'' + req.query.date_end + '\'';
-            hum_query += ' AND \'' + req.query.date_end + '\'';
-            rain_query += ' AND \'' + req.query.date_end + '\'';
+            temp_query += ' AND \'' + req.query.date_end + '\' ORDER BY Stamp DESC';
+            pres_query += ' AND \'' + req.query.date_end + '\' ORDER BY Stamp DESC';
+            hum_query += ' AND \'' + req.query.date_end + '\' ORDER BY Stamp DESC';
+            rain_query += ' AND \'' + req.query.date_end + '\' ORDER BY Stamp DESC';
         }
         }
+    else {
+        temp_query += ' ORDER BY Stamp DESC';
+        pres_query += ' ORDER BY Stamp DESC';
+        hum_query += ' ORDER BY Stamp DESC';
+        rain_query += ' ORDER BY Stamp DESC';
+    }
 
         console.log(temp_query);
         console.log(pres_query);

@@ -78,7 +78,16 @@ router.get('/', function (req, res, next) {
             else {
                 pres = rows[0].Val;
             }
-            res.render('index', {title: 'Meteo Server', temperatura: temp, pressione: pres});
+            database.query('SELECT Val, MAX(Stamp) FROM Humidity GROUP BY Val', function (err, rows) {
+                if (err) throw err;
+                if (rows[0] === undefined) {
+                    hum = 'N/A';
+                }
+                else {
+                    hum = rows[0].Val;
+                }
+                res.render('index', {title: 'Meteo Server', temperatura: temp, pressione: pres, humidity: hum});
+            });
         });
     });
 
