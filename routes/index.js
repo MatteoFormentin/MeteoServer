@@ -2,59 +2,100 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-/*
+
 router.get('/', function (req, res, next) {
 
-    //Station.Id=1 ORDER BY Stamp DESC LIMIT 1
 
-    var station_data = [];
+    var data = [];
+
 
     var temp_query = 'SELECT Station.Id, StationName, Location, Val FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
     var pres_query = 'SELECT Station.Id, StationName, Location, Val FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
-    var hum_query = 'SELECT * FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id';
-    var rain_query = 'SELECT * FROM Rain INNER JOIN Station ON Rain.Id = Station.Id';
+    var hum_query = 'SELECT Station.Id, StationName, Location, Val FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=\'';
+    var rain_query = 'SELECT Station.Id, StationName, Location, Val FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=\'';
 
     var query_end = '\' ORDER BY Stamp DESC LIMIT 1';
 
     database.query('SELECT * FROM Station', function (err, rows) {
-        for (station of rows) {
+        let station = rows;
 
-            let single_station_data = {station_name: '0', temperature: '0', pressure: '0', humidity: '0', rain: '0'};
-            single_station_data.station_name = station.StationName;
+        async.each(station, function (item, callback) {
+            console.log(item.StationName);
 
-            //console.log(station);
+            var name = item.StationName;
+            var id = item.Id;
+            var location = item.Location;
+            var temperature = 0;
+            var pressure = 0;
+            var humidity = 0;
+            var rain = 0;
 
-            database.query(temp_query + station.Id + query_end, function (err, rows) {
+            database.query(temp_query + id + query_end, function (err, rows) {
                 if (rows[0] === undefined) {
-                    single_station_data.temperature = 'N/A';
+                    temperature = 'N/A';
                 }
                 else {
-                    single_station_data.temperature = rows[0].Val;
+                    temperature = rows[0].Val;
                 }
 
-                database.query(temp_query + station.Id + query_end, function (err, rows) {
-
+                database.query(pres_query + id + query_end, function (err, rows) {
                     if (rows[0] === undefined) {
-                        single_station_data.pressure = 'N/A';
+                        pressure = 'N/A';
                     }
                     else {
-                        single_station_data.pressure = rows[0].Val;
+                        pressure = rows[0].Val;
                     }
+                    database.query(hum_query + id + query_end, function (err, rows) {
+                        if (rows[0] === undefined) {
+                            humidity = 'N/A';
+                        }
+                        else {
+                            humidity = rows[0].Val;
+                        }
+                        database.query(rain_query + id + query_end, function (err, rows) {
+                            if (rows[0] === undefined) {
+                                rain = 'N/A';
+                            }
+                            else {
+                                rain = rows[0].Val;
+                            }
+                            data.push({
+                                station: name,
+                                location: location,
+                                temperature: temperature,
+                                pressure: pressure,
+                                humidity: humidity,
+                                rain: rain
+                            });
+                            callback(); //indica ad async che il singolo item ha finito
+                        });
+                    });
 
-                    station_data.push(single_station_data);
-                    console.log('qui');
                 });
             });
-        }
-        console.log('Val: ');
-        console.log(station_data);
-        res.render('index', {title: 'Meteo Server', station_data: station_data});
+        }, function (err) { //eseguita dopo che la funzione precedente è stata eseguita per ogni item
+            console.log(data);
+            res.render('index', {title: 'Meteo Server', data: data});
+        });
 
     });
 
 
 });
-*/
+
+/*
+SELECT * FROM((SELECT Station.id, Temperature.Val AS Temperature FROM Station
+INNER JOIN Temperature ON Temperature.Id = Station.Id ORDER BY Temperature.Stamp LIMIT 1)
+UNION
+(SELECT Station.Id, Pressure.Val AS Pressure FROM Station
+INNER JOIN Pressure ON Pressure.Id = Station.Id  ORDER BY Pressure.Stamp LIMIT 1)
+UNION
+(SELECT Station.Id, Humidity.Val AS Humidity FROM Station
+INNER JOIN Humidity ON Humidity.Id = Station.Id  ORDER BY Humidity.Stamp LIMIT 1)
+UNION
+(SELECT Station.Id, Rain.Val AS Rain FROM Station
+INNER JOIN Rain ON Rain.Id = Station.Id  ORDER BY Rain.Stamp LIMIT 1)) AS D ORDER BY D.id
+
 router.get('/', function (req, res, next) {
 
     var temp = 0;
@@ -92,5 +133,5 @@ router.get('/', function (req, res, next) {
     });
 
 });
-
+*/
 module.exports = router;

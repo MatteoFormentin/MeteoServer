@@ -4,7 +4,8 @@ block content
     .padding-font
         h1= title
         p Welcome to #{title}
-        p Temperatura: #{temperatura}
-        p Pressione: #{pressione}
-        p Umidità: #{humidity}
+
+        each item in data
+            p Nome #{item.station} - #{item.location} <br> Temperatura #{item.temperature} <br> Pressione  #{item.pressure} <br> Umidità  #{item.humidity} <br> Pioggia  #{item.rain}
+
 

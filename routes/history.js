@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    var data = {station: '0', temperature: '0', pressure: '0', humidity: '0', rain: '0'}
+    var data = {station: '0', temperature: '0', pressure: '0', humidity: '0', rain: '0'};
 
     var selected_id = 0; //0-All, 1,2,.. Stazioni
     var selected_station = 0;

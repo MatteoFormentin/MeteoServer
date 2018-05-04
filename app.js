@@ -6,6 +6,7 @@ var logger = require('morgan');
 var compression = require('compression');
 var helmet = require('helmet');
 uuidv4 = require('uuid/v4');
+async = require('async');
 
 /*DATABASE MySQL*/
 var mysql = require('mysql');
