@@ -12,13 +12,13 @@ block content
         div.container.tab-pane.active(id='stat')
             form.form-inline.padding-bottom(method='POST' action='/config/station/new_station')
                 label(for='StationName') AGGIUNGI Nome:
-                input.form-control.form-margin(id='StationName' name='StationName' type='text')
+                input.form-control.form-margin(id='StationName' name='StationName' type='text' placeholder= 'Inserisci nome')
 
                 label(for='Location') Luogo:
-                input.form-control.form-margin(id='Location' name='Location' type='text')
+                input.form-control.form-margin(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo')
 
                 label(for='IP') Indirizzo IP:
-                input.form-control.form-margin(id='IP' name='IP' type='text')
+                input.form-control.form-margin(id='IP' name='IP' type='text' placeholder= 'Inserisci IP')
 
                 button.btn.btn-m.btn-primary.form-margin(type='submit') CREA
 
@@ -34,14 +34,47 @@ block content
 
                 each item in station
                     tr.text-center
-                        td.align-middle=item.Id
-                        td.align-middle=item.StationName
-                        td.align-middle=item.Location
-                        td.align-middle=item.IP
-                        td.align-middle=item.Token
+                        td.align-middle#thId=item.Id
+                        td.align-middle#thName=item.StationName
+                        td.align-middle#thLocation=item.Location
+                        td.align-middle#thIP=item.IP
+                        td.align-middle#thToken=item.Token
                         td
                             div
                                 form.form-inline.d-inline(method='POST' action='/config/station/delete_station')
                                     input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id)
                                     button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit') ELIMINA
-                                button.btn.btn-sm.btn-info.form-margin.d-inline(type='submit') MODIFICA
+                                button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton MODIFICA
+
+                                //$(event.target).closest('tr').children('td.ID').text()
+                    div.modal.fade(id="modifyModal" role="dialog")
+                        script.
+                            $(".modifyButton").click(function (e) {
+                                $("#modifyModal").modal()
+
+                                $("#ModifyId").val($(event.target).closest('tr').find("#thId").text());
+                                $("#ModifyStationName").val($(event.target).closest('tr').find("#thName").text());
+                                $("#ModifyLocation").val($(event.target).closest('tr').find("#thLocation").text());
+                                $("#ModifyIP").val($(event.target).closest('tr').find("#thIP").text());
+                            })
+                        div.modal-dialog
+
+                            div.modal-content
+                                div.modal-header
+                                    h4.modal-title Modifica
+                                    button.close(data-dismiss="modal") X
+
+                                div.modal-body
+                                    div.container.tab-pane.active(id='stat')
+                                        form.form-inline.padding-bottom(method='POST' action='/config/station/modify_station')
+                                            input.form-control.form-margin.d-inline(id='ModifyId' name='ModifyId' type='hidden')
+                                            label(for='ModifyStationName') Nome:
+                                            input.form-control.form-margin(id='ModifyStationName' name='ModifyStationName' type='text')
+
+                                            label(for='Location') Luogo:
+                                            input.form-control.form-margin(id='ModifyLocation' name='ModifyLocation' type='text')
+
+                                            label(for='ModifyIP') Indirizzo IP:
+                                            input.form-control.form-margin(id='ModifyIP' name='ModifyIP' type='text')
+
+                                            button.btn.btn-m.btn-primary.form-margin(type='submit') Modifica

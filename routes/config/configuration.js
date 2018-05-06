@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
 
         database.query('SELECT * FROM Station', function (err, rows) {
             if (err) throw err;
-            console.log(rows);
+            //console.log(rows);
             station = rows;
 
             res.render('./config/configuration', {station: station});

@@ -10,14 +10,15 @@ async = require('async')
 
 /*DATABASE MySQL*/
 var mysql = require('mysql');
+var db_config = require('./db_config/db_config.json');
 database = mysql.createConnection({
-    host: '10.0.0.9',
-    database: 'MeteoServer',
-    user: 'MeteoServer',
-    password: 'password'
+    host: db_config.host,
+    database: db_config.database,
+    user: db_config.user,
+    password: db_config.password
 });
 
-var init_tables = require('./init_tables.js'); //Modulo che crea le tabelle
+var init_tables = require('./db_config/init_tables.js'); //Modulo che crea le tabelle
 database.connect();
 init_tables();
 
@@ -28,6 +29,7 @@ var history = require('./routes/history');
 var configuration = require('./routes/config/configuration');
 var configuration_new_station = require('./routes/config/station/new_station');
 var configuration_delete_station = require('./routes/config/station/delete_station');
+var configuration_modify_station = require('./routes/config/station/modify_station');
 
 var app = express();
 
@@ -51,7 +53,7 @@ app.use('/history', history);
 app.use('/config/configuration', configuration);
 app.use('/config/station/new_station', configuration_new_station);
 app.use('/config/station/delete_station', configuration_delete_station);
-
+app.use('/config/station/modify_station', configuration_modify_station);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
