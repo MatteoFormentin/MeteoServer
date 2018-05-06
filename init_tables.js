@@ -5,8 +5,8 @@ var setup_db = function () {
 
     database.query('CREATE TABLE IF NOT EXISTS Station(\n' +
         '    Id Int NOT NULL AUTO_INCREMENT,\n' +
-        '    StationName Varchar(255),\n' +
-        '    Location Varchar(255),\n' +
+        '    StationName Varchar(255) NOT NULL,\n' +
+        '    Location Varchar(255) NOT NULL,\n' +
         '    IP Varchar(255), \n' +
         '    Token Varchar(255), \n' +
         '    PRIMARY KEY (Id) \n' +

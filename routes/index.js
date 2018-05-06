@@ -5,9 +5,7 @@ var router = express.Router();
 
 router.get('/', function (req, res, next) {
 
-
     var data = [];
-
 
     var temp_query = 'SELECT Station.Id, StationName, Location, Val FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
     var pres_query = 'SELECT Station.Id, StationName, Location, Val FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
@@ -83,55 +81,4 @@ router.get('/', function (req, res, next) {
 
 });
 
-/*
-SELECT * FROM((SELECT Station.id, Temperature.Val AS Temperature FROM Station
-INNER JOIN Temperature ON Temperature.Id = Station.Id ORDER BY Temperature.Stamp LIMIT 1)
-UNION
-(SELECT Station.Id, Pressure.Val AS Pressure FROM Station
-INNER JOIN Pressure ON Pressure.Id = Station.Id  ORDER BY Pressure.Stamp LIMIT 1)
-UNION
-(SELECT Station.Id, Humidity.Val AS Humidity FROM Station
-INNER JOIN Humidity ON Humidity.Id = Station.Id  ORDER BY Humidity.Stamp LIMIT 1)
-UNION
-(SELECT Station.Id, Rain.Val AS Rain FROM Station
-INNER JOIN Rain ON Rain.Id = Station.Id  ORDER BY Rain.Stamp LIMIT 1)) AS D ORDER BY D.id
-
-router.get('/', function (req, res, next) {
-
-    var temp = 0;
-    var pres = 0;
-
-
-    //Le query sono concorrenti! farle nested con render alla fine
-    database.query('SELECT Val, MAX(Stamp) FROM Temperature GROUP BY Val', function (err, rows) {
-        if (err) throw err;
-        if (rows[0] === undefined) {
-            temp = 'N/A';
-        }
-        else {
-            temp = rows[0].Val;
-        }
-        database.query('SELECT Val, MAX(Stamp) FROM Pressure GROUP BY Val', function (err, rows) {
-            if (err) throw err;
-            if (rows[0] === undefined) {
-                pres = 'N/A';
-            }
-            else {
-                pres = rows[0].Val;
-            }
-            database.query('SELECT Val, MAX(Stamp) FROM Humidity GROUP BY Val', function (err, rows) {
-                if (err) throw err;
-                if (rows[0] === undefined) {
-                    hum = 'N/A';
-                }
-                else {
-                    hum = rows[0].Val;
-                }
-                res.render('index', {title: 'Meteo Server', temperatura: temp, pressione: pres, humidity: hum});
-            });
-        });
-    });
-
-});
-*/
 module.exports = router;

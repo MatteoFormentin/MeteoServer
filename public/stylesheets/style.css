@@ -1,11 +1,37 @@
-.padding-font {
-  padding: 50px;
+.padding-base {
+    padding: 50px;
+}
+
+h1 {
+    padding-top: 50px;
 }
 
 a {
-  color: #00B7FF;
+    color: #00B7FF;
 }
 
 .form-margin {
     margin: 10px;
+}
+
+.home-card {
+    margin-bottom: 50px;
+    height: 230px;
+}
+
+p.home-card {
+    padding-top: 5px;
+    padding-left: 20px;
+}
+
+.padding-bottom {
+    padding-bottom: 40px;
+}
+
+.little-padding-bottom {
+    padding-bottom: 20px;
+}
+
+.font-size {
+    font-size: 120%;
 }

@@ -1,11 +1,36 @@
 extends layout
 
 block content
-    .padding-font
-        h1= title
-        p Welcome to #{title}
+    .padding-base
+        h1(align = "center") STAZIONI METEO
 
-        each item in data
-            p Nome #{item.station} - #{item.location} <br> Temperatura #{item.temperature} <br> Pressione  #{item.pressure} <br> Umidità  #{item.humidity} <br> Pioggia  #{item.rain}
+    div.container
+        div.row
+            each item in data
+                div.col-4
+                    div.card.home-card
+                        div.card-body.mx-auto
+                            h4.card-title.text-center #{item.station} - #{item.location}
+
+                            div.font-size
+                                if(item.temperature !== "N/A")
+                                    div
+                                        i.wi.wi-thermometer.d-inline
+                                        p.d-inline Temperatura: #{item.temperature}°C
+
+                                if(item.pressure !== "N/A")
+                                    div
+                                        i.wi.wi-barometer.d-inline
+                                        p.d-inline Pressione: #{item.pressure} hPa
+
+                                if(item.humidity !== "N/A")
+                                    div
+                                        i.wi.wi-humidity.d-inline
+                                        p.d-inline Umidità #{item.humidity}%
+
+                                if(item.rain !== "N/A")
+                                    div
+                                        i.wi.wi-umbrella.d-inline
+                                        p.d-inline Pioggia #{item.rain}
 
 
