@@ -5,6 +5,8 @@ var router = express.Router();
 router.get('/', function (req, res, next) {
     var data = {station: '0', temperature: '0', pressure: '0', humidity: '0', rain: '0'};
 
+    var data_chart = {station: [], temperature: [], pressure: [], humidity: [], rain: []};
+
     var selected_id = 0; //0-All, 1,2,.. Stazioni
     var selected_station = 0;
 
@@ -78,6 +80,9 @@ router.get('/', function (req, res, next) {
             if (err) throw err;
             console.log(rows);
             data.temperature = rows;
+            for (item of rows) {
+                data_chart.temperature.push(item.Val);
+            }
             database.query(pres_query, function (err, rows) {
                 if (err) throw err;
                 console.log(rows);
@@ -93,7 +98,8 @@ router.get('/', function (req, res, next) {
                         res.render('history', {
                             title: 'Meteo Server',
                             selected_station: selected_station,
-                            data: data
+                            data: data,
+                            data_chart: data_chart
                         });
                     });
                 });

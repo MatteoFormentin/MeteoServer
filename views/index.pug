@@ -29,8 +29,10 @@ block content
                                         p.d-inline Umidità #{item.humidity}%
 
                                 if(item.rain !== "N/A")
-                                    div
-                                        i.wi.wi-umbrella.d-inline
-                                        p.d-inline Pioggia #{item.rain}
-
-
+                                    if(item.rain == 0)
+                                        div
+                                            i.wi.wi-day-sunny.d-inline
+                                            p.d-inline Non Piove
+                                    if(item.rain == 1)
+                                        i.wi.wi-showers.d-inline
+                                            p.d-inline Piove

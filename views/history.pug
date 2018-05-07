@@ -32,20 +32,19 @@ block content
     div.tab-content
         //Temperatura
         div.container.tab-pane.active(id='temp')
-
             //-
-                canvas(id="myChart" width="400" height="400")
+                canvas(id="myChart")
                 script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js')
 
                 script.
                     var ctx = document.getElementById("myChart").getContext('2d');
                     var myChart = new Chart(ctx, {
-                        type: 'bar',
+                        type: 'line',
                         data: {
                             labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
                             datasets: [{
                                 label: '# of Votes',
-                                data: #{data[0].temperature},
+                                data: [#{data_chart.temperature}],
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 0.2)',
                                     'rgba(54, 162, 235, 0.2)',
@@ -69,7 +68,7 @@ block content
                             scales: {
                                 yAxes: [{
                                     ticks: {
-                                        beginAtZero:true
+                                        beginAtZero: true
                                     }
                                 }]
                             }
