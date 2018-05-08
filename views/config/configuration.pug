@@ -28,6 +28,7 @@ block content
                         th ID
                         th Nome
                         th Luogo
+                        th Altitudine
                         th Indirizzo IP
                         th Token
                         th Modifica
@@ -37,6 +38,7 @@ block content
                         td.align-middle#thId=item.Id
                         td.align-middle#thName=item.StationName
                         td.align-middle#thLocation=item.Location
+                        td.align-middle#thAltitude=item.Altitude + ' m'
                         td.align-middle#thIP=item.IP
                         td.align-middle#thToken=item.Token
                         td
@@ -55,6 +57,7 @@ block content
                                 $("#ModifyId").val($(event.target).closest('tr').find("#thId").text());
                                 $("#ModifyStationName").val($(event.target).closest('tr').find("#thName").text());
                                 $("#ModifyLocation").val($(event.target).closest('tr').find("#thLocation").text());
+                                $("#ModifyAltitude").val($(event.target).closest('tr').find("#ModifyAltitude").text());
                                 $("#ModifyIP").val($(event.target).closest('tr').find("#thIP").text());
                             })
                         div.modal-dialog
@@ -73,6 +76,9 @@ block content
 
                                             label(for='Location') Luogo:
                                             input.form-control.form-margin(id='ModifyLocation' name='ModifyLocation' type='text')
+
+                                            label(for='Altitude') Altitudine:
+                                            input.form-control.form-margin(id='ModifyAltitude' name='ModifyAltitude' type='text')
 
                                             label(for='ModifyIP') Indirizzo IP:
                                             input.form-control.form-margin(id='ModifyIP' name='ModifyIP' type='text')

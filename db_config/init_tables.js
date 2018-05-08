@@ -7,6 +7,7 @@ var setup_db = function () {
         '    Id Int NOT NULL AUTO_INCREMENT,\n' +
         '    StationName Varchar(255) NOT NULL,\n' +
         '    Location Varchar(255) NOT NULL,\n' +
+        '    Altitude Int NOT NULL,\n' +
         '    IP Varchar(255), \n' +
         '    Token Varchar(255), \n' +
         '    PRIMARY KEY (Id) \n' +

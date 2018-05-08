@@ -8,7 +8,8 @@ router.post('/', function (req, res, next) {
 
     var update_station_query = 'UPDATE Station SET StationName=\'' +
         req.body.ModifyStationName + '\', Location=\'' +
-        req.body.ModifyLocation + '\', IP=\'' +
+        req.body.ModifyLocation + '\', Altitude=\'' +
+        req.body.ModifyAltitude + '\', IP=\'' +
         req.body.ModifyIP + '\' WHERE Id=\'' +
         req.body.ModifyId + '\''
     ;

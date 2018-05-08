@@ -7,10 +7,10 @@ router.get('/', function (req, res, next) {
 
     var data = [];
 
-    var temp_query = 'SELECT Station.Id, StationName, Location, Val FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
-    var pres_query = 'SELECT Station.Id, StationName, Location, Val FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
-    var hum_query = 'SELECT Station.Id, StationName, Location, Val FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=\'';
-    var rain_query = 'SELECT Station.Id, StationName, Location, Val FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=\'';
+    var temp_query = 'SELECT Station.Id, StationName, Location, Altitude, Val FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
+    var pres_query = 'SELECT Station.Id, StationName, Location, Altitude, Val FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
+    var hum_query = 'SELECT Station.Id, StationName, Location, Altitude, Val FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=\'';
+    var rain_query = 'SELECT Station.Id, StationName, Location, Altitude, Val FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=\'';
 
     var query_end = '\' ORDER BY Stamp DESC LIMIT 1';
 
@@ -18,11 +18,11 @@ router.get('/', function (req, res, next) {
         let station = rows;
 
         async.each(station, function (item, callback) {
-            console.log(item.StationName);
 
             var name = item.StationName;
             var id = item.Id;
             var location = item.Location;
+            var altitude = item.Altitude;
             var temperature = 0;
             var pressure = 0;
             var humidity = 0;
@@ -60,6 +60,7 @@ router.get('/', function (req, res, next) {
                             data.push({
                                 station: name,
                                 location: location,
+                                altitude: altitude,
                                 temperature: temperature,
                                 pressure: pressure,
                                 humidity: humidity,

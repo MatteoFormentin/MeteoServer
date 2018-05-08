@@ -18,6 +18,8 @@ block content
             input.form-control.form-margin(id='date_end' name='date_end' type='datetime-local')
             button.btn.btn-m.btn-primary.form-margin(type='submit') OK
 
+
+
         //Aggiungere un li per ogni tabella
         ul.nav.nav-tabs(role='tablist')
             li.nav-item
@@ -83,7 +85,7 @@ block content
 
                 each item in data.temperature
                     tr.text-center
-                        td.align-middle=item.Val
+                        td.align-middle=item.Val + ' °C'
                         td.align-middle=item.Stamp
 
         //Pressione
@@ -96,7 +98,7 @@ block content
 
                 each item in data.pressure
                     tr.text-center
-                        td.align-middle=item.Val
+                        td.align-middle=item.Val + ' Pa'
                         td.align-middle=item.Stamp
 
         //Umidità
@@ -109,7 +111,7 @@ block content
 
                 each item in data.humidity
                     tr.text-center
-                        td.align-middle=item.Val
+                        td.align-middle=item.Val + ' %'
                         td.align-middle=item.Stamp
 
         //Pioggia

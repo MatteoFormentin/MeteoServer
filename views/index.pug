@@ -17,11 +17,18 @@ block content
                                     div
                                         i.wi.wi-thermometer.d-inline
                                         p.d-inline Temperatura: #{item.temperature}°C
+                                if(item.temperature !== "N/A" && item.humidity !== "N/A")
+                                    div
+                                        i.wi.wi-thermometer.d-inline
+                                        p.d-inline Punto di Rugiada: #{meteoUtils.dewPoint(item.temperature, item.humidity)}°C
 
                                 if(item.pressure !== "N/A")
                                     div
                                         i.wi.wi-barometer.d-inline
-                                        p.d-inline Pressione: #{item.pressure / 100} hPa
+                                        p.d-inline Pressione: #{Math.round(item.pressure) / 100} hPa
+                                    div
+                                        i.wi.wi-barometer.d-inline
+                                        p.d-inline Pressione Sea: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
 
                                 if(item.humidity !== "N/A")
                                     div
