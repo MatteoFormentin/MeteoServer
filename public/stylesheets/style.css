@@ -33,9 +33,14 @@ p.home-card {
 }
 
 .font-size {
-    font-size: 120%;
+    font-size: 100%;
 }
 
 i {
     margin-right: 10px;
+}
+
+.table-margin {
+    margin-bottom: 0;
+    padding-bottom: 0;
 }

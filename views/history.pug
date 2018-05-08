@@ -85,10 +85,11 @@ block content
                         th Valore
                         th Data
 
-                each item in data.temperature
-                    tr.text-center
-                        td.align-middle=item.Val + ' °C'
-                        td.align-middle=item.Stamp
+                tbody
+                    each item in data.temperature
+                        tr.text-center
+                            td.align-middle=item.Val + ' °C'
+                            td.align-middle=item.Stamp
 
         //Pressione
         div.container.tab-pane.fade(id='pres')
@@ -98,10 +99,11 @@ block content
                         th Valore
                         th Data
 
-                each item in data.pressure
-                    tr.text-center
-                        td.align-middle=item.Val + ' Pa'
-                        td.align-middle=item.Stamp
+                tbody
+                    each item in data.pressure
+                        tr.text-center
+                            td.align-middle=item.Val + ' Pa'
+                            td.align-middle=item.Stamp
 
         //Umidità
         div.container.tab-pane.fade(id='hum')
@@ -111,10 +113,11 @@ block content
                         th Valore
                         th Data
 
-                each item in data.humidity
-                    tr.text-center
-                        td.align-middle=item.Val + ' %'
-                        td.align-middle=item.Stamp
+                tbody
+                    each item in data.humidity
+                        tr.text-center
+                            td.align-middle=item.Val + ' %'
+                            td.align-middle=item.Stamp
 
         //Pioggia
         div.container.tab-pane.fade(id='rain')
@@ -124,7 +127,8 @@ block content
                         th Valore
                         th Data
 
-                each item in data.rain
-                    tr.text-center
-                        td.align-middle=item.Val
-                        td.align-middle=item.Stamp
+                tbody
+                    each item in data.rain
+                        tr.text-center
+                            td.align-middle=item.Val
+                            td.align-middle=item.Stamp

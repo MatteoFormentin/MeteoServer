@@ -4,46 +4,58 @@ block content
     .padding-base
         h1(align = "center") STAZIONI METEO
 
-    div.container
-        div.row
-            each item in data
-                div.col-4
-                    div.card.home-card
-                        div.card-body.mx-auto
-                            h4.card-title.text-center #{item.station} - #{item.location}
+    div.row
+        each item in data
 
-                            div.font-size
-                                if(item.temperature !== "N/A")
-                                    div
-                                        i.wi.wi-thermometer.d-inline
-                                        p.d-inline Temperatura: #{item.temperature}°C
-                                    div
-                                        i.wi.wi-thermometer.d-inline
-                                        p.d-inline Percepita #{meteoUtils.humidex(item.temperature, item.humidity)}
+            div.container.font-size.col-4
+                table.table.container(style="border: 2px solid black;")
 
-                                if(item.temperature !== "N/A" && item.humidity !== "N/A")
-                                    div
-                                        i.wi.wi-thermometer.d-inline
-                                        p.d-inline Punto di Rugiada: #{meteoUtils.dewPoint(item.temperature, item.humidity)}°C
 
-                                if(item.pressure !== "N/A")
-                                    div
-                                        i.wi.wi-barometer.d-inline
-                                        p.d-inline Pressione: #{Math.round(item.pressure) / 100} hPa
-                                    div
-                                        i.wi.wi-barometer.d-inline
-                                        p.d-inline Pressione Sea: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
+                    thead
+                        tr.table-warning.text-center
+                            th(colspan='2') #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm
 
-                                if(item.humidity !== "N/A")
-                                    div
-                                        i.wi.wi-humidity.d-inline
-                                        p.d-inline Umidità #{item.humidity}%
 
-                                if(item.rain !== "N/A")
-                                    if(item.rain == 0)
-                                        div
-                                            i.wi.wi-day-sunny.d-inline
-                                            p.d-inline Non Piove
-                                    if(item.rain == 1)
+                    tbody
+                        if(item.temperature !== "N/A" && item.humidity !== "N/A")
+                            tr.table-primary
+                                th(colspan='2') Temperatura / Umidità
+                            tr.table-danger
+                                td(style="width: 50%")
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Temperatura: #{item.temperature}°C
+                                td(style="width: 50%")
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Percepita: #{meteoUtils.humidex(item.temperature, item.humidity)}°C
+
+                            tr.table-danger
+                                td(style="width: 50%")
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Punto di Rugiada: #{meteoUtils.dewPoint(item.temperature, item.humidity)}°C
+                                td(style="width: 50%")
+                                    i.wi.wi-humidity.d-inline
+                                    p.d-inline Umidità: #{item.humidity}%
+
+                        if(item.pressure !== "N/A")
+                            tr.table-primary
+                                th(colspan='2') Pressione Atmosferica
+                            tr.table-success
+                                td(style="width: 50%")
+                                    i.wi.wi-barometer.d-inline
+                                    p.d-inline Pressione: #{Math.round(item.pressure) / 100} hPa
+                                td(style="width: 50%")
+                                    i.wi.wi-barometer.d-inline
+                                    p.d-inline Mare: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
+
+                        if(item.rain !== "N/A")
+                            tr.table-primary
+                                th(colspan='2') Pioggia
+                            tr.table-info
+                                if(item.rain == 0)
+                                    td(style="width: 50%" colspan='2')
+                                        i.wi.wi-day-sunny.d-inline
+                                        p.d-inline Non Piove
+                                if(item.rain == 1)
+                                    td(style="width: 50%" colspan='2')
                                         i.wi.wi-showers.d-inline
-                                            p.d-inline Piove
+                                        p.d-inline Piove
