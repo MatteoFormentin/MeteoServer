@@ -4,18 +4,20 @@ block content
     .padding-base
         h1.little-padding-bottom Data History
 
-        h5 Stazione: #{selected_station.StationName} - Luogo: #{selected_station.Location}
         form.form-inline.little-padding-bottom(method='GET' action='/history')
             label(for='station') Stazione:
             select.form-control.form-margin(id='station' name='station')
                 option(value=0) Seleziona...
                 each item in data.station
-                    option(value=item.Id) #{item.StationName} - #{item.Location}
+                    if item.StationName === selected_station.StationName
+                        option(value=item.Id selected) #{item.StationName} - #{item.Location}
+                    else
+                        option(value=item.Id) #{item.StationName} - #{item.Location}
 
             label(for='date_start') Inizio:
-            input.form-control.form-margin(id='date_start' name='date_start' type='datetime-local')
+            input.form-control.form-margin(id='date_start' name='date_start' type='datetime-local' value=date_start)
             label(for='date_end') Fine:
-            input.form-control.form-margin(id='date_end' name='date_end' type='datetime-local')
+            input.form-control.form-margin(id='date_end' name='date_end' type='datetime-local' value=date_end)
             button.btn.btn-m.btn-primary.form-margin(type='submit') OK
 
 

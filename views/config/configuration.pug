@@ -10,17 +10,21 @@ block content
     div.tab-content
 
         div.container.tab-pane.active(id='stat')
-            form.form-inline.padding-bottom(method='POST' action='/config/station/new_station')
-                label(for='StationName') AGGIUNGI Nome:
-                input.form-control.form-margin(id='StationName' name='StationName' type='text' placeholder= 'Inserisci nome')
+            div.form-group
+                form.form-inline.padding-bottom(method='POST' action='/config/station/new_station')
+                    label.col-form-label(for='StationName') Nome:
+                    input.form-control.form-margin(id='StationName' name='StationName' type='text' placeholder= 'Inserisci nome')
 
-                label(for='Location') Luogo:
-                input.form-control.form-margin(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo')
+                    label.col-form-label(for='Location') Luogo:
+                    input.form-control.form-margin(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo')
 
-                label(for='IP') Indirizzo IP:
-                input.form-control.form-margin(id='IP' name='IP' type='text' placeholder= 'Inserisci IP')
+                    label.col-form-label(for='Altitude') Luogo:
+                    input.form-control.form-margin(id='Altitude' name='Altitude' type='text' placeholder= 'Inserisci Altitudine')
 
-                button.btn.btn-m.btn-primary.form-margin(type='submit') CREA
+                    label.col-form-label(for='IP') Indirizzo IP:
+                    input.form-control.form-margin(id='IP' name='IP' type='text' placeholder= 'Inserisci IP')
+
+                    button.btn.btn-m.btn-primary.form-margin(type='submit') CREA
 
             table.table.table-bordered
                 thead
@@ -28,7 +32,7 @@ block content
                         th ID
                         th Nome
                         th Luogo
-                        th Altitudine
+                        th Altitudine (m)
                         th Indirizzo IP
                         th Token
                         th Modifica
@@ -38,7 +42,7 @@ block content
                         td.align-middle#thId=item.Id
                         td.align-middle#thName=item.StationName
                         td.align-middle#thLocation=item.Location
-                        td.align-middle#thAltitude=item.Altitude + ' m'
+                        td.align-middle#thAltitude=item.Altitude
                         td.align-middle#thIP=item.IP
                         td.align-middle#thToken=item.Token
                         td
@@ -48,7 +52,6 @@ block content
                                     button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit') ELIMINA
                                 button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton MODIFICA
 
-                                //$(event.target).closest('tr').children('td.ID').text()
                     div.modal.fade(id="modifyModal" role="dialog")
                         script.
                             $(".modifyButton").click(function (e) {
@@ -57,7 +60,7 @@ block content
                                 $("#ModifyId").val($(event.target).closest('tr').find("#thId").text());
                                 $("#ModifyStationName").val($(event.target).closest('tr').find("#thName").text());
                                 $("#ModifyLocation").val($(event.target).closest('tr').find("#thLocation").text());
-                                $("#ModifyAltitude").val($(event.target).closest('tr').find("#ModifyAltitude").text());
+                                $("#ModifyAltitude").val($(event.target).closest('tr').find("#thAltitude").text());
                                 $("#ModifyIP").val($(event.target).closest('tr').find("#thIP").text());
                             })
                         div.modal-dialog

@@ -16,5 +16,15 @@ function dewPoint(temperature, humidity) {
     return Math.round(dew_point * 10) / 10;
 }
 
+function humidex(temperature, humidity) {
+
+    let humidex = temperature + (0.5555 * (0.06 * humidity * Math.pow(10, (0.03 * temperature)) - 10));
+
+    console.log(humidex);
+    return Math.round(humidex * 10) / 10;
+}
+
+
 module.exports.seaLevelPressure = seaLevelPressure;
 module.exports.dewPoint = dewPoint;
+module.exports.humidex = humidex;

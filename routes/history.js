@@ -3,12 +3,19 @@ var router = express.Router();
 
 /* GET history page. */
 router.get('/', function (req, res, next) {
+
+    console.log(dateConvert.yesterdayTimeStamp());
+
     var data = {station: '0', temperature: '0', pressure: '0', humidity: '0', rain: '0'}; //Conterrà object rows
 
     var data_chart = {station: [], temperature: [], pressure: [], humidity: [], rain: []};
 
     var selected_id = 0; //0-All, 1,2,.. Stazioni
     var selected_station = 0;
+
+    var date_start;
+    var date_end;
+
 
     var station_query = 'SELECT * FROM Station';
 
@@ -25,10 +32,8 @@ router.get('/', function (req, res, next) {
         rain_query += ' WHERE Station.Id= \'' + selected_id + '\'';
 
         if (req.query.date_start === '') {
-            let date = new Date();
-            console.log(date);
-            date.setDate(date.getDate() - 1);
-            let time_stamp = dateConvert.dateToTimeStamp(date);
+            let time_stamp = dateConvert.yesterdayTimeStamp();
+            date_start = time_stamp;
 
             temp_query += ' AND Stamp BETWEEN \'' + time_stamp + '\'';
             pres_query += ' AND Stamp BETWEEN \'' + time_stamp + '\'';
@@ -36,6 +41,7 @@ router.get('/', function (req, res, next) {
             rain_query += ' AND Stamp BETWEEN \'' + time_stamp + '\'';
         }
         else {
+            date_start = req.query.date_start.toString();
             temp_query += ' AND Stamp BETWEEN \'' + req.query.date_start + '\'';
             pres_query += ' AND Stamp BETWEEN \'' + req.query.date_start + '\'';
             hum_query += ' AND Stamp BETWEEN \'' + req.query.date_start + '\'';
@@ -45,12 +51,15 @@ router.get('/', function (req, res, next) {
         if (req.query.date_end === '') {
             let date = new Date();
             let time_stamp = dateConvert.dateToTimeStamp(date);
+            date_end = time_stamp;
             temp_query += ' AND \'' + time_stamp + '\'';
             pres_query += ' AND \'' + time_stamp + '\'';
             hum_query += ' AND \'' + time_stamp + '\'';
             rain_query += ' AND \'' + time_stamp + '\'';
         }
         else {
+            date_end = req.query.date_end.toString();
+
             temp_query += ' AND \'' + req.query.date_end + '\'';
             pres_query += ' AND \'' + req.query.date_end + '\'';
             hum_query += ' AND \'' + req.query.date_end + '\'';
@@ -87,7 +96,9 @@ router.get('/', function (req, res, next) {
                                     title: 'Meteo Server',
                                     selected_station: selected_station,
                                     data: data,
-                                    data_chart: data_chart
+                                    data_chart: data_chart,
+                                    date_start: date_start,
+                                    date_end: date_end
                                 });
                             });
                         });
@@ -106,7 +117,9 @@ router.get('/', function (req, res, next) {
                 title: 'Meteo Server',
                 selected_station: {StationName: "seleziona...", Location: "seleziona..."},
                 data: data,
-                data_chart: data_chart
+                data_chart: data_chart,
+                date_start: '',
+                date_end: ''
             });
         });
     }
