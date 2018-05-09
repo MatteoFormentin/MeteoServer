@@ -7,10 +7,10 @@ router.get('/', function (req, res, next) {
 
     var data = [];
 
-    var temp_query = 'SELECT Station.Id, StationName, Location, Altitude, Val FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
-    var pres_query = 'SELECT Station.Id, StationName, Location, Altitude, Val FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
-    var hum_query = 'SELECT Station.Id, StationName, Location, Altitude, Val FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=\'';
-    var rain_query = 'SELECT Station.Id, StationName, Location, Altitude, Val FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=\'';
+    var temp_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
+    var pres_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
+    var hum_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=\'';
+    var rain_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=\'';
 
     var query_end = '\' ORDER BY Stamp DESC LIMIT 1';
 
@@ -23,6 +23,7 @@ router.get('/', function (req, res, next) {
             var id = item.Id;
             var location = item.Location;
             var altitude = item.Altitude;
+            var last_update = undefined;
             var temperature = 0;
             var pressure = 0;
             var humidity = 0;
@@ -31,9 +32,11 @@ router.get('/', function (req, res, next) {
             database.query(temp_query + id + query_end, function (err, rows) {
                 if (rows[0] === undefined) {
                     temperature = 'N/A';
+                    last_update = 'Non disponibile'
                 }
                 else {
                     temperature = rows[0].Val;
+                    last_update = dateConvert.dateFormatter(rows[0].Stamp);
                 }
 
                 database.query(pres_query + id + query_end, function (err, rows) {
@@ -61,6 +64,7 @@ router.get('/', function (req, res, next) {
                                 station: name,
                                 location: location,
                                 altitude: altitude,
+                                last_update: last_update,
                                 temperature: temperature,
                                 pressure: pressure,
                                 humidity: humidity,

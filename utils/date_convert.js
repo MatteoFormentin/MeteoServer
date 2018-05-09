@@ -12,6 +12,17 @@ function dateToTimeStamp(date) {
     return year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
 }
 
+function dateFormatter(date) {
+    let year = date.getFullYear();
+    let month = addZero(date.getMonth() + 1);
+    let day = addZero(date.getDate());
+    let hour = addZero(date.getHours());
+    let minute = addZero(date.getMinutes());
+
+    //console.log(year + '-' + month + '-' + day + ' ' + date.getHours() + ':' + date.getMinutes());
+    return day + '/' + month + '/' + year + ' ' + hour + ':' + minute;
+}
+
 function yesterdayTimeStamp() {
     let date = new Date();
     date.setDate(date.getDate() - 1);
@@ -26,4 +37,5 @@ function addZero(d) {
 }
 
 module.exports.dateToTimeStamp = dateToTimeStamp;
+module.exports.dateFormatter = dateFormatter;
 module.exports.yesterdayTimeStamp = yesterdayTimeStamp;
