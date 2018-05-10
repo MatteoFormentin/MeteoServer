@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* GET configuration page. */
-router.post('/', function (req, res, next) {
+router.post('/', isAuthenticated, function (req, res, next) {
 
     //UPDATE `Station` SET `StationName`=[value-2],`Location`=[value-3],`IP`=[value-4] WHERE Id = 1
 

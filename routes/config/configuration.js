@@ -2,16 +2,22 @@ var express = require('express');
 var router = express.Router();
 
 /* GET configuration page. */
-router.get('/', function (req, res, next) {
+router.get('/', isAuthenticated, function (req, res, next) {
 
         var station;
+    var user;
 
         database.query('SELECT * FROM Station', function (err, rows) {
             if (err) throw err;
             //console.log(rows);
             station = rows;
+            database.query('SELECT * FROM User', function (err, rows) {
+                if (err) throw err;
+                //console.log(rows);
+                user = rows;
 
-            res.render('./config/configuration', {station: station});
+                res.render('./config/configuration', {station: station, user: user});
+            });
         });
     }
 );

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* POST new station. */
-router.post('/', function (req, res, next) {
+router.post('/', isAuthenticated, function (req, res, next) {
 
     var insert_station_query = 'INSERT INTO Station (StationName, Location, Altitude, IP, Token) VALUES (\'' +
             req.body.StationName + '\', \'' +

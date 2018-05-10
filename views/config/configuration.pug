@@ -6,6 +6,9 @@ block content
         ul.nav.nav-tabs(role='tablist')
             li.nav-item
                 a.nav-link.active(data-toggle='tab' href='#stat') Stazioni
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#user') Utenti
+
 
     div.tab-content
 
@@ -77,13 +80,83 @@ block content
                                             label(for='ModifyStationName') Nome:
                                             input.form-control.form-margin(id='ModifyStationName' name='ModifyStationName' type='text')
 
-                                            label(for='Location') Luogo:
+                                            label(for='ModifyLocation') Luogo:
                                             input.form-control.form-margin(id='ModifyLocation' name='ModifyLocation' type='text')
 
-                                            label(for='Altitude') Altitudine:
+                                            label(for='ModifyAltitude') Altitudine:
                                             input.form-control.form-margin(id='ModifyAltitude' name='ModifyAltitude' type='text')
 
                                             label(for='ModifyIP') Indirizzo IP:
                                             input.form-control.form-margin(id='ModifyIP' name='ModifyIP' type='text')
+
+                                            button.btn.btn-m.btn-primary.form-margin(type='submit') Modifica
+
+        div.container.tab-pane(id='user')
+            div.form-group
+                form.form-inline.padding-bottom(method='POST' action='/config/station/new_user')
+                    label.col-form-label(for='Email') Email:
+                    input.form-control.form-margin(id='Email' name='Email' type='text' placeholder= 'Inserisci email')
+
+                    label.col-form-label(for='Name') Nome:
+                    input.form-control.form-margin(id='Name' name='Name' type='text' placeholder= 'Inserisci nome')
+
+                    label.col-form-label(for='Password') Password:
+                    input.form-control.form-margin(id='Password' name='Password' type='text' placeholder= 'Inserisci password')
+
+                    label.col-form-label(for='PasswordConfirm') Conferma Password:
+                    input.form-control.form-margin(id='PasswordConfirm' name='PasswordConfirm' type='text' placeholder= 'reinserisci password')
+
+                    button.btn.btn-m.btn-primary.form-margin(type='submit') CREA
+
+            table.table.table-bordered
+                thead
+                    tr.text-center
+                        th ID
+                        th Email
+                        th Nome
+                        th Modifica
+
+                each item in user
+                    tr.text-center
+                        td.align-middle#thUserId=item.id
+                        td.align-middle#thUserEmail=item.email
+                        td.align-middle#thUserName=item.name
+                        td
+                            div
+                                form.form-inline.d-inline(method='POST' action='/config/station/delete_user')
+                                    input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id)
+                                    button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit') ELIMINA
+                                button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton MODIFICA
+
+                    div.modal.fade(id="userModal" role="dialog")
+                        script.
+                            $(".modifyButton").click(function (e) {
+                                $("#userModal").modal()
+                                $("#ModifyId").val($(event.target).closest('tr').find("#thUserId").text());
+                                $("#ModifyUserName").val($(event.target).closest('tr').find("#thUserName").text());
+                                $("#ModifyUserEmail").val($(event.target).closest('tr').find("#thUserEmail").text());
+                            })
+                        div.modal-dialog
+
+                            div.modal-content
+                                div.modal-header
+                                    h4.modal-title Modifica
+                                    button.close(data-dismiss="modal") X
+
+                                div.modal-body
+                                    div.container.tab-pane.active(id='stat')
+                                        form.form-inline.padding-bottom(method='POST' action='/config/station/modify_station')
+                                            input.form-control.form-margin.d-inline(id='ModifyId' name='ModifyId' type='hidden')
+                                            label(for='ModifyUserName') Nome:
+                                            input.form-control.form-margin(id='ModifyUserName' name='ModifyUserName' type='text')
+
+                                            label(for='ModifyUserEmail') Email:
+                                            input.form-control.form-margin(id='ModifyUserEmail' name='ModifyUserEmail' type='mail')
+
+                                            label(for='ModifyUserPassword') Password:
+                                            input.form-control.form-margin(id='ModifyUserPassword' name='ModifyUserPassword' type='password')
+
+                                            label(for='ModifyUserPasswordConfirm') Conferma Password:
+                                            input.form-control.form-margin(id='ModifyUserPasswordConfirm' name='ModifyUserPasswordConfirm' type='ModifyName')
 
                                             button.btn.btn-m.btn-primary.form-margin(type='submit') Modifica

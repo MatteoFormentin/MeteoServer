@@ -4,7 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var compression = require('compression');
+var cookieParser = require("cookie-parser");
+var flash = require("connect-flash");
 var helmet = require('helmet');
+var session = require("express-session");
 uuidv4 = require('uuid/v4');
 async = require('async')
 dateConvert = require('./utils/date_convert');
@@ -13,7 +16,7 @@ meteoUtils = require('./utils/meteo_utils');
 
 /*DATABASE MySQL*/
 var mysql = require('mysql');
-var db_config = require('./db_config/db_config.json');
+var db_config = require('./config/db_config.json');
 database = mysql.createConnection({
     host: db_config.host,
     database: db_config.database,
@@ -21,14 +24,22 @@ database = mysql.createConnection({
     password: db_config.password
 });
 
-var init_tables = require('./db_config/init_tables.js'); //Modulo che crea le tabelle
+var initTables = require('./config/init_tables.js'); //Modulo che crea le tabelle
 database.connect();
-init_tables();
+initTables();
 
+/*PASSPORT*/
+passport = require("passport");
+var initPassport = require("./config/init_passport");
+isAuthenticated = require("./routes/user/is_auth");
+
+initPassport();
 
 var indexRouter = require('./routes/index');
 var postData = require('./routes/post_data');
 var history = require('./routes/history');
+var login = require('./routes/user/login');
+var logout = require('./routes/user/logout');
 var configuration = require('./routes/config/configuration');
 var configuration_new_station = require('./routes/config/station/new_station');
 var configuration_delete_station = require('./routes/config/station/delete_station');
@@ -48,11 +59,17 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret: 'keyboard cat'}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 
 app.use('/', indexRouter);
 app.use('/post_data', postData);
 app.use('/history', history);
+app.use('/login', login);
+app.use('/logout', logout);
 app.use('/config/configuration', configuration);
 app.use('/config/station/new_station', configuration_new_station);
 app.use('/config/station/delete_station', configuration_delete_station);

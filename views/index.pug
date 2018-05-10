@@ -9,15 +9,11 @@ block content
 
             div.container.font-size.col-10
                 table.table.container(style="border: 2px solid black;")
-
-
                     thead
                         tr.table-warning.text-center
                             th(colspan='2').
                                 #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
                                 Ultimo Aggiornamento: #{item.last_update}
-
-
                     tbody
                         if(item.temperature !== "N/A" && item.humidity !== "N/A")
                             tr.table-primary
