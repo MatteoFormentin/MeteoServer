@@ -1,9 +1,5 @@
 .padding-base {
-    padding: 50px;
-}
-
-h1 {
-    padding-top: 50px;
+    padding: 100px;
 }
 
 a {
@@ -39,4 +35,3 @@ p.home-card {
 i {
     margin-right: 10px;
 }
-

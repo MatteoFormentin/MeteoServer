@@ -1,37 +1,36 @@
 extends layout
 
 block content
-    .padding-base
-        h1.little-padding-bottom Data History
+    h1.little-padding-bottom Data History
 
-        form.form-inline.little-padding-bottom(method='GET' action='/history')
-            label(for='station') Stazione:
-            select.form-control.form-margin(id='station' name='station')
-                option(value=0) Seleziona...
-                each item in data.station
-                    if item.StationName === selected_station.StationName
-                        option(value=item.Id selected) #{item.StationName} - #{item.Location}
-                    else
-                        option(value=item.Id) #{item.StationName} - #{item.Location}
+    form.form-inline.little-padding-bottom(method='GET' action='/history')
+        label(for='station') Stazione:
+        select.form-control.form-margin(id='station' name='station')
+            option(value=0) Seleziona...
+            each item in data.station
+                if item.StationName === selected_station.StationName
+                    option(value=item.Id selected) #{item.StationName} - #{item.Location}
+                else
+                    option(value=item.Id) #{item.StationName} - #{item.Location}
 
-            label(for='date_start') Inizio:
-            input.form-control.form-margin(id='date_start' name='date_start' type='datetime-local' value=date_start)
-            label(for='date_end') Fine:
-            input.form-control.form-margin(id='date_end' name='date_end' type='datetime-local' value=date_end)
-            button.btn.btn-m.btn-primary.form-margin(type='submit') OK
-
+        label(for='date_start') Inizio:
+        input.form-control.form-margin(id='date_start' name='date_start' type='datetime-local' value=date_start)
+        label(for='date_end') Fine:
+        input.form-control.form-margin(id='date_end' name='date_end' type='datetime-local' value=date_end)
+        button.btn.btn-m.btn-primary.form-margin(type='submit') OK
 
 
-        //Aggiungere un li per ogni tabella
-        ul.nav.nav-tabs(role='tablist')
-            li.nav-item
-                a.nav-link.active(data-toggle='tab' href='#temp') TEMPERATURA
-            li.nav-item
-                a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
-            li.nav-item
-                a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
-            li.nav-item
-                a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
+
+    //Aggiungere un li per ogni tabella
+    ul.nav.nav-tabs(role='tablist')
+        li.nav-item
+            a.nav-link.active(data-toggle='tab' href='#temp') TEMPERATURA
+        li.nav-item
+            a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
+        li.nav-item
+            a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
+        li.nav-item
+            a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
 
     div.tab-content
         //Temperatura

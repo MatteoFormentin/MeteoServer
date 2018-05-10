@@ -6,7 +6,8 @@ router.get("/", function (req, res) {
         res.render('/')
     }
     else {
-        res.render('login', {message: req.flash('info')});
+        //req.flash('info',"welcome");
+        res.render('login', {message: req.flash()});
     }
 });
 

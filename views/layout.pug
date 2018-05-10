@@ -25,5 +25,15 @@ html
                 li.nav-item
                     a.nav-link(href='/config/configuration') Configurazione
 
-        block content
+        div.padding-base
+            if message
+                if message.info
+                    each mes in message.info
+                        div.col-4.offset-4.alert.alert-primary.padding-base=mes
+
+                if message.error
+                    each mes in message.error
+                        div.col-4.offset-4.alert.alert-primary.padding-base=mes
+
+            block content
 
