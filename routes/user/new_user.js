@@ -5,8 +5,18 @@ const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
 
 
-/* POST new station. */
-router.post('/', isAuthenticated, function (req, res, next) {
+/* POST new user. */
+router.post('/', isAuthenticated, [
+        check('Email').isEmail().withMessage('Inserisci una mail valida'),
+        check('Name').exists(),
+        check('Password', 'passwords must be at least 5 chars long ')
+            .isLength({min: 5})
+    ], function (req, res, next) {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.redirect('/config/configuration');
+        }
 
         if (req.body.Password == req.body.PasswordConfirm) {
 
@@ -15,7 +25,7 @@ router.post('/', isAuthenticated, function (req, res, next) {
                 req.body.Name + '\', \'' +
                 req.body.Password + '\')';
 
-            console.log(insert_user_query);
+            //console.log(insert_user_query);
 
             database.query(insert_user_query, function (err, rows) {
                 if (err) throw err;

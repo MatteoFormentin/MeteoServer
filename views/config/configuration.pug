@@ -100,10 +100,10 @@ block content
                     input.form-control.form-margin(id='Name' name='Name' type='text' placeholder= 'Inserisci nome')
 
                     label.col-form-label(for='Password') Password:
-                    input.form-control.form-margin(id='Password' name='Password' type='text' placeholder= 'Inserisci password')
+                    input.form-control.form-margin(id='Password' name='Password' type='password' placeholder= 'Inserisci password')
 
                     label.col-form-label(for='PasswordConfirm') Conferma Password:
-                    input.form-control.form-margin(id='PasswordConfirm' name='PasswordConfirm' type='text' placeholder= 'reinserisci password')
+                    input.form-control.form-margin(id='PasswordConfirm' name='PasswordConfirm' type='password' placeholder= 'reinserisci password')
 
                     button.btn.btn-m.btn-primary.form-margin(type='submit') CREA
 
@@ -145,7 +145,7 @@ block content
                                 div.modal-body
                                     div.container.tab-pane.active(id='stat')
                                         form.form-inline.padding-bottom(method='POST' action='/user/modify_user')
-                                            input.form-control.form-margin.d-inline(id='ModifyUserId' name='ModifyUserId' type='text')
+                                            input.form-control.form-margin.d-inline(id='ModifyUserId' name='ModifyUserId' type='hidden')
                                             label(for='ModifyUserName') Nome:
                                             input.form-control.form-margin(id='ModifyUserName' name='ModifyUserName' type='text')
 
@@ -156,6 +156,6 @@ block content
                                             input.form-control.form-margin(id='ModifyUserPassword' name='ModifyUserPassword' type='password')
 
                                             label(for='ModifyUserPasswordConfirm') Conferma Password:
-                                            input.form-control.form-margin(id='ModifyUserPasswordConfirm' name='ModifyUserPasswordConfirm' type='ModifyName')
+                                            input.form-control.form-margin(id='ModifyUserPasswordConfirm' name='ModifyUserPasswordConfirm' type='password')
 
                                             button.btn.btn-m.btn-primary.form-margin(type='submit') Modifica
