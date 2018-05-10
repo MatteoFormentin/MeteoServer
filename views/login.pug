@@ -2,7 +2,11 @@ extends layout
 
 block content
     .padding-base
+
         h1.text-center.little-padding-bottom MeteoServer
+
+        if message
+            div.col-4.offset-4.alert.alert-primary.padding-base=message
 
         div.container
             div.row
@@ -17,5 +21,4 @@ block content
                         div
                             button.btn.btn-m.btn-primary(type='submit') LOGIN
 
-        if message
-            p=message
+

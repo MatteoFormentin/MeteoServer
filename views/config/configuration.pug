@@ -93,7 +93,7 @@ block content
 
         div.container.tab-pane(id='user')
             div.form-group
-                form.form-inline.padding-bottom(method='POST' action='/config/station/new_user')
+                form.form-inline.padding-bottom(method='POST' action='/user/new_user')
                     label.col-form-label(for='Email') Email:
                     input.form-control.form-margin(id='Email' name='Email' type='text' placeholder= 'Inserisci email')
 
@@ -118,13 +118,13 @@ block content
 
                 each item in user
                     tr.text-center
-                        td.align-middle#thUserId=item.id
-                        td.align-middle#thUserEmail=item.email
-                        td.align-middle#thUserName=item.name
+                        td.align-middle#thUserId=item.Id
+                        td.align-middle#thUserEmail=item.Email
+                        td.align-middle#thUserName=item.Name
                         td
                             div
-                                form.form-inline.d-inline(method='POST' action='/config/station/delete_user')
-                                    input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id)
+                                form.form-inline.d-inline(method='POST' action='/user/delete_user')
+                                    input.form-control.form-margin.d-inline(name='UserId' type='hidden' value=item.Id)
                                     button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit') ELIMINA
                                 button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton MODIFICA
 
@@ -132,7 +132,7 @@ block content
                         script.
                             $(".modifyButton").click(function (e) {
                                 $("#userModal").modal()
-                                $("#ModifyId").val($(event.target).closest('tr').find("#thUserId").text());
+                                $("#ModifyUserId").val($(event.target).closest('tr').find("#thUserId").text());
                                 $("#ModifyUserName").val($(event.target).closest('tr').find("#thUserName").text());
                                 $("#ModifyUserEmail").val($(event.target).closest('tr').find("#thUserEmail").text());
                             })
@@ -145,8 +145,8 @@ block content
 
                                 div.modal-body
                                     div.container.tab-pane.active(id='stat')
-                                        form.form-inline.padding-bottom(method='POST' action='/config/station/modify_station')
-                                            input.form-control.form-margin.d-inline(id='ModifyId' name='ModifyId' type='hidden')
+                                        form.form-inline.padding-bottom(method='POST' action='/user/modify_user')
+                                            input.form-control.form-margin.d-inline(id='ModifyUserId' name='ModifyUserId' type='text')
                                             label(for='ModifyUserName') Nome:
                                             input.form-control.form-margin(id='ModifyUserName' name='ModifyUserName' type='text')
 

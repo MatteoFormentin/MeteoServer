@@ -40,6 +40,9 @@ var postData = require('./routes/post_data');
 var history = require('./routes/history');
 var login = require('./routes/user/login');
 var logout = require('./routes/user/logout');
+var new_user = require('./routes/user/new_user');
+var modify_user = require('./routes/user/modify_user');
+var delete_user = require('./routes/user/delete_user');
 var configuration = require('./routes/config/configuration');
 var configuration_new_station = require('./routes/config/station/new_station');
 var configuration_delete_station = require('./routes/config/station/delete_station');
@@ -68,8 +71,13 @@ app.use(flash());
 app.use('/', indexRouter);
 app.use('/post_data', postData);
 app.use('/history', history);
+
 app.use('/login', login);
 app.use('/logout', logout);
+app.use('/user/new_user', new_user);
+app.use('/user/modify_user', modify_user);
+app.use('/user/delete_user', delete_user);
+
 app.use('/config/configuration', configuration);
 app.use('/config/station/new_station', configuration_new_station);
 app.use('/config/station/delete_station', configuration_delete_station);

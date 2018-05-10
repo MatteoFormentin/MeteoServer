@@ -10,7 +10,6 @@ router.post('/', isAuthenticated, function (req, res, next) {
         req.body.Altitude + '\', \'' +
             req.body.IP + '\', \'' +
             uuidv4() + '\')';
-        console.log(insert_station_query);
 
         database.query(insert_station_query, function (err, rows) {
             if (err) throw err;

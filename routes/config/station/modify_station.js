@@ -11,10 +11,7 @@ router.post('/', isAuthenticated, function (req, res, next) {
         req.body.ModifyLocation + '\', Altitude=\'' +
         req.body.ModifyAltitude + '\', IP=\'' +
         req.body.ModifyIP + '\' WHERE Id=\'' +
-        req.body.ModifyId + '\''
-    ;
-
-    //console.log(update_station_query);
+        req.body.ModifyId + '\'';
 
     database.query(update_station_query, function (err, rows) {
         if (err) throw err;

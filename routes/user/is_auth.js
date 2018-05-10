@@ -5,7 +5,7 @@ module.exports = function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
-        req.flash("info", "You must be logged in to see this page.");
+        req.flash("info", "Effettua l'accesso.");
         res.redirect("/login");
     }
 };
