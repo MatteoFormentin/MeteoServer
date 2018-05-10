@@ -15,16 +15,28 @@ html
 
     body
         nav.navbar.navbar-expand-sm.bg-success.navbar-dark.navbar-expand-sm.fixed-top
-            ul.navbar-nav
-                li.nav-item
-                    a.navbar-brand(href='#') METEO SERVER
-                li.nav-item
-                    a.nav-link(href='/') Home
-                li.nav-item
-                    a.nav-link(href='/history') History
-                li.nav-item
-                    a.nav-link(href='/config/configuration') Configurazione
-
+            div.container-fluid
+                ul.nav.navbar-nav
+                    li.nav-item
+                        a.navbar-brand(href='#') METEO SERVER
+                    li.nav-item
+                        a.nav-link(href='/') Home
+                    li.nav-item
+                        a.nav-link(href='/history') History
+                    li.nav-item
+                        a.nav-link(href='/config/configuration') Configurazione
+                ul.nav.navbar-nav.navbar-right
+                    if logged_user
+                        li.nav-item.dropdown
+                            a.nav-link.dropdown-toggle.active(href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")=logged_user.Name
+                            div.dropdown-menu(aria-labelledby="navbarDropdown")
+                                a.dropdown-item(href='/config/configuration') Opzioni
+                                div.dropdown-divider
+                                a.dropdown-item(href='./logout') Logout
+                    else
+                        li
+                            a.nav-link.active(href="/login")
+                                span.glyphicon.glyphicon-log-in Login
         div.padding-base
             if message
                 if message.info

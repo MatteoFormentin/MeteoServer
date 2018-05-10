@@ -7,6 +7,7 @@ router.post('/', isAuthenticated, function (req, res, next) {
 
         database.query(delete_user_query, function (err, rows) {
             if (err) throw err;
+            req.flash('info', 'Utente cancellato');
             res.redirect('/config/configuration');
         });
     }

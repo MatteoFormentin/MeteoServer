@@ -7,6 +7,7 @@ router.post('/', isAuthenticated, function (req, res, next) {
 
         database.query(delete_station_query, function (err, rows) {
             if (err) throw err;
+            req.flash('info', 'Stazione cancellata');
             res.redirect('/config/configuration');
         });
     }

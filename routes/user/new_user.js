@@ -9,12 +9,11 @@ const {matchedData, sanitize} = require('express-validator/filter');
 router.post('/', isAuthenticated, [
         check('Email').isEmail().withMessage('Inserisci una mail valida'),
         check('Name').exists(),
-        check('Password', 'passwords must be at least 5 chars long ')
-            .isLength({min: 5})
+        check('Password').exists().isLength({min: 5}).withMessage('La password deve essere lunga almeno 5 caratteri')
     ], function (req, res, next) {
-
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            req.flash('info', errors.array()[0].msg);
             return res.redirect('/config/configuration');
         }
 
@@ -29,12 +28,15 @@ router.post('/', isAuthenticated, [
 
             database.query(insert_user_query, function (err, rows) {
                 if (err) throw err;
+                req.flash('info', 'Utente creato');
                 res.redirect('/config/configuration');
             });
         }
         else {
+            req.flash('info', 'Le password non corrispondono');
             res.redirect('/config/configuration');
         }
+
     }
 );
 

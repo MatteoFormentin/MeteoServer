@@ -1,18 +1,31 @@
 var express = require('express');
 var router = express.Router();
 
-/* POST new station. */
-router.post('/', isAuthenticated, function (req, res, next) {
+const {check, validationResult} = require('express-validator/check');
+const {matchedData, sanitize} = require('express-validator/filter');
 
-    var insert_station_query = 'INSERT INTO Station (StationName, Location, Altitude, IP, Token) VALUES (\'' +
+/* POST new station. */
+router.post('/', isAuthenticated, [
+        check('StationName').exists().withMessage('Inserisci un nome'),
+        check('Location').exists().withMessage('Inserisci un luogo'),
+        check('Altitude').exists().isInt().withMessage('Inserisci un a altitudine')
+
+    ], function (req, res, next) {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            req.flash('info', errors.array()[0].msg);
+            return res.redirect('/config/configuration');
+        }
+        var insert_station_query = 'INSERT INTO Station (StationName, Location, Altitude, IP, Token) VALUES (\'' +
             req.body.StationName + '\', \'' +
             req.body.Location + '\', \'' +
-        req.body.Altitude + '\', \'' +
+            req.body.Altitude + '\', \'' +
             req.body.IP + '\', \'' +
             uuidv4() + '\')';
 
         database.query(insert_station_query, function (err, rows) {
             if (err) throw err;
+            req.flash('info', 'Stazione creata');
             res.redirect('/config/configuration');
         });
     }

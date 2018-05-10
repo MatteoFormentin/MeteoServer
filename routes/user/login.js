@@ -7,7 +7,11 @@ router.get("/", function (req, res) {
     }
     else {
         //req.flash('info',"welcome");
-        res.render('login', {message: req.flash()});
+        res.render('login', {
+            title: 'Meteo Server',
+            logged_user: req.user,
+            message: req.flash()
+        });
     }
 });
 

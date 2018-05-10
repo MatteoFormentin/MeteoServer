@@ -12,21 +12,23 @@ block content
     div.tab-content
 
         div.container.tab-pane.active(id='stat')
-            div.form-group
-                form.form-inline.padding-bottom(method='POST' action='/config/station/new_station')
-                    label.col-form-label(for='StationName') Nome:
-                    input.form-control.form-margin(id='StationName' name='StationName' type='text' placeholder= 'Inserisci nome')
+            div.row.justify-content-md-center.little-margin-top
+                form.form-row.padding-bottom(method='POST' action='/config/station/new_station')
+                    div.col-auto.form-group
+                        label(for='StationName') Nome:
+                        input.form-control(id='StationName' name='StationName' type='text' placeholder= 'Inserisci nome')
+                    div.col-auto.form-group
+                        label(for='Location') Luogo:
+                        input.form-control(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo')
+                    div.col-auto.form-group
+                        label(for='Altitude') Altitudine:
+                        input.form-control(id='Altitude' name='Altitude' type='text' placeholder= 'Inserisci Altitudine')
+                    div.col-auto.form-group
+                        label(for='IP') Indirizzo IP:
+                        input.form-control(id='IP' name='IP' type='text' placeholder= 'Inserisci IP')
+                    div.col-auto.form-group
+                        button.btn.btn-m.btn-primary(type='submit' style='margin-top: 32px;') CREA
 
-                    label.col-form-label(for='Location') Luogo:
-                    input.form-control.form-margin(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo')
-
-                    label.col-form-label(for='Altitude') Altitudine:
-                    input.form-control.form-margin(id='Altitude' name='Altitude' type='text' placeholder= 'Inserisci Altitudine')
-
-                    label.col-form-label(for='IP') Indirizzo IP:
-                    input.form-control.form-margin(id='IP' name='IP' type='text' placeholder= 'Inserisci IP')
-
-                    button.btn.btn-m.btn-primary.form-margin(type='submit') CREA
 
             table.table.table-bordered
                 thead
@@ -69,8 +71,8 @@ block content
 
                             div.modal-content
                                 div.modal-header
-                                    h4.modal-title Modifica
-                                    button.close(data-dismiss="modal") X
+                                    h4.modal-title Modifica Stazione
+                                    button.close(data-dismiss="modifyModal") X
 
                                 div.modal-body
                                     div.container.tab-pane.active(id='stat')
@@ -91,21 +93,23 @@ block content
                                             button.btn.btn-m.btn-primary.form-margin(type='submit') Modifica
 
         div.container.tab-pane(id='user')
-            div.form-group
-                form.form-inline.padding-bottom(method='POST' action='/user/new_user')
-                    label.col-form-label(for='Email') Email:
-                    input.form-control.form-margin(id='Email' name='Email' type='text' placeholder= 'Inserisci email')
-
-                    label.col-form-label(for='Name') Nome:
-                    input.form-control.form-margin(id='Name' name='Name' type='text' placeholder= 'Inserisci nome')
-
-                    label.col-form-label(for='Password') Password:
-                    input.form-control.form-margin(id='Password' name='Password' type='password' placeholder= 'Inserisci password')
-
-                    label.col-form-label(for='PasswordConfirm') Conferma Password:
-                    input.form-control.form-margin(id='PasswordConfirm' name='PasswordConfirm' type='password' placeholder= 'reinserisci password')
-
-                    button.btn.btn-m.btn-primary.form-margin(type='submit') CREA
+            div.row.justify-content-md-center.little-margin-top
+                form.form-row.padding-bottom(method='POST' action='/user/new_user')
+                    form.form-row.padding-bottom(method='POST' action='/user/new_user')
+                        div.col-auto.form-group
+                            label(for='Email') Email:
+                            input.form-control(id='Email' name='Email' type='text' placeholder= 'Inserisci email')
+                        div.col-auto.form-group
+                            label(for='Name') Nome:
+                            input.form-control(id='Name' name='Name' type='text' placeholder= 'Inserisci nome')
+                        div.col-auto.form-group
+                            label(for='Password') Password:
+                            input.form-control(id='Password' name='Password' type='password' placeholder= 'Inserisci password')
+                        div.col-auto.form-group
+                            label(for='PasswordConfirm') Conferma Password:
+                            input.form-control(id='PasswordConfirm' name='PasswordConfirm' type='password' placeholder= 'reinserisci password')
+                        div.col-auto.form-group
+                            button.btn.btn-m.btn-primary(type='submit' style='margin-top: 32px;') CREA
 
             table.table.table-bordered
                 thead
@@ -125,11 +129,11 @@ block content
                                 form.form-inline.d-inline(method='POST' action='/user/delete_user')
                                     input.form-control.form-margin.d-inline(name='UserId' type='hidden' value=item.Id)
                                     button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit') ELIMINA
-                                button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton MODIFICA
+                                button.btn.btn-sm.btn-info.form-margin.d-inline.modifyUserButton.deleteButton MODIFICA
 
                     div.modal.fade(id="userModal" role="dialog")
                         script.
-                            $(".modifyButton").click(function (e) {
+                            $(".modifyUserButton").click(function (e) {
                                 $("#userModal").modal()
                                 $("#ModifyUserId").val($(event.target).closest('tr').find("#thUserId").text());
                                 $("#ModifyUserName").val($(event.target).closest('tr').find("#thUserName").text());
@@ -140,7 +144,7 @@ block content
                             div.modal-content
                                 div.modal-header
                                     h4.modal-title Modifica
-                                    button.close(data-dismiss="modal") X
+                                    button.close(data-dismiss="userModal") X
 
                                 div.modal-body
                                     div.container.tab-pane.active(id='stat')

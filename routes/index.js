@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 
-router.get('/', isAuthenticated, function (req, res, next) {
+router.get('/', function (req, res, next) {
 
     var data = [];
 
@@ -61,6 +61,8 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                 rain = rows[0].Val;
                             }
                             data.push({
+                                title: 'Meteo Server',
+                                logged_user: req.user,
                                 station: name,
                                 location: location,
                                 altitude: altitude,
@@ -78,7 +80,12 @@ router.get('/', isAuthenticated, function (req, res, next) {
             });
         }, function (err) { //eseguita dopo che la funzione precedente è stata eseguita per ogni item
             console.log(data);
-            res.render('index', {title: 'Meteo Server', data: data});
+            res.render('index', {
+                title: 'Meteo Server',
+                logged_user: req.user,
+                message: req.flash(),
+                data: data
+            });
         });
 
     });

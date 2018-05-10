@@ -94,6 +94,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                 data.rain = rows;
                                 res.render('history', {
                                     title: 'Meteo Server',
+                                    logged_user: req.user,
                                     selected_station: selected_station,
                                     data: data,
                                     data_chart: data_chart,
@@ -115,6 +116,8 @@ router.get('/', isAuthenticated, function (req, res, next) {
             data.station = rows; //Elenco stazioni per menu selezione
             res.render('history', {
                 title: 'Meteo Server',
+                logged_user: req.user,
+                message: req.flash(),
                 selected_station: {StationName: "seleziona...", Location: "seleziona..."},
                 data: data,
                 data_chart: data_chart,
