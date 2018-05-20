@@ -8,7 +8,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
 
     var data = {station: '0', temperature: '0', pressure: '0', humidity: '0', rain: '0'}; //Conterrà object rows
 
-    var data_chart = {station: [], temperature: [], pressure: [], humidity: [], rain: []};
+    var data_chart = {station: [], temperature: [], pressure: [], humidity: [], rain: [], stamp :[]};
 
     var selected_id = 0; //0-All, 1,2,.. Stazioni
     var selected_station = 0;
@@ -82,6 +82,11 @@ router.get('/', isAuthenticated, function (req, res, next) {
                     data.temperature = rows;
                     for (item of rows) {
                         data_chart.temperature.push(item.Val);
+                    }
+
+                    for (item of rows) {
+                        data_chart.stamp.push(dateConvert.dateFormatter(item.Stamp));
+
                     }
                     database.query(pres_query, function (err, rows) {
                         if (err) throw err;
