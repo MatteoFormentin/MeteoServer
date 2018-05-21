@@ -56,3 +56,14 @@ block content
                                     td(style="width: 50%" colspan='2')
                                         i.wi.wi-showers.d-inline
                                         p.d-inline Piove
+
+                        if(item.wind !== "N/A")
+                            tr.table-primary
+                                th(colspan='2') Vento
+                            tr.table-active
+                                td(style="width: 50%")
+                                    i.wi.wi-strong-wind.d-inline
+                                    p.d-inline Velocità: #{item.wind.speed} Km/h
+                                td(style="width: 50%")
+                                    i.wi.wi-wind.towards-23-deg.d-inline
+                                    p.d-inline Direzione: #{item.wind.direction}°

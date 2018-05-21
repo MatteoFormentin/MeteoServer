@@ -62,6 +62,15 @@ router.post('/', function (req, res, next) {
                         });
                     break;
 
+                case 'Wind':
+                    database.query('INSERT INTO Wind (Id, Speed, Direction) VALUES (\'' + data.Id + '\', \'' + data.Speed +
+                        '\', \'' + data.Direction + '\')',
+                        function (err, rows, fields) {
+                            if (err) throw err;
+                            console.log('INSERTED IN Rain (Id: ' + data.Id + ', Val: ' + data.Val + ')');
+                        });
+                    break;
+
                 default:
                     console.log('Unable to Log');
             }

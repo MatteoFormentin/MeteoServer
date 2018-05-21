@@ -11,6 +11,7 @@ router.get('/', function (req, res, next) {
     var pres_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
     var hum_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=\'';
     var rain_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=\'';
+    var wind_query = 'SELECT Station.Id, StationName, Location, Altitude, Speed, Direction, Stamp FROM Wind INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=\'';
 
     var query_end = '\' ORDER BY Stamp DESC LIMIT 1';
 
@@ -28,6 +29,7 @@ router.get('/', function (req, res, next) {
             var pressure = 0;
             var humidity = 0;
             var rain = 0;
+            var wind = {speed: 0, direction: 0};
 
             database.query(temp_query + id + query_end, function (err, rows) {
                 if (rows[0] === undefined) {
@@ -60,19 +62,29 @@ router.get('/', function (req, res, next) {
                             else {
                                 rain = rows[0].Val;
                             }
-                            data.push({
-                                title: 'Meteo Server',
-                                logged_user: req.user,
-                                station: name,
-                                location: location,
-                                altitude: altitude,
-                                last_update: last_update,
-                                temperature: temperature,
-                                pressure: pressure,
-                                humidity: humidity,
-                                rain: rain
+                            database.query(wind_query + id + query_end, function (err, rows) {
+                                if (rows[0] === undefined) {
+                                    wind = 'N/A';
+                                }
+                                else {
+                                    wind.speed = rows[0].Speed;
+                                    wind.direction = rows[0].Direction;
+                                }
+                                data.push({
+                                    title: 'Meteo Server',
+                                    logged_user: req.user,
+                                    station: name,
+                                    location: location,
+                                    altitude: altitude,
+                                    last_update: last_update,
+                                    temperature: temperature,
+                                    pressure: pressure,
+                                    humidity: humidity,
+                                    rain: rain,
+                                    wind: wind
+                                });
+                                callback(); //indica ad async che il singolo item ha finito
                             });
-                            callback(); //indica ad async che il singolo item ha finito
                         });
                     });
 

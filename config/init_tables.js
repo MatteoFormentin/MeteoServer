@@ -92,5 +92,17 @@ module.exports = function initTables() {
         if (err) throw err;
     });
 
+    database.query('CREATE TABLE IF NOT EXISTS Wind(\n' +
+        '    Id Int NOT NULL,\n' + //Identificativo stazione FOREIGN KEY
+        '    Speed Float,\n' +
+        '    Direction Float,\n' +
+        '    Stamp TimeStamp, \n' +
+        '    FOREIGN KEY (Id) \n' +
+        '    REFERENCES Station (Id)\n' +
+        '    ON DELETE CASCADE\n' +
+        ');', function (err, rows, fields) {
+        if (err) throw err;
+    });
+
 };
 

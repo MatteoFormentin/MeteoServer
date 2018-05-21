@@ -6,9 +6,9 @@ router.get('/', isAuthenticated, function (req, res, next) {
 
     console.log(dateConvert.yesterdayTimeStamp());
 
-    var data = {station: '0', temperature: '0', pressure: '0', humidity: '0', rain: '0'}; //Conterrà object rows
+    var data = {station: 0, temperature: 0, pressure: 0, humidity: 0, rain: 0, wind: 0}; //Conterrà object rows
 
-    var data_chart = {station: [], temperature: [], pressure: [], humidity: [], rain: [], stamp :[]};
+    var data_chart = {station: [], temperature: [], pressure: [], humidity: [], rain: [], stamp: []};
 
     var selected_id = 0; //0-All, 1,2,.. Stazioni
     var selected_station = 0;
@@ -23,6 +23,8 @@ router.get('/', isAuthenticated, function (req, res, next) {
     var pres_query = 'SELECT * FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id';
     var hum_query = 'SELECT * FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id';
     var rain_query = 'SELECT * FROM Rain INNER JOIN Station ON Rain.Id = Station.Id';
+    var wind_query = 'SELECT * FROM Wind INNER JOIN Station ON Wind.Id = Station.Id';
+
 
     if (!(req.query.station === undefined) && !(req.query.station === '0')) {
         selected_id = req.query.station;
@@ -97,14 +99,18 @@ router.get('/', isAuthenticated, function (req, res, next) {
                             database.query(rain_query, function (err, rows) {
                                 if (err) throw err;
                                 data.rain = rows;
-                                res.render('history', {
-                                    title: 'Meteo Server',
-                                    logged_user: req.user,
-                                    selected_station: selected_station,
-                                    data: data,
-                                    data_chart: data_chart,
-                                    date_start: date_start,
-                                    date_end: date_end
+                                database.query(wind_query, function (err, rows) {
+                                    if (err) throw err;
+                                    data.wind = rows;
+                                    res.render('history', {
+                                        title: 'Meteo Server',
+                                        logged_user: req.user,
+                                        selected_station: selected_station,
+                                        data: data,
+                                        data_chart: data_chart,
+                                        date_start: date_start,
+                                        date_end: date_end
+                                    });
                                 });
                             });
                         });

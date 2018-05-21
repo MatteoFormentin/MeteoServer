@@ -23,65 +23,72 @@ block content
 
     //Aggiungere un li per ogni tabella
     ul.nav.nav-tabs(role='tablist')
-        li.nav-item
-            a.nav-link.active(data-toggle='tab' href='#temp') TEMPERATURA
-        li.nav-item
-            a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
-        li.nav-item
-            a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
-        li.nav-item
-            a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
+        if data.temperature !== 0
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#temp') TEMPERATURA
+        if data.pressure !== 0
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
+        if data.humidity !== 0
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
+        if data.rain !== 0
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
+        if data.wind !== 0
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#wind') VENTO
 
     div.tab-content
         //Temperatura
-        div.container.tab-pane.active(id='temp')
+        div.container.tab-pane(id='temp')
+            //
+                canvas(canvas id="myChart" width="1000" height="400" style="border:1px solid #000000;")
+                script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js')
 
-            canvas(canvas id="myChart" width="1000" height="400" style="border:1px solid #000000;")
-            script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js')
-
-            script.
-                var ctx = document.getElementById("myChart").getContext('2d');
-                var myChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: !{JSON.stringify(data_chart.stamp)},
-                        datasets: [{
-                            label: 'Temperatura °C',
-                            data: [#{data_chart.temperature}],
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255,99,132,1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {responsive: false}
-                });
-                //myChart.resize(25, 25);
-                // myChart.resize();
-        table.table.table-bordered.margin-top
-            thead
-                tr.text-center
-                    th Valore
-                    th Data
-
-            tbody
-                each item in data.temperature
+                script.
+                    var ctx = document.getElementById("myChart").getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: !{JSON.stringify(data_chart.stamp)},
+                            datasets: [{
+                                label: 'Temperatura °C',
+                                data: [#{data_chart.temperature}],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255,99,132,1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {responsive: false}
+                    });
+                    //myChart.resize(25, 25);
+                    // myChart.resize();
+            table.table.table-bordered.margin-top
+                thead
                     tr.text-center
-                        td.align-middle=item.Val + ' °C'
-                        td.align-middle=item.Stamp
+                        th Valore
+                        th Data
+
+                tbody
+                    each item in data.temperature
+                        tr.text-center
+                            td.align-middle=item.Val + ' °C'
+                            td.align-middle=item.Stamp
 
         //Pressione
         div.container.tab-pane.fade(id='pres')
@@ -123,4 +130,20 @@ block content
                     each item in data.rain
                         tr.text-center
                             td.align-middle=item.Val
+                            td.align-middle=item.Stamp
+
+        //Vento
+        div.container.tab-pane.fade(id='wind')
+            table.table.table-bordered.margin-top
+                thead
+                    tr.text-center
+                        th Velocità
+                        th Direzione
+                        th Data
+
+                tbody
+                    each item in data.wind
+                        tr.text-center
+                            td.align-middle=item.Speed
+                            td.align-middle=item.Direction
                             td.align-middle=item.Stamp
