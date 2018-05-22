@@ -1,0 +1,111 @@
+extends history
+
+block data
+    //Aggiungere un li per ogni tabella
+    ul.nav.nav-tabs(role='tablist')
+        if data.temperature !== 0
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#temp') TEMPERATURA
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#wind') VENTO
+
+    div.tab-content
+        //Temperatura
+
+        div.container.tab-pane(id='temp')
+            if data.temperature.length !== 0
+                table.table.table-bordered.margin-top
+                    thead
+                        tr.text-center
+                            th Valore
+                            th Data
+
+                    tbody
+                        each item in data.temperature
+                            tr.text-center
+                                td.align-middle=item.Val + ' °C'
+                                td.align-middle=item.Stamp
+
+            else
+                p.margin-top nessun dato disponibile
+
+        //Pressione
+        div.container.tab-pane.fade(id='pres')
+            if data.pressure.length !== 0
+
+                table.table.table-bordered.margin-top
+                    thead
+                        tr.text-center
+                            th Valore
+                            th Data
+
+                    tbody
+                        each item in data.pressure
+                            tr.text-center
+                                td.align-middle=item.Val + ' Pa'
+                                td.align-middle=item.Stamp
+            else
+                p.margin-top nessun dato disponibile
+
+
+
+        //Umidità
+        div.container.tab-pane.fade(id='hum')
+            if data.humidity.length !== 0
+                table.table.table-bordered.margin-top
+                    thead
+                        tr.text-center
+                            th Valore
+                            th Data
+
+                    tbody
+                        each item in data.humidity
+                            tr.text-center
+                                td.align-middle=item.Val + ' %'
+                                td.align-middle=item.Stamp
+            else
+                p.margin-top nessun dato disponibile
+
+
+        //Pioggia
+
+        div.container.tab-pane.fade(id='rain')
+            if data.rain.length !== 0
+                table.table.table-bordered.margin-top
+                    thead
+                        tr.text-center
+                            th Valore
+                            th Data
+
+                    tbody
+                        each item in data.rain
+                            tr.text-center
+                                td.align-middle=item.Val
+                                td.align-middle=item.Stamp
+            else
+                p.margin-top nessun dato disponibile
+
+        //Vento
+        div.container.tab-pane.fade(id='wind')
+            if data.wind.length !== 0
+                table.table.table-bordered.margin-top
+                    thead
+                        tr.text-center
+                            th Velocità
+                            th Direzione
+                            th Data
+
+                    tbody
+                        each item in data.wind
+                            tr.text-center
+                                td.align-middle=item.Speed
+                                td.align-middle=item.Direction
+                                td.align-middle=item.Stamp
+            else
+                p.margin-top nessun dato disponibile
