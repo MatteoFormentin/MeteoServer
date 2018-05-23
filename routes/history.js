@@ -5,7 +5,13 @@ var router = express.Router();
 router.get('/', isAuthenticated, function (req, res, next) {
     var data = {station: 0, temperature: 0, pressure: 0, humidity: 0, rain: 0, wind: 0}; //Conterrà object rows
 
-    var data_chart = {station: [], temperature: [], pressure: [], humidity: [], rain: [], stamp: []};
+    var data_chart = {
+        temperature: {val: [], stamp: []},
+        pressure: {val: [], stamp: []},
+        humidity: {val: [], stamp: []},
+        rain: {val: [], stamp: []},
+        wind: {speed: [], direction: [], stamp: []}
+    };
 
     var selected_id = 0; //0-All, 1,2,.. Stazioni
     var selected_station = 0;
@@ -72,34 +78,71 @@ router.get('/', isAuthenticated, function (req, res, next) {
         database.query(station_query, function (err, rows) {
                 if (err) throw err;
                 data.station = rows; //Elenco stazioni per menu selezione
+
                 //Cerco la stazione attualmente selezionata
                 database.query('SELECT * FROM Station WHERE Id= \'' + selected_id + '\'', function (err, rows) {
                     selected_station = rows[0];
+
                     database.query(temp_query, function (err, rows) {
                         if (err) throw err;
-                        data.temperature = rows;
-                        for (item of rows) {
-                            data_chart.temperature.push(item.Val);
-                        }
-
-                        for (item of rows) {
-                            data_chart.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                        if (req.query.type === "0") {
+                            for (item of rows) {
+                                data_chart.temperature.val.push(item.Val);
+                                data_chart.temperature.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                            }
+                        } else if (req.query.type === "1") {
+                            data.temperature = rows;
                         }
 
                         database.query(pres_query, function (err, rows) {
                             if (err) throw err;
-                            data.pressure = rows;
+                            if (req.query.type === "0") {
+                                for (item of rows) {
+                                    data_chart.pressure.val.push(meteoUtils.seaLevelPressure(parseInt(item.Val), parseInt(selected_station.Altitude)) / 100);
+                                    data_chart.pressure.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                                }
+                            } else if (req.query.type === "1") {
+                                data.pressure = rows;
+                            }
+                            console.log(data.pressure);
+
                             database.query(hum_query, function (err, rows) {
                                 if (err) throw err;
-                                data.humidity = rows;
+                                if (req.query.type === "0") {
+                                    for (item of rows) {
+                                        data_chart.humidity.val.push(item.Val);
+                                        data_chart.humidity.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                                    }
+                                } else if (req.query.type === "1") {
+                                    data.humidity = rows;
+                                }
+
                                 database.query(rain_query, function (err, rows) {
                                     if (err) throw err;
-                                    data.rain = rows;
+                                    if (req.query.type === "0") {
+                                        for (item of rows) {
+                                            data_chart.rain.val.push(item.Val);
+                                            data_chart.rain.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                                        }
+                                    } else if (req.query.type === "1") {
+                                        data.rain = rows;
+                                    }
+
                                     database.query(wind_query, function (err, rows) {
                                         if (err) throw err;
-                                        data.wind = rows;
                                         if (req.query.type === "0") {
-                                            res.render('chart', {
+                                            for (item of rows) {
+                                                data_chart.wind.speed.push(item.Speed);
+                                                data_chart.wind.direction.push(item.Direction);
+                                                data_chart.temperature.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                                            }
+                                        } else if (req.query.type === "1") {
+                                            data.wind = rows;
+                                        }
+
+                                        //RENDER VIEW
+                                        if (req.query.type === "0") {
+                                            res.render('history/chart', {
                                                 title: 'Meteo Server',
                                                 logged_user: req.user,
                                                 selected_station: selected_station,
@@ -111,7 +154,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                             });
                                         }
                                         else if (req.query.type === "1") {
-                                            res.render('table', {
+                                            res.render('history/table', {
                                                 title: 'Meteo Server',
                                                 logged_user: req.user,
                                                 selected_station: selected_station,
@@ -137,7 +180,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
         database.query(station_query, function (err, rows) {
             if (err) throw err;
             data.station = rows; //Elenco stazioni per menu selezione
-            res.render('history', {
+            res.render('history/history', {
                 title: 'Meteo Server',
                 logged_user: req.user,
                 message: req.flash(),

@@ -1,0 +1,162 @@
+extends history
+
+block data
+
+    //TEMPERATURE
+    div.row
+        canvas.col-6(id="TemperatureChart")
+        script.
+            var ctx = document.getElementById("TemperatureChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: !{JSON.stringify(data_chart.temperature.stamp)},
+                    datasets: [{
+                        label: 'Temperatura °C',
+                        data: [#{data_chart.temperature.val}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false
+                }
+            });
+
+        //HUMIDITY
+        canvas.col-6(id="HumidityChart")
+        script.
+            var ctx = document.getElementById("HumidityChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: !{JSON.stringify(data_chart.humidity.stamp)},
+                    datasets: [{
+                        label: 'Umidità %',
+                        data: [#{data_chart.humidity.val}],
+                        backgroundColor: [
+                            'rgba(255, 206, 86, 0.2)' //Giallo
+                        ],
+                        borderColor: [
+                            'rgba(255, 206, 86, 1)' //Giallo
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+    div.row
+        //PRESSURE
+        canvas.col-6(id="PressureChart")
+            script.
+                var ctx = document.getElementById("PressureChart").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: !{JSON.stringify(data_chart.pressure.stamp)},
+                        datasets: [{
+                            label: 'Pressione hPa',
+                            data: [#{data_chart.pressure.val}],
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: false
+                    }
+                });
+
+        //RAIN
+        canvas.col-6(id = "RainChart")
+        script.
+            var ctx = document.getElementById("RainChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: !{JSON.stringify(data_chart.rain.stamp)},
+                    datasets: [{
+                        label: 'Pioggia mm',
+                        data: [#{data_chart.rain.val}],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+    div.row
+        //WIND
+        canvas.col-6(id = "WindChart")
+        script.
+            var ctx = document.getElementById("WindChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: !{JSON.stringify(data_chart.wind.stamp)},
+                    datasets: [{
+                        label: 'Velocità',
+                        data: [#{data_chart.wind.speed}],
+                        backgroundColor: [
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    },
+                        {
+                            label: 'Direzione',
+                            data: [#{data_chart.wind.direction}],
+                            backgroundColor: [
+                                'rgba(54, 102, 255, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 102, 255, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });

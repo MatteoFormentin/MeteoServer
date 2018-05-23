@@ -2,7 +2,6 @@ express = require('express');
 
 
 function seaLevelPressure(pressure, altitude) {
-    console.log(pressure + (altitude / 8) * 100);
     return pressure + (altitude / 8) * 100;
 }
 
