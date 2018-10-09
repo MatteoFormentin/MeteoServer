@@ -9,7 +9,7 @@ var flash = require("connect-flash");
 var helmet = require('helmet');
 var session = require("express-session");
 uuidv4 = require('uuid/v4');
-async = require('async')
+async = require('async');
 dateConvert = require('./utils/date_convert');
 meteoUtils = require('./utils/meteo_utils');
 
@@ -36,6 +36,7 @@ isAuthenticated = require("./routes/user/is_auth");
 initPassport();
 
 var indexRouter = require('./routes/index');
+var kioskRouter = require('./routes/kiosk');
 var postData = require('./routes/post_data');
 var history = require('./routes/history');
 var login = require('./routes/user/login');
@@ -69,6 +70,7 @@ app.use(flash());
 
 
 app.use('/', indexRouter);
+app.use('/kiosk', kioskRouter);
 app.use('/post_data', postData);
 app.use('/history', history);
 

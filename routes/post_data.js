@@ -67,7 +67,7 @@ router.post('/', function (req, res, next) {
                         '\', \'' + data.Direction + '\')',
                         function (err, rows, fields) {
                             if (err) throw err;
-                            console.log('INSERTED IN Rain (Id: ' + data.Id + ', Val: ' + data.Val + ')');
+                            console.log('INSERTED IN Wind (Id: ' + data.Id + ', Speed: ' + data.Speed + ', Direction: ' + data.Direction + ')');
                         });
                     break;
 

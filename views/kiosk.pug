@@ -1,0 +1,79 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/weather-icons.css')
+        link(rel='stylesheet', href='/stylesheets/weather-icons.min.css')
+        link(rel='stylesheet', href='/stylesheets/weather-icons-wind.css')
+        link(rel='stylesheet', href='/stylesheets/weather-icons-wind.min.css')
+        script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js')
+        script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js')
+
+    body(onload="startTime()")
+        div.carousel
+            div.carousel-inner
+                each item in data
+                    div.carousel-item.active
+                        table.table.container(style="margin: 0; padding: 0;")
+                            thead
+                                tr(style="width: 100vh; height: 9.8vh; border: 1px solid black; background-color: grey;")
+                                    th(colspan='3').align-middle.text-center
+                                        #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm - Ultimo Aggiornamento: #{item.last_update}
+                            tbody
+                                if(item.temperature !== "N/A" && item.humidity !== "N/A")
+                                    tr
+                                        td.bg-success.align-middle.text-center(style='width: 33vw; height: 45vh; border: 1px solid black;')
+                                            div
+                                                h1 #{item.temperature}°C
+                                            div.little-margin-top
+                                                i.wi.wi-thermometer.d-inline
+                                                p.d-inline Percepita: #{meteoUtils.humidex(item.temperature, item.humidity)}°C
+                                            div
+                                                i.wi.wi-thermometer.d-inline
+                                                p.d-inline Punto di Rugiada: #{meteoUtils.dewPoint(item.temperature, item.humidity)}°C
+                                        td.bg-info.align-middle.text-center(style='width: 33vw; height: 45vh; border: 1px solid black;')
+                                            div
+                                                h1 #{item.humidity}%
+
+                                        td.bg-warning.align-middle.text-center(style='width: 33vw; height: 45vh; border: 1px solid black;')
+                                            div
+                                                h1(id="txt")
+
+                                    tr.table-success
+                                        td.align-middle.text-center(style='width: 33vw; height: 45vh; border: 1px solid black;')
+
+                                        td.align-middle.text-center(style='width: 33vw; height: 45vh; border: 1px solid black;')
+
+                                        td.align-middle.text-center(style='width: 33vw; height: 45vh; border: 1px solid black;')
+
+
+        script.
+            $('.carousel').carousel({
+                interval: 5000,
+                pause: false
+            })
+
+            function startTime() {
+                var today = new Date();
+                var h = today.getHours();
+                var m = today.getMinutes();
+                var s = today.getSeconds();
+                m = checkTime(m);
+                s = checkTime(s);
+                document.getElementById('txt').innerHTML =
+                    h + ":" + m + ":" + s;
+                var t = setTimeout(startTime, 500);
+            }
+
+            function checkTime(i) {
+                if (i < 10) {
+                    i = "0" + i
+                }
+                ;  // add zero in front of numbers < 10
+                return i;
+            }
