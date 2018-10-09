@@ -75,7 +75,7 @@ router.post('/', function (req, res, next) {
                     database.query('INSERT INTO Lighting (Id, Distance) VALUES (\'' + data.Id + '\', \'' + data.Distance + '\')',
                         function (err, rows, fields) {
                             if (err) throw err;
-                            console.log('INSERTED IN Rain (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
+                            console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
                         });
                     break;
 
