@@ -71,6 +71,14 @@ router.post('/', function (req, res, next) {
                         });
                     break;
 
+                case 'Lighting':
+                    database.query('INSERT INTO Lighting (Id, Distance) VALUES (\'' + data.Id + '\', \'' + data.Distance + '\')',
+                        function (err, rows, fields) {
+                            if (err) throw err;
+                            console.log('INSERTED IN Rain (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
+                        });
+                    break;
+
                 default:
                     console.log('Unable to Log');
             }

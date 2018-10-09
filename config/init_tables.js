@@ -59,17 +59,6 @@ module.exports = function initTables() {
         if (err) throw err;
     });
 
-    database.query('CREATE TABLE IF NOT EXISTS Pressure(\n' +
-        '    Id Int NOT NULL,\n' + //Identificativo stazione FOREIGN KEY
-        '    Val Float,\n' +
-        '    Stamp TimeStamp, \n' +
-        '    FOREIGN KEY (Id) \n' +
-        '    REFERENCES Station (Id)\n' +
-        '    ON DELETE CASCADE\n' +
-        ');', function (err, rows, fields) {
-        if (err) throw err;
-    });
-
     database.query('CREATE TABLE IF NOT EXISTS Humidity(\n' +
         '    Id Int NOT NULL,\n' + //Identificativo stazione FOREIGN KEY
         '    Val Float,\n' +
@@ -96,6 +85,17 @@ module.exports = function initTables() {
         '    Id Int NOT NULL,\n' + //Identificativo stazione FOREIGN KEY
         '    Speed Float,\n' +
         '    Direction Float,\n' +
+        '    Stamp TimeStamp, \n' +
+        '    FOREIGN KEY (Id) \n' +
+        '    REFERENCES Station (Id)\n' +
+        '    ON DELETE CASCADE\n' +
+        ');', function (err, rows, fields) {
+        if (err) throw err;
+    });
+
+    database.query('CREATE TABLE IF NOT EXISTS Lighting(\n' +
+        '    Id Int NOT NULL,\n' + //Identificativo stazione FOREIGN KEY
+        '    Distance Float,\n' +
         '    Stamp TimeStamp, \n' +
         '    FOREIGN KEY (Id) \n' +
         '    REFERENCES Station (Id)\n' +
