@@ -152,6 +152,8 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                                 data.lighting = rows;
                                             }
 
+                                            console.log(rows);
+
                                             database.query(wind_query, function (err, rows) {
                                                 if (err) throw err;
                                                 if (req.query.type === "0") {

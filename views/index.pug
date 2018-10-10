@@ -45,16 +45,16 @@ block content
 
                         if(item.rain !== "N/A")
                             tr.table-primary
-                                th(colspan='2') Pioggia
+                                th(colspan='2') Pioggia Ultime 2 Ore
                             tr.table-info
-                                if(item.rain == 0)
+                                if((Math.round(item.rain * 100)) / 100 == 0)
                                     td(style="width: 50%" colspan='2')
                                         i.wi.wi-day-sunny.d-inline
                                         p.d-inline Non Piove
-                                if(item.rain == 1)
+                                else
                                     td(style="width: 50%" colspan='2')
                                         i.wi.wi-showers.d-inline
-                                        p.d-inline Piove
+                                        p.d-inline #{(Math.round(item.rain * 100)) / 100} mm
 
                         if(item.wind !== "N/A")
                             tr.table-primary
@@ -66,3 +66,15 @@ block content
                                 td(style="width: 50%")
                                     i.wi.wi-wind.towards-23-deg.d-inline
                                     p.d-inline Direzione: #{item.wind.direction}°
+
+
+                        if(item.lighting !== "N/A")
+                            tr.table-primary
+                                th(colspan='2') Ultimo Fulmine
+                            tr.table-danger
+                                td(style="width: 50%")
+                                    i.wi.wi-time-1.d-inline
+                                    p.d-inline Ora: #{item.lighting.stamp}
+                                td(style="width: 50%")
+                                    i.wi.wi-lighting.d-inline
+                                    p.d-inline Distance: #{item.lighting.distance} Km

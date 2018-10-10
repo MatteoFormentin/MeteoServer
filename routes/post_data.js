@@ -24,16 +24,20 @@ router.post('/', function (req, res, next) {
         if (rows[0] === undefined) {
             res.send('unauthorized');
             console.log('unauthorized request');
-        }
-        else {
+        } else {
             switch (data.Table) {
 
                 //Inserimento temperatura
                 case 'Temperature':
                     database.query('INSERT INTO  Temperature (Id, Val) VALUES (\'' + data.Id + '\', \'' + data.Val + '\')',
                         function (err, rows, fields) {
-                            if (err) throw err;
-                            console.log('INSERTED IN Temperature (Id: ' + data.Id + ', Val: ' + data.Val + ')');
+                            if (err) {
+                                console.log('error');
+                                res.send('no');
+                            } else {
+                                res.send('ok');
+                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
+                            }
                         });
                     break;
 
@@ -41,24 +45,39 @@ router.post('/', function (req, res, next) {
                 case 'Pressure':
                     database.query('INSERT INTO Pressure (Id, Val) VALUES (\'' + data.Id + '\', \'' + data.Val + '\')',
                         function (err, rows, fields) {
-                            if (err) throw err;
-                            console.log('INSERTED IN Pressure (Id: ' + data.Id + ', Val: ' + data.Val + ')');
+                            if (err) {
+                                console.log('error');
+                                res.send('no');
+                            } else {
+                                res.send('ok');
+                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
+                            }
                         });
                     break;
 
                 case 'Humidity':
                     database.query('INSERT INTO Humidity (Id, Val) VALUES (\'' + data.Id + '\', \'' + data.Val + '\')',
                         function (err, rows, fields) {
-                            if (err) throw err;
-                            console.log('INSERTED IN Humidity (Id: ' + data.Id + ', Val: ' + data.Val + ')');
+                            if (err) {
+                                console.log('error');
+                                res.send('no');
+                            } else {
+                                res.send('ok');
+                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
+                            }
                         });
                     break;
 
                 case 'Rain':
                     database.query('INSERT INTO Rain (Id, Val) VALUES (\'' + data.Id + '\', \'' + data.Val + '\')',
                         function (err, rows, fields) {
-                            if (err) throw err;
-                            console.log('INSERTED IN Rain (Id: ' + data.Id + ', Val: ' + data.Val + ')');
+                            if (err) {
+                                console.log('error');
+                                res.send('no');
+                            } else {
+                                res.send('ok');
+                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
+                            }
                         });
                     break;
 
@@ -66,28 +85,36 @@ router.post('/', function (req, res, next) {
                     database.query('INSERT INTO Wind (Id, Speed, Direction) VALUES (\'' + data.Id + '\', \'' + data.Speed +
                         '\', \'' + data.Direction + '\')',
                         function (err, rows, fields) {
-                            if (err) throw err;
-                            console.log('INSERTED IN Wind (Id: ' + data.Id + ', Speed: ' + data.Speed + ', Direction: ' + data.Direction + ')');
+                            if (err) {
+                                console.log('error');
+                                res.send('no');
+                            } else {
+                                res.send('ok');
+                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
+                            }
                         });
                     break;
 
                 case 'Lighting':
                     database.query('INSERT INTO Lighting (Id, Distance) VALUES (\'' + data.Id + '\', \'' + data.Distance + '\')',
                         function (err, rows, fields) {
-                            if (err) throw err;
-                            console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
+                            if (err) {
+                                console.log('error');
+                                res.send('no');
+                            } else {
+                                res.send('ok');
+                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
+                            }
                         });
                     break;
 
                 default:
-                    console.log('Unable to Log');
+                    console.log('No Table');
+                    res.send('no');
             }
-
-            res.send('ok');
         }
     });
 
-})
-;
+});
 
 module.exports = router;

@@ -25,7 +25,13 @@ database = mysql.createConnection({
 });
 
 var initTables = require('./config/init_tables.js'); //Modulo che crea le tabelle
-database.connect();
+database.connect(function (err) {
+    if (err) {
+        console.error("Can't connect to database. Check configuration.");
+        process.exit();
+    }
+});
+
 initTables();
 
 /*PASSPORT*/
@@ -63,7 +69,14 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret: 'keyboard cat'}));
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 3600000 //One hour login max (in millisecond)
+    }
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
