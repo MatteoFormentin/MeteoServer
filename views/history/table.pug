@@ -14,6 +14,8 @@ block data
                 a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
             li.nav-item
                 a.nav-link(data-toggle='tab' href='#wind') VENTO
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#lighting') FULMINI
 
     div.tab-content
         //Temperatura
@@ -106,5 +108,22 @@ block data
                                 td(style="width: 33%").align-middle=item.Speed
                                 td(style="width: 33%").align-middle=item.Direction
                                 td(style="width: 33%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
+            else
+                p.margin-top nessun dato disponibile
+
+        //Fulmini
+        div.container.tab-pane.fade(id='lighting')
+            if data.wind.length !== 0
+                table.table.table-bordered.margin-top
+                    thead
+                        tr.text-center
+                            th Distanza
+                            th Data
+
+                    tbody
+                        each item in data.lighting
+                            tr.text-center
+                                td(style="width: 50%").align-middle=item.Distance
+                                td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
             else
                 p.margin-top nessun dato disponibile
