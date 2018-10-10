@@ -14,7 +14,7 @@ function dateFormatter(date) {
     let year = date.getFullYear();
     let month = addZero(date.getMonth() + 1);
     let day = addZero(date.getDate());
-    let hour = addZero(date.getHours());
+    let hour = addZero(date.getUTCHours());
     let minute = addZero(date.getMinutes());
     return day + '/' + month + '/' + year + ' ' + hour + ':' + minute;
 }
