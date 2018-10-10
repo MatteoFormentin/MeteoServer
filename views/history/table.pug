@@ -75,7 +75,6 @@ block data
 
 
         //Pioggia
-
         div.container.tab-pane.fade(id='rain')
             if data.rain.length !== 0
                 table.table.table-bordered.margin-top
@@ -87,7 +86,7 @@ block data
                     tbody
                         each item in data.rain
                             tr.text-center
-                                td.align-middle=item.Val
+                                td.align-middle=item.Val + ' mm'
                                 td.align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
             else
                 p.margin-top nessun dato disponibile
@@ -105,8 +104,8 @@ block data
                     tbody
                         each item in data.wind
                             tr.text-center
-                                td(style="width: 33%").align-middle=item.Speed
-                                td(style="width: 33%").align-middle=item.Direction
+                                td(style="width: 33%").align-middle=item.Speed + ' Km/h'
+                                td(style="width: 33%").align-middle=item.Direction + ' N°'
                                 td(style="width: 33%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
             else
                 p.margin-top nessun dato disponibile
@@ -123,7 +122,7 @@ block data
                     tbody
                         each item in data.lighting
                             tr.text-center
-                                td(style="width: 50%").align-middle=item.Distance
+                                td(style="width: 50%").align-middle=item.Distance + ' Km'
                                 td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
             else
                 p.margin-top nessun dato disponibile

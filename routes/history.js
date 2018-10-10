@@ -82,12 +82,12 @@ router.get('/', isAuthenticated, function (req, res, next) {
                 lighting_query += ' AND \'' + req.query.date_end + '\'';
             }
 
-            temp_query += ' ORDER BY Stamp DESC';
-            pres_query += ' ORDER BY Stamp DESC';
-            hum_query += ' ORDER BY Stamp DESC';
-            rain_query += ' ORDER BY Stamp DESC';
-            wind_query += ' ORDER BY Stamp DESC';
-            lighting_query += ' ORDER BY Stamp DESC';
+            temp_query += ' ORDER BY Stamp ASC';
+            pres_query += ' ORDER BY Stamp ASC';
+            hum_query += ' ORDER BY Stamp ASC';
+            rain_query += ' ORDER BY Stamp ASC';
+            wind_query += ' ORDER BY Stamp ASC';
+            lighting_query += ' ORDER BY Stamp ASC';
 
             database.query(station_query, function (err, rows) {
                     if (err) throw err;
@@ -158,7 +158,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                                     for (item of rows) {
                                                         data_chart.wind.speed.push(item.Speed);
                                                         data_chart.wind.direction.push(item.Direction);
-                                                        data_chart.temperature.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                                                        data_chart.wind.stamp.push(dateConvert.dateFormatter(item.Stamp));
                                                     }
                                                 } else if (req.query.type === "1") {
                                                     data.wind = rows;

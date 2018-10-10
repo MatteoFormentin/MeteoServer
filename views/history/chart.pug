@@ -200,7 +200,8 @@ block data
                         borderColor: [
                             'rgba(153, 102, 255, 1)'
                         ],
-                        borderWidth: 1
+                        borderWidth: 1,
+                        yAxisID: 'y-axis-1'
                     },
                         {
                             label: 'Direzione',
@@ -211,10 +212,65 @@ block data
                             borderColor: [
                                 'rgba(54, 102, 255, 1)'
                             ],
-                            borderWidth: 1
+                            borderWidth: 1,
+                            yAxisID: 'y-axis-2',
                         }]
                 },
                 options: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            fontColor: 'grey'
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            id: 'y-axis-1'
+                        }, {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            id: 'y-axis-2',
+
+                            gridLines: {
+                                drawOnChartArea: false
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontColor: 'grey'
+                            }
+
+                        }]
+                    }
+                }
+            });
+
+        //Fulmini
+        canvas.col-6(id = "LightingChart")
+        script.
+            var ctx = document.getElementById("LightingChart").getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: !{JSON.stringify(data_chart.lighting.stamp)},
+                    datasets: [{
+                        label: 'Fulmini  Km',
+                        data: [#{data_chart.lighting.val}],
+                        backgroundColor: [
+                            'rgba(249, 129, 54, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(249, 129, 54, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    showLines: false,
                     legend: {
                         display: true,
                         labels: {
