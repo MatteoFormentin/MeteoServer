@@ -14,6 +14,8 @@ router.get('/', isAuthenticated, function (req, res, next) {
             wind: {speed: [], direction: [], stamp: []}
         };
 
+    var rain_amount = 0;
+
         var selected_id = 0; //0-All, 1,2,.. Stazioni
         var selected_station = 0;
 
@@ -141,6 +143,10 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                             data.rain = rows;
                                         }
 
+                                        for (item of rows) {
+                                            rain_amount += item.Val;
+                                        }
+
                                         database.query(lighting_query, function (err, rows) {
                                             if (err) throw err;
                                             if (req.query.type === "0") {
@@ -151,8 +157,6 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                             } else if (req.query.type === "1") {
                                                 data.lighting = rows;
                                             }
-
-                                            console.log(rows);
 
                                             database.query(wind_query, function (err, rows) {
                                                 if (err) throw err;
@@ -175,6 +179,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                                         type: 0,
                                                         data: data,
                                                         data_chart: data_chart,
+                                                        rain_amount: rain_amount,
                                                         date_start: date_start,
                                                         date_end: date_end
                                                     });
@@ -187,6 +192,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                                         type: 1,
                                                         data: data,
                                                         data_chart: data_chart,
+                                                        rain_amount: rain_amount,
                                                         date_start: date_start,
                                                         date_end: date_end
                                                     });
@@ -202,7 +208,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
             );
         }
 
-//Se non è selezionata una stazione non visualizzare niente
+        //Se non è selezionata una stazione non visualizzare niente
         else {
             database.query(station_query, function (err, rows) {
                 if (err) throw err;
@@ -214,6 +220,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                     selected_station: {StationName: "seleziona...", Location: "seleziona..."},
                     data: data,
                     data_chart: data_chart,
+                    rain_amount: rain_amount,
                     date_start: '',
                     date_end: ''
                 });
