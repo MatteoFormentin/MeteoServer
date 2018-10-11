@@ -38,6 +38,7 @@ initTables();
 passport = require("passport");
 var initPassport = require("./config/init_passport");
 isAuthenticated = require("./routes/user/is_auth");
+isAdmin = require("./routes/user/is_admin");
 
 initPassport();
 

@@ -17,14 +17,18 @@ router.post('/', isAuthenticated, [
             return res.redirect('/config/configuration');
         }
 
-        if (req.body.Password == req.body.PasswordConfirm) {
-
-            var insert_user_query = 'INSERT INTO User(Email, Name, Password) VALUES (\'' +
+    if (req.body.Password === req.body.PasswordConfirm) {
+        var admin_on = 'false';
+        if (req.body.Admin === 'on') {
+            admin_on = 'true';
+        }
+        var insert_user_query = 'INSERT INTO User(Email, Name, Password, Admin) VALUES (\'' +
                 req.body.Email + '\', \'' +
                 req.body.Name + '\', \'' +
-                req.body.Password + '\')';
+            req.body.Password + '\', \'' +
+            admin_on + '\')';
 
-            //console.log(insert_user_query);
+        console.log(insert_user_query);
 
             database.query(insert_user_query, function (err, rows) {
                 if (err) throw err;

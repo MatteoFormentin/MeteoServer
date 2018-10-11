@@ -23,7 +23,7 @@ module.exports = function initPassport() {
                 if (err) {
                     return done(err);
                 }
-                if (user[0] == undefined) {
+                if (user[0] === undefined) {
                     return done(null, false, {message: 'Incorrect username.'});
                 }
                 if (user[0].Password !== password) {

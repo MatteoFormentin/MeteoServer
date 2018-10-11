@@ -81,16 +81,16 @@ block content
                                             label(for='ModifyStationName') Nome:
                                             input.form-control.form-margin(id='ModifyStationName' name='ModifyStationName' type='text')
 
-                                            label(for='ModifyLocation') Luogo:
+                                            label(for='ModifyLocation').little-margin-top Luogo:
                                             input.form-control.form-margin(id='ModifyLocation' name='ModifyLocation' type='text')
 
-                                            label(for='ModifyAltitude') Altitudine:
+                                            label(for='ModifyAltitude').little-margin-top Altitudine:
                                             input.form-control.form-margin(id='ModifyAltitude' name='ModifyAltitude' type='text')
 
-                                            label(for='ModifyIP') Indirizzo IP:
+                                            label(for='ModifyIP').little-margin-top Indirizzo IP:
                                             input.form-control.form-margin(id='ModifyIP' name='ModifyIP' type='text')
 
-                                            button.btn.btn-m.btn-primary.form-margin(type='submit') Modifica
+                                            button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit') Modifica
 
         div.container.tab-pane(id='user')
             div.row.justify-content-md-center.little-margin-top
@@ -107,7 +107,10 @@ block content
                             input.form-control(id='Password' name='Password' type='password' placeholder= 'Inserisci password')
                         div.col-auto.form-group
                             label(for='PasswordConfirm') Conferma Password:
-                            input.form-control(id='PasswordConfirm' name='PasswordConfirm' type='password' placeholder= 'reinserisci password')
+                            input.form-control(id='PasswordConfirm' name='PasswordConfirm' type='password' placeholder= 'Reinserisci password')
+                        div.col-auto.form-group
+                            label(for='Name') Admin:
+                            input.form-control(id='Admin' name='Admin' type='checkbox' placeholder= 'Admin')
                         div.col-auto.form-group
                             button.btn.btn-m.btn-primary(type='submit' style='margin-top: 32px;') CREA
 
@@ -117,6 +120,7 @@ block content
                         th ID
                         th Email
                         th Nome
+                        th Admin
                         th Modifica
 
                 each item in user
@@ -124,6 +128,7 @@ block content
                         td.align-middle#thUserId=item.Id
                         td.align-middle#thUserEmail=item.Email
                         td.align-middle#thUserName=item.Name
+                        td.align-middle#thUserAdmin=item.Admin
                         td
                             div
                                 form.form-inline.d-inline(method='POST' action='/user/delete_user')
@@ -137,6 +142,10 @@ block content
                                 $("#userModal").modal()
                                 $("#ModifyUserId").val($(event.target).closest('tr').find("#thUserId").text());
                                 $("#ModifyUserName").val($(event.target).closest('tr').find("#thUserName").text());
+
+                                if ($(event.target).closest('tr').find("#thUserAdmin").text().toString() === 'true') {
+                                    $("#ModifyUserAdmin").prop("checked", true);
+                                }
                                 $("#ModifyUserEmail").val($(event.target).closest('tr').find("#thUserEmail").text());
                             })
                         div.modal-dialog
@@ -153,13 +162,16 @@ block content
                                             label(for='ModifyUserName') Nome:
                                             input.form-control.form-margin(id='ModifyUserName' name='ModifyUserName' type='text')
 
-                                            label(for='ModifyUserEmail') Email:
+                                            label(for='ModifyUserEmail').little-margin-top Email:
                                             input.form-control.form-margin(id='ModifyUserEmail' name='ModifyUserEmail' type='mail')
 
-                                            label(for='ModifyUserPassword') Password:
+                                            label(for='ModifyUserAdmin').little-margin-top Admin:
+                                            input.form-control.form-margin(id='ModifyUserAdmin' name='ModifyUserAdmin' type='checkbox')
+
+                                            label(for='ModifyUserPassword').little-margin-top Password:
                                             input.form-control.form-margin(id='ModifyUserPassword' name='ModifyUserPassword' type='password')
 
-                                            label(for='ModifyUserPasswordConfirm') Conferma Password:
+                                            label(for='ModifyUserPasswordConfirm').little-margin-top Conferma Password:
                                             input.form-control.form-margin(id='ModifyUserPasswordConfirm' name='ModifyUserPasswordConfirm' type='password')
 
-                                            button.btn.btn-m.btn-primary.form-margin(type='submit') Modifica
+                                            button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit') Modifica

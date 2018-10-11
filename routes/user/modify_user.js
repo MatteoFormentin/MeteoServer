@@ -17,12 +17,18 @@ router.post('/', isAuthenticated, [
     }
 
     var update_user_query;
-    if (req.body.ModifyUserPassword !== undefined) {
-        if (req.body.ModifyUserPassword == req.body.ModifyUserPasswordConfirm) {
+    var admin_on = 'false';
+    if (req.body.ModifyUserAdmin === 'on') {
+        admin_on = 'true';
+    }
+
+    if (req.body.ModifyUserPassword !== "") {
+        if (req.body.ModifyUserPassword === req.body.ModifyUserPasswordConfirm) {
             update_user_query = 'UPDATE User SET Email=\'' +
                 req.body.ModifyUserEmail + '\', Name=\'' +
                 req.body.ModifyUserName + '\', Password=\'' +
-                req.body.ModifyUserPassword + '\'' +
+                req.body.ModifyUserPassword + '\', Admin=\'' +
+                admin_on + '\'' +
                 ' WHERE Id=\'' +
                 req.body.ModifyUserId + '\'';
         }
@@ -34,7 +40,8 @@ router.post('/', isAuthenticated, [
     else {
         update_user_query = 'UPDATE User SET Email=\'' +
             req.body.ModifyUserEmail + '\', Name=\'' +
-            req.body.ModifyUserName + '\'' +
+            req.body.ModifyUserName + '\', Admin=\'' +
+            admin_on + '\'' +
             ' WHERE Id=\'' +
             req.body.ModifyUserId + '\'';
     }

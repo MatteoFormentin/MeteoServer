@@ -8,6 +8,7 @@ module.exports = function initTables() {
         '    Email Varchar(255) NOT NULL,\n' +
         '    Name Varchar(255) NOT NULL,\n' +
         '    Password Varchar(255) NOT NULL,\n' +
+        '    Admin ENUM(\'true\', \'false\') NOT NULL,\n' +
         '    PRIMARY KEY (Id), \n' +
         '    UNIQUE (Email) \n' +
         ');', function (err, rows, fields) {
@@ -31,10 +32,11 @@ module.exports = function initTables() {
     database.query('SELECT * FROM User', function (err, rows, fields) {
         if (err) throw err;
         if (rows[0] === undefined) {
-            database.query('INSERT INTO User(Email, Name, Password) VALUES (' +
+            database.query('INSERT INTO User(Email, Name, Password, Admin) VALUES (' +
                 '\'admin@meteoserver.com\', ' +
                 '\'admin\', ' +
-                '\'password\');'
+                '\'password\', ' +
+                '\'true\');'
                 , function (err, rows, fields) {
                     if (err) throw err;
                 });

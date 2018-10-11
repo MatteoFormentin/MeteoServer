@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* GET configuration page. */
-router.get('/', isAuthenticated, function (req, res, next) {
+router.get('/', isAuthenticated, isAdmin, function (req, res, next) {
         var station;
     var user;
 
