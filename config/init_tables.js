@@ -26,16 +26,20 @@ module.exports = function initTables() {
         if (err) throw err;
     });
 
-    /*
-    //SEED FIRST START ONLY
-    database.query('INSERT INTO User(Email, Name, Password) VALUES (' +
-        '\'admin@meteoserver.com\', ' +
-        '\'admin\', ' +
-        '\'password\');'
-        , function (err, rows, fields) {
-            if (err) throw err;
-        });
-    */
+
+    //SEED
+    database.query('SELECT * FROM User', function (err, rows, fields) {
+        if (err) throw err;
+        if (rows[0] === undefined) {
+            database.query('INSERT INTO User(Email, Name, Password) VALUES (' +
+                '\'admin@meteoserver.com\', ' +
+                '\'admin\', ' +
+                '\'password\');'
+                , function (err, rows, fields) {
+                    if (err) throw err;
+                });
+        }
+    });
 
     database.query('CREATE TABLE IF NOT EXISTS Temperature(\n' +
         '    Id Int NOT NULL,\n' + //Identificativo stazione FOREIGN KEY
@@ -103,6 +107,5 @@ module.exports = function initTables() {
         ');', function (err, rows, fields) {
         if (err) throw err;
     });
-
 };
 
