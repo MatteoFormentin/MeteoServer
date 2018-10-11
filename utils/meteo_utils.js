@@ -5,6 +5,7 @@ function seaLevelPressure(pressure, altitude) {
     return pressure + (altitude / 8) * 100;
 }
 
+//Punto di Rugiada
 function dewPoint(temperature, humidity) {
     let pres_vap_sat = 6.11 * Math.pow(10, (7.5 * temperature) / (237.7 + temperature));
     let pres_vap_eff = (humidity * pres_vap_sat) / 100;
@@ -13,6 +14,7 @@ function dewPoint(temperature, humidity) {
 }
 
 function humidex(temperature, humidity) {
+    if (temperature < 27 || humidity < 40) return 'N/A';
     let humidex = temperature + (0.5555 * (0.06 * humidity * Math.pow(10, (0.03 * temperature)) - 10));
     return Math.round(humidex * 10) / 10;
 }
