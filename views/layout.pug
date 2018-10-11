@@ -19,13 +19,14 @@ html
             div.container-fluid
                 ul.nav.navbar-nav
                     li.nav-item
-                        a.navbar-brand(href='#') METEO SERVER
-                    li.nav-item
-                        a.nav-link(href='/') Home
-                    li.nav-item
-                        a.nav-link(href='/history') History
-                    li.nav-item
-                        a.nav-link(href='/config/configuration') Configurazione
+                        a.navbar-brand(href='/') METEO SERVER
+                    if logged_user
+                        li.nav-item
+                            a.nav-link(href='/history') Dati
+                    if logged_user
+                        if logged_user.Admin === 'true'
+                            li.nav-item
+                                a.nav-link(href='/config/configuration') Configurazione
                 ul.nav.navbar-nav.navbar-right
                     if logged_user
                         li.nav-item.dropdown
