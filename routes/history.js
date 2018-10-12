@@ -104,7 +104,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                             if (req.query.type === "0") {
                                 for (item of rows) {
                                     data_chart.temperature.val.push(item.Val);
-                                    data_chart.temperature.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                                    data_chart.temperature.stamp.push(dateConvert.dateFormatter(new Date(item.Stamp + 'Z')));
                                 }
                             } else if (req.query.type === "1") {
                                 data.temperature = rows;
@@ -115,7 +115,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                 if (req.query.type === "0") {
                                     for (item of rows) {
                                         data_chart.pressure.val.push(meteoUtils.seaLevelPressure(parseInt(item.Val), parseInt(selected_station.Altitude)) / 100);
-                                        data_chart.pressure.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                                        data_chart.pressure.stamp.push(dateConvert.dateFormatter(new Date(item.Stamp + 'Z')));
                                     }
                                 } else if (req.query.type === "1") {
                                     data.pressure = rows;
@@ -126,7 +126,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                     if (req.query.type === "0") {
                                         for (item of rows) {
                                             data_chart.humidity.val.push(item.Val);
-                                            data_chart.humidity.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                                            data_chart.humidity.stamp.push(dateConvert.dateFormatter(new Date(item.Stamp + 'Z')));
                                         }
                                     } else if (req.query.type === "1") {
                                         data.humidity = rows;
@@ -137,7 +137,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                         if (req.query.type === "0") {
                                             for (item of rows) {
                                                 data_chart.rain.val.push(item.Val);
-                                                data_chart.rain.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                                                data_chart.rain.stamp.push(dateConvert.dateFormatter(new Date(item.Stamp + 'Z')));
                                             }
                                         } else if (req.query.type === "1") {
                                             data.rain = rows;
@@ -152,7 +152,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                             if (req.query.type === "0") {
                                                 for (item of rows) {
                                                     data_chart.lighting.distance.push(item.Distance);
-                                                    data_chart.lighting.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                                                    data_chart.lighting.stamp.push(dateConvert.dateFormatter(new Date(item.Stamp + 'Z')));
                                                 }
                                             } else if (req.query.type === "1") {
                                                 data.lighting = rows;
@@ -164,7 +164,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                                     for (item of rows) {
                                                         data_chart.wind.speed.push(item.Speed);
                                                         data_chart.wind.direction.push(item.Direction);
-                                                        data_chart.wind.stamp.push(dateConvert.dateFormatter(item.Stamp));
+                                                        data_chart.wind.stamp.push(dateConvert.dateFormatter(new Date(item.Stamp + 'Z')));
                                                     }
                                                 } else if (req.query.type === "1") {
                                                     data.wind = rows;

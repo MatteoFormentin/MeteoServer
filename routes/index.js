@@ -51,8 +51,11 @@ router.get('/', function (req, res, next) {
                 }
                 else {
                     temperature = rows[0].Val;
-                    last_update = dateConvert.dateFormatter(rows[0].Stamp);
+                    last_update = rows[0].Stamp;
                 }
+                console.log(rows[0].Stamp);
+                console.log(last_update);
+
 
                 database.query(pres_query + id + query_end, function (err, rows) {
                     if (rows[0] === undefined) {
@@ -84,7 +87,7 @@ router.get('/', function (req, res, next) {
                                 }
                                 else {
                                     lighting.distance = rows[0].Distance;
-                                    lighting.stamp = dateConvert.dateFormatter(rows[0].Stamp);
+                                    lighting.stamp = rows[0].Stamp;
                                 }
 
                                 database.query(wind_query + id + query_end, function (err, rows) {

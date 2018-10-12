@@ -11,7 +11,7 @@ block content
                         tr.table-warning.text-center
                             th(colspan='2').
                                 #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
-                                Ultimo Aggiornamento: #{item.last_update}
+                                Ultimo Aggiornamento: #{dateConvert.dateFormatter(new Date(item.last_update + 'Z'))}
                     tbody
                         if(item.temperature !== "N/A" && item.humidity !== "N/A")
                             tr.table-primary
@@ -73,7 +73,7 @@ block content
                             tr.table-danger
                                 td(style="width: 50%")
                                     i.wi.wi-time-1.d-inline
-                                    p.d-inline Ora: #{item.lighting.stamp}
+                                    p.d-inline Ora: #{dateConvert.dateFormatter(new Date(item.lighting.stamp + 'Z'))}
                                 td(style="width: 50%")
                                     i.wi.wi-lighting.d-inline
                                     p.d-inline Distance: #{item.lighting.distance} Km
