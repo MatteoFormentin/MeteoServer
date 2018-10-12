@@ -7,12 +7,12 @@ router.get('/', function (req, res, next) {
 
     var data = [];
 
-    var temp_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
-    var pres_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
-    var hum_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=\'';
-    var rain_query = 'SELECT SUM(Val) AS total FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id= ';
-    var lighting_query = 'SELECT Station.Id, Distance, Stamp FROM Lighting INNER JOIN Station ON Lighting.Id = Station.Id WHERE Station.Id=\'';
-    var wind_query = 'SELECT Station.Id, StationName, Location, Altitude, Speed, Direction, Stamp FROM Wind INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=\'';
+    var temp_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
+    var pres_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
+    var hum_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=\'';
+    var rain_query_initial = 'SELECT SUM(Val) AS total FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id= ';
+    var lighting_query_initial = 'SELECT Station.Id, Distance, Stamp FROM Lighting INNER JOIN Station ON Lighting.Id = Station.Id WHERE Station.Id=\'';
+    var wind_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Speed, Direction, Stamp FROM Wind INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=\'';
 
     var query_end = '\' ORDER BY Stamp DESC LIMIT 1';
 
@@ -21,17 +21,25 @@ router.get('/', function (req, res, next) {
 
         async.each(station, function (item, callback) {
 
-            var name = item.StationName;
-            var id = item.Id;
-            var location = item.Location;
-            var altitude = item.Altitude;
-            var last_update = undefined;
-            var temperature = 0;
-            var pressure = 0;
-            var humidity = 0;
-            var rain = 0;
-            var lighting = {distance: 0, stamp: 0};
-            var wind = {speed: 0, direction: 0};
+            let name = item.StationName;
+            let id = item.Id;
+            let location = item.Location;
+            let altitude = item.Altitude;
+            let last_update = undefined;
+            let temperature = 0;
+            let pressure = 0;
+            let humidity = 0;
+            let rain = 0;
+            let lighting = {distance: 0, stamp: 0};
+            let wind = {speed: 0, direction: 0};
+
+            let temp_query = temp_query_initial;
+            let pres_query = pres_query_initial;
+            let hum_query = hum_query_initial;
+            let rain_query = rain_query_initial;
+            let lighting_query = lighting_query_initial;
+            let wind_query = wind_query_initial;
+
 
             rain_query = rain_query + id + ' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(2) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
             lighting_query += id + '\' ORDER BY Stamp DESC LIMIT 1';
@@ -62,7 +70,8 @@ router.get('/', function (req, res, next) {
                         }
 
                         database.query(rain_query, function (err, rows) {
-                            if (rows[0] === undefined) {
+                            console.log(rows);
+                            if (rows === undefined) {
                                 rain = 'N/A';
                             }
                             else {
@@ -70,7 +79,7 @@ router.get('/', function (req, res, next) {
                             }
 
                             database.query(lighting_query, function (err, rows) {
-                                if (rows === undefined) {
+                                if (rows[0] === undefined) {
                                     lighting = 'N/A';
                                 }
                                 else {

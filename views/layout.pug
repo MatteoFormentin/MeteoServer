@@ -19,7 +19,9 @@ html
             div.container-fluid
                 ul.nav.navbar-nav
                     li.nav-item
-                        a.navbar-brand(href='/') METEO SERVER
+                        a(href='/')
+                            img.navbar-brand(src="/images/logo_navbar.png" onclick='window.location.replace(\'/\'' width=160)
+                        //a.navbar-brand(href='/') METEO SERVER
                     if logged_user
                         li.nav-item
                             a.nav-link(href='/history') Dati
