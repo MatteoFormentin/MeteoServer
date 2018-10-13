@@ -1,22 +1,29 @@
 extends layout
 
 block content
-    h1.little-padding-bottom(align = "center") STAZIONI METEO
+    style.
+        body {
+            background-color: rgb(44, 47, 51);
+        }
 
+        h1 {
+            color: White;
+        }
+    h1.little-padding-bottom(align = "center" color= 'white') STAZIONI METEO
     div.row
         each item in data
             div.container.font-size.col-10
-                table.table.container
+                table.table.table-striped.table-dark.table-bordered.container
                     thead
-                        tr.table-warning.text-center
+                        tr.text-center
                             th(colspan='2').
                                 #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
-                                Ultimo Aggiornamento: #{dateConvert.dateFormatter(new Date(item.last_update + 'Z'))}
+                                Ultimo Aggiornamento: #{item.last_update}
                     tbody
                         if(item.temperature !== "N/A" && item.humidity !== "N/A")
-                            tr.table-primary
+                            tr
                                 th(colspan='2') Temperatura / Umidità
-                            tr.table-danger
+                            tr
                                 td(style="width: 50%")
                                     i.wi.wi-thermometer.d-inline
                                     p.d-inline Temperatura: #{item.temperature}°C
@@ -24,7 +31,7 @@ block content
                                     i.wi.wi-thermometer.d-inline
                                     p.d-inline Percepita: #{meteoUtils.humidex(item.temperature, item.humidity)}°C
 
-                            tr.table-danger
+                            tr
                                 td(style="width: 50%")
                                     i.wi.wi-thermometer.d-inline
                                     p.d-inline Punto di Rugiada: #{meteoUtils.dewPoint(item.temperature, item.humidity)}°C
@@ -33,9 +40,9 @@ block content
                                     p.d-inline Umidità: #{item.humidity}%
 
                         if(item.pressure !== "N/A")
-                            tr.table-primary
+                            tr
                                 th(colspan='2') Pressione Atmosferica
-                            tr.table-success
+                            tr
                                 td(style="width: 50%")
                                     i.wi.wi-barometer.d-inline
                                     p.d-inline Pressione: #{Math.round(item.pressure) / 100} hPa
@@ -44,9 +51,9 @@ block content
                                     p.d-inline Mare: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
 
                         if(item.rain !== "N/A")
-                            tr.table-primary
+                            tr
                                 th(colspan='2') Pioggia Ultime 2 Ore
-                            tr.table-info
+                            tr
                                 if((Math.round(item.rain * 100)) / 100 === 0)
                                     td(style="width: 50%" colspan='2')
                                         i.wi.wi-day-sunny.d-inline
@@ -57,9 +64,9 @@ block content
                                         p.d-inline #{(Math.round(item.rain * 100)) / 100} mm
 
                         if(item.wind !== "N/A")
-                            tr.table-primary
+                            tr
                                 th(colspan='2') Vento
-                            tr.table-active
+                            tr
                                 td(style="width: 50%")
                                     i.wi.wi-strong-wind.d-inline
                                     p.d-inline Velocità: #{item.wind.speed} Km/h
@@ -68,9 +75,9 @@ block content
                                     p.d-inline Direzione: #{item.wind.direction}°
 
                         if(item.lighting !== "N/A")
-                            tr.table-primary
+                            tr
                                 th(colspan='2') Ultimo Fulmine
-                            tr.table-danger
+                            tr
                                 td(style="width: 50%")
                                     i.wi.wi-time-1.d-inline
                                     p.d-inline Ora: #{dateConvert.dateFormatter(new Date(item.lighting.stamp + 'Z'))}

@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
     var temp_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
     var pres_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
     var hum_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=\'';
-    var rain_query_initial = 'SELECT SUM(Val) AS total FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id= ';
+    var rain_query_initial = 'SELECT SUM(Val) AS total FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id= \'';
     var lighting_query_initial = 'SELECT Station.Id, Distance, Stamp FROM Lighting INNER JOIN Station ON Lighting.Id = Station.Id WHERE Station.Id=\'';
     var wind_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Speed, Direction, Stamp FROM Wind INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=\'';
 
@@ -51,11 +51,8 @@ router.get('/', function (req, res, next) {
                 }
                 else {
                     temperature = rows[0].Val;
-                    last_update = rows[0].Stamp;
+                    last_update = new Date(dateConvert.dateFormatter(new Date(rows[0].Stamp + 'Z')));
                 }
-                console.log(rows[0].Stamp);
-                console.log(last_update);
-
 
                 database.query(pres_query + id + query_end, function (err, rows) {
                     if (rows[0] === undefined) {
@@ -73,7 +70,6 @@ router.get('/', function (req, res, next) {
                         }
 
                         database.query(rain_query, function (err, rows) {
-                            console.log(rows);
                             if (rows === undefined) {
                                 rain = 'N/A';
                             }
