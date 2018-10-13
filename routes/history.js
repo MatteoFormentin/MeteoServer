@@ -22,9 +22,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
         var date_start;
         var date_end;
 
-
         var station_query = 'SELECT * FROM Station';
-
         var temp_query = 'SELECT * FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id';
         var pres_query = 'SELECT * FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id';
         var hum_query = 'SELECT * FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id';

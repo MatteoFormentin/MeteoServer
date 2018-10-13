@@ -3,16 +3,25 @@ html
     head
         title= title
         link(rel='stylesheet', href='/stylesheets/style.css')
-        link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/library/bootstrap.min.css')
         link(rel='stylesheet', href='/stylesheets/weather-icons.css')
         link(rel='stylesheet', href='/stylesheets/weather-icons.min.css')
         link(rel='stylesheet', href='/stylesheets/weather-icons-wind.css')
         link(rel='stylesheet', href='/stylesheets/weather-icons-wind.min.css')
-        script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js')
-        script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js')
-        script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js')
-        script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js')
-        script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+        script(src='https://unpkg.com/popper.js/dist/umd/popper.min.js')
+        script(src='/library/bootstrap.min.js')
+        script(src='/library/chart.min.js')
+
+        link(rel="apple-touch-icon", sizes="180x180", href="/icon/apple-touch-icon.png")
+        link(rel="icon", type="image/png", sizes="32x32", href="/icon/favicon-32x32.png")
+        link(rel="icon", type="image/png", sizes="16x16", href="/icon/favicon-16x16.png")
+        link(rel="manifest", href="/icon/site.webmanifest")
+        link(rel="shortcut icon", href="/icon/favicon.ico")
+        meta(name="msapplication-TileColor", content="#da532c")
+        meta(name="msapplication-config", content="/icon/browserconfig.xml")
+        meta(name="theme-color", content="#ffffff")
+
 
     body
         nav.navbar.navbar-expand-sm.bg-success.navbar-dark.navbar-expand-sm.fixed-top
