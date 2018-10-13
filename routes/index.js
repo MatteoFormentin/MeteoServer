@@ -51,7 +51,7 @@ router.get('/', function (req, res, next) {
                 }
                 else {
                     temperature = rows[0].Val;
-                    last_update = new Date(dateConvert.dateFormatter(new Date(rows[0].Stamp + 'Z')));
+                    last_update = dateConvert.dateFormatter(new Date(rows[0].Stamp + 'Z'));
                 }
 
                 database.query(pres_query + id + query_end, function (err, rows) {
@@ -61,6 +61,7 @@ router.get('/', function (req, res, next) {
                     else {
                         pressure = rows[0].Val;
                     }
+
                     database.query(hum_query + id + query_end, function (err, rows) {
                         if (rows[0] === undefined) {
                             humidity = 'N/A';
