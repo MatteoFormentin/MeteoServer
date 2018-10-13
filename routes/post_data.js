@@ -15,9 +15,8 @@ router.post('/', function (req, res, next) {
      */
 
     let data = req.body;
-
     console.log('Request from Id: ' + data.Id + ' Token: ' + data.Token);
-
+    console.log(data);
 
     database.query('SELECT * FROM Station WHERE Id= \'' + data.Id + '\' AND Token= \'' + data.Token + '\'', function (err, rows) {
         if (err) throw err;
@@ -36,7 +35,6 @@ router.post('/', function (req, res, next) {
                                 res.send('no');
                             } else {
                                 res.send('ok');
-                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
                             }
                         });
                     break;
@@ -50,7 +48,6 @@ router.post('/', function (req, res, next) {
                                 res.send('no');
                             } else {
                                 res.send('ok');
-                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
                             }
                         });
                     break;
@@ -63,7 +60,6 @@ router.post('/', function (req, res, next) {
                                 res.send('no');
                             } else {
                                 res.send('ok');
-                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
                             }
                         });
                     break;
@@ -76,7 +72,6 @@ router.post('/', function (req, res, next) {
                                 res.send('no');
                             } else {
                                 res.send('ok');
-                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
                             }
                         });
                     break;
@@ -90,7 +85,6 @@ router.post('/', function (req, res, next) {
                                 res.send('no');
                             } else {
                                 res.send('ok');
-                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
                             }
                         });
                     break;
@@ -103,7 +97,6 @@ router.post('/', function (req, res, next) {
                                 res.send('no');
                             } else {
                                 res.send('ok');
-                                console.log('INSERTED IN Lighting (Id: ' + data.Id + ', Distance: ' + data.Distance + ')');
                             }
                         });
                     break;
