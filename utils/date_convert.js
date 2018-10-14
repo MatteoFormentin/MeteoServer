@@ -11,11 +11,13 @@ function dateToTimeStamp(date) {
 }
 
 function dateFormatter(date) {
+    console.log(date);
     let year = date.getFullYear();
     let month = addZero(date.getMonth() + 1);
-    let day = addZero(date.getDate());
+    let day = addZero(date.getUTCDate());
+    console.log(day);
     let hour = addZero(date.getUTCHours());
-    let minute = addZero(date.getMinutes());
+    let minute = addZero(date.getUTCMinutes());
     return day + '/' + month + '/' + year + ' ' + hour + ':' + minute;
 }
 
