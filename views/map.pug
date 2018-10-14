@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    div
+        h1.little-padding-bottom(align = "center") MAPPA
+        div(id="mapid" style="height: 500px;")
+
+        script.
+            var data = JSON.parse(!{"\'" + stations_data + "\'"});
+
+            if (data !== []) {
+                var mymap = L.map('mapid').setView([data[0].latitude, data[0].longitude], 10);
+                L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    maxZoom: 18,
+                    id: 'mapbox.streets',
+                    accessToken: 'pk.eyJ1IjoibWF0dGVvZm9ybWVudGluIiwiYSI6ImNqbjh2eHpxMDBrd3IzdnBpbDhtbWdnd24ifQ.AzSp0irWfub5D1Y0ybFK2A'
+                }).addTo(mymap);
+
+                var marker = [];
+                data.forEach(function (station) {
+                    var m = L.marker([station.latitude, station.longitude]).addTo(mymap)
+                    m.bindPopup("<p><b>" + station.station + " - " + station.altitude + " mslm<br></b>" +
+                        "<span class='wi wi-thermometer'></span> " + station.temperature + " °C <br>" +
+                        "<span class='wi wi-humidity'></span> " + station.humidity + " % <br>" +
+                        "<span class='wi wi-barometer'></span> " + station.pressure + " hPa <br>" +
+                        "<span class='wi wi-showers'></span> " + station.rain + " mm <br>" +
+                        "<span class='wi wi-strong-wind'></span> " + station.wind.speed + " Km/h " + station.wind.direction + " °N <br>" +
+                        "<span class='wi wi-lightning'></span> " + station.lighting.distance + " Km " + station.lighting.stamp + "<br>" +
+                        "</p>"
+                    ).openPopup();
+                    marker.push(m);
+                });
+            } else document.getElementById('mapid').innerHTML = "Nessuna stazione presente"
+

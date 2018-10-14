@@ -19,6 +19,8 @@ module.exports = function initTables() {
         '    Id Int NOT NULL AUTO_INCREMENT,\n' +
         '    StationName Varchar(255) NOT NULL,\n' +
         '    Location Varchar(255) NOT NULL,\n' +
+        '    Latitude Float NOT NULL,\n' +
+        '    Longitude Float NOT NULL,\n' +
         '    Altitude Int NOT NULL,\n' +
         '    IP Varchar(255), \n' +
         '    Token Varchar(255), \n' +

@@ -46,6 +46,7 @@ var indexRouter = require('./routes/index');
 var kioskRouter = require('./routes/kiosk');
 var postData = require('./routes/post_data');
 var history = require('./routes/history');
+var map = require('./routes/map');
 var login = require('./routes/user/login');
 var logout = require('./routes/user/logout');
 var new_user = require('./routes/user/new_user');
@@ -87,6 +88,7 @@ app.use('/', indexRouter);
 app.use('/kiosk', kioskRouter);
 app.use('/post_data', postData);
 app.use('/history', history);
+app.use('/map', map);
 
 app.use('/login', login);
 app.use('/logout', logout);

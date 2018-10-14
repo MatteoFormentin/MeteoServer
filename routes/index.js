@@ -24,6 +24,8 @@ router.get('/', function (req, res, next) {
             let name = item.StationName;
             let id = item.Id;
             let location = item.Location;
+            let latitude = item.Latitude;
+            let longitude = item.Longitude;
             let altitude = item.Altitude;
             let last_update = undefined;
             let temperature = 0;
@@ -41,7 +43,7 @@ router.get('/', function (req, res, next) {
             let wind_query = wind_query_initial;
 
 
-            rain_query = rain_query + id + ' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(2) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
+            rain_query = rain_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(2) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
             lighting_query += id + '\' ORDER BY Stamp DESC LIMIT 1';
 
             database.query(temp_query + id + query_end, function (err, rows) {
@@ -71,6 +73,7 @@ router.get('/', function (req, res, next) {
                         }
 
                         database.query(rain_query, function (err, rows) {
+                            console.log(rain_query);
                             if (rows === undefined) {
                                 rain = 'N/A';
                             }
@@ -97,10 +100,10 @@ router.get('/', function (req, res, next) {
                                     }
 
                                     data.push({
-                                        title: 'Meteo Server',
-                                        logged_user: req.user,
                                         station: name,
                                         location: location,
+                                        latitude: latitude,
+                                        longitude: longitude,
                                         altitude: altitude,
                                         last_update: last_update,
                                         temperature: temperature,

@@ -25,6 +25,13 @@ function yesterdayTimeStamp() {
     return dateToTimeStamp(date);
 }
 
+function midnightTimeStamp() {
+    let date = new Date();
+    date.setHours(0);
+    date.setMinutes(0);
+    return dateToTimeStamp(date);
+}
+
 function hourAgoTimeStamp(ago) {
     let date = new Date();
     date.setHours(date.getHours() - ago);
@@ -42,4 +49,5 @@ function addZero(d) {
 module.exports.dateToTimeStamp = dateToTimeStamp;
 module.exports.dateFormatter = dateFormatter;
 module.exports.yesterdayTimeStamp = yesterdayTimeStamp;
+module.exports.midnightTimeStamp = midnightTimeStamp;
 module.exports.hourAgoTimeStamp = hourAgoTimeStamp;

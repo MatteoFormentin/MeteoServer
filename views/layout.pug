@@ -3,15 +3,17 @@ html
     head
         title= title
         link(rel='stylesheet', href='/stylesheets/style.css')
-        link(rel='stylesheet', href='/library/bootstrap.min.css')
+        link(rel='stylesheet', href='/library/bootstrap/bootstrap.min.css')
         link(rel='stylesheet', href='/stylesheets/weather-icons.css')
         link(rel='stylesheet', href='/stylesheets/weather-icons.min.css')
         link(rel='stylesheet', href='/stylesheets/weather-icons-wind.css')
         link(rel='stylesheet', href='/stylesheets/weather-icons-wind.min.css')
+        link(rel='stylesheet', href='/library/leaflet/leaflet.css')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
         script(src='https://unpkg.com/popper.js/dist/umd/popper.min.js')
-        script(src='/library/bootstrap.min.js')
-        script(src='/library/Chart.min.js')
+        script(src='/library/bootstrap/bootstrap.min.js')
+        script(src='/library/ChartJs/Chart.min.js')
+        script(src='/library/leaflet/leaflet.js')
 
         link(rel="apple-touch-icon", sizes="180x180", href="/icon/apple-touch-icon.png")
         link(rel="icon", type="image/png", sizes="32x32", href="/icon/favicon-32x32.png")
@@ -22,7 +24,7 @@ html
         meta(name="msapplication-config", content="/icon/browserconfig.xml")
         meta(name="theme-color", content="#ffffff")
 
-    body
+    body(onload="startTime()")
         nav.navbar.navbar-expand-sm.bg-success.navbar-dark.navbar-expand-sm.fixed-top
             div.container-fluid
                 ul.nav.navbar-nav
@@ -33,15 +35,24 @@ html
                     if logged_user
                         li.nav-item
                             a.nav-link(href='/history') Dati
+                        li.nav-item
+                            a.nav-link(href='/map') Mappa
                     if logged_user
                         if logged_user.Admin === 'true'
                             li.nav-item
                                 a.nav-link(href='/config/configuration') Configurazione
+
                 ul.nav.navbar-nav.navbar-right
+                    li.nav-item.active
+                        a.nav-link(href='#' id="clock")
                     if logged_user
                         li.nav-item.dropdown
                             a.nav-link.dropdown-toggle.active(href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")=logged_user.Name
-                            div.dropdown-menu(aria-labelledby="navbarDropdown")
+                            div.dropdown-menu.dropdown-menu-right(aria-labelledby="navbarDropdown")
+                                if logged_user.Admin === 'true'
+                                    h1.dropdown-header Amministratore
+                                else
+                                    h1.dropdown-header Utente Standard
                                 a.dropdown-item(href='/config/configuration') Opzioni
                                 div.dropdown-divider
                                 a.dropdown-item(href='/logout') Logout
@@ -59,5 +70,31 @@ html
                     each mes in message.error
                         div.col-4.offset-4.alert.alert-primary.padding-base=mes
 
+
+            script.
+                function startTime() {
+                    var today = new Date();
+                    var day = today.getDate();
+                    var month = today.getMonth() + 1;
+                    var year = today.getFullYear();
+                    var h = today.getHours();
+                    var m = today.getMinutes();
+                    var s = today.getSeconds();
+                    m = checkTime(m);
+                    s = checkTime(s);
+                    document.getElementById('clock').innerHTML =
+                        day + "/" + month + "/" + year + "  " + h + ":" + m;
+                    var t = setTimeout(startTime, 500);
+                }
+
+                function checkTime(i) {
+                    if (i < 10) {
+                        i = "0" + i
+                    }
+                    ;  // add zero in front of numbers < 10
+                    return i;
+                }
+
             block content
+
 

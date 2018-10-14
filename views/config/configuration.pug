@@ -11,6 +11,7 @@ block content
 
     div.tab-content
 
+        //Pannello stazioni
         div.container.tab-pane.active(id='stat')
             div.row.justify-content-md-center.little-margin-top
                 form.form-row.padding-bottom(method='POST' action='/config/station/new_station')
@@ -20,6 +21,12 @@ block content
                     div.col-auto.form-group
                         label(for='Location') Luogo:
                         input.form-control(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo')
+                    div.col-auto.form-group
+                        label(for='Latitude') Latitudine:
+                        input.form-control(id='Latitude' name='Latitude' type='text' placeholder= 'Inserisci Latitudine')
+                    div.col-auto.form-group
+                        label(for='Longitude') Longitudine:
+                        input.form-control(id='Longitude' name='Longitude' type='text' placeholder= 'Inserisci Longitudine')
                     div.col-auto.form-group
                         label(for='Altitude') Altitudine:
                         input.form-control(id='Altitude' name='Altitude' type='text' placeholder= 'Inserisci Altitudine')
@@ -92,6 +99,7 @@ block content
 
                                             button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit') Modifica
 
+        //Pannello utenti
         div.container.tab-pane(id='user')
             div.row.justify-content-md-center.little-margin-top
                 form.form-row.padding-bottom(method='POST' action='/user/new_user')

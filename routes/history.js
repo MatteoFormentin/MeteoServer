@@ -41,7 +41,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
             lighting_query += ' WHERE Station.Id= \'' + selected_id + '\'';
 
             if (req.query.date_start === '') {
-                let time_stamp = dateConvert.yesterdayTimeStamp();
+                let time_stamp = dateConvert.midnightTimeStamp();
                 date_start = time_stamp;
 
                 temp_query += ' AND Stamp BETWEEN \'' + time_stamp + '\'';
