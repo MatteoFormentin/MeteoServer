@@ -7,11 +7,20 @@ router.get("/", function (req, res) {
     }
     else {
         //req.flash('info',"welcome");
-        res.render('login', {
-            title: 'Meteo Server',
-            logged_user: req.user,
-            message: req.flash()
-        });
+        if (req.device.type == "phone") {
+            res.render('mobile/m_login', {
+                title: 'Meteo Server',
+                logged_user: req.user,
+                message: req.flash()
+            });
+        } else {
+            res.render('login', {
+                title: 'Meteo Server',
+                logged_user: req.user,
+                message: req.flash()
+            });
+        }
+
     }
 });
 

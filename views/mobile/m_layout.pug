@@ -1,0 +1,71 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/library/bootstrap/bootstrap.min.css')
+        link(rel='stylesheet', href='/stylesheets/weather-icons.css')
+        link(rel='stylesheet', href='/stylesheets/weather-icons.min.css')
+        link(rel='stylesheet', href='/stylesheets/weather-icons-wind.css')
+        link(rel='stylesheet', href='/stylesheets/weather-icons-wind.min.css')
+        link(rel='stylesheet', href='/library/leaflet/leaflet.css')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+        script(src='https://unpkg.com/popper.js/dist/umd/popper.min.js')
+        script(src='/library/bootstrap/bootstrap.min.js')
+        script(src='/library/ChartJs/Chart.min.js')
+        script(src='/library/leaflet/leaflet.js')
+
+        link(rel="apple-touch-icon", sizes="180x180", href="/icon/apple-touch-icon.png")
+        link(rel="icon", type="image/png", sizes="32x32", href="/icon/favicon-32x32.png")
+        link(rel="icon", type="image/png", sizes="16x16", href="/icon/favicon-16x16.png")
+        link(rel="manifest", href="/icon/site.webmanifest")
+        link(rel="shortcut icon", href="/icon/favicon.ico")
+        meta(name="msapplication-TileColor", content="#da532c")
+        meta(name="msapplication-config", content="/icon/browserconfig.xml")
+        meta(name="theme-color", content="#ffffff")
+
+        //meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+
+    body(onload="startTime()")
+
+        div.pos-f-t.fixed-top
+            div.bg-success(class="collapse" id="navbarToggleExternalContent")
+                div.bg-success.p-4
+                    if logged_user
+                        a.nav-link(href='/history')
+                            h5.text-white Dati
+                        a.nav-link(href='/map')
+                            h5.text-white(href='/map') Mappa
+                        if logged_user.Admin === 'true'
+                            a.nav-link(href='/config/configuration')
+                                h5.text-white(href='/config/configuration') Configurazione
+                    else
+                        a.nav-link(href='/login')
+                            h5.text-white Login
+
+            nav.navbar.navbar-dark.bg-success
+                a.navbar-brand(href='/')
+                    img(src="/images/logo_navbar.png" onclick='window.location.replace(\'/\'' width=160)
+                button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation")
+                    span.navbar-toggler-icon
+
+
+        div.padding-base
+            if message
+                if message.info
+                    each mes in message.info
+                        div.text-center.col-10.offset-1.alert.alert-primary.padding-base=mes
+
+                if message.error
+                    each mes in message.error
+                        div.text-center.col-10.offset-1.alert.alert-primary.padding-base=mes
+
+
+
+
+
+
+        block content
+
+

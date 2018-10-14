@@ -120,14 +120,24 @@ router.get('/', function (req, res, next) {
                 });
             });
         }, function (err) { //eseguita dopo che la funzione precedente è stata eseguita per ogni item
-            res.render('index', {
-                title: 'Meteo Server',
-                logged_user: req.user,
-                message: req.flash(),
-                data: data
-            });
+            if (req.device.type == "phone") {
+                res.render('mobile/m_index', {
+                    title: 'Meteo Server',
+                    logged_user: req.user,
+                    message: req.flash(),
+                    data: data
+                });
+            } else {
+                res.render('index', {
+                    title: 'Meteo Server',
+                    logged_user: req.user,
+                    message: req.flash(),
+                    data: data
+                });
+            }
         });
     });
-});
+})
+;
 
 module.exports = router;

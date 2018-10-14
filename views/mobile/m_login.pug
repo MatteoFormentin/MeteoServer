@@ -1,0 +1,18 @@
+extends m_layout
+
+block content
+    //h1.text-center.little-padding-bottom MeteoServer
+    img.col-10.offset-1(src="/images/logo.png")
+    div.container
+        div.row
+            div.col-10.offset-1
+                form(action="/login" method="POST")
+                    div.form-group
+                        label(for='username') Email:
+                        input.form-control(id='username' type='email' name='username' placeholder='email@example.com')
+                    div.form-group
+                        label(for='password') Password:
+                        input.form-control(id='password' type='password' name='password' placeholder='password')
+                    div
+                        button.btn.btn-m.btn-primary(type='submit') LOGIN
+

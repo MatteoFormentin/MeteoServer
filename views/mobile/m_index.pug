@@ -1,0 +1,84 @@
+extends m_layout
+
+block content
+    style.
+        body {
+            background-color: rgb(44, 47, 51);
+        }
+
+        h1 {
+            color: White;
+        }
+    h1.little-padding-bottom(align = "center") STAZIONI METEO
+    div.row(style="width: 100vw; margin: 0; padding: 0;")
+        each item in data
+            table.table.table-striped.table-dark.container(style="font-size: 80%")
+                thead
+                    tr.text-center
+                        th(colspan='2').
+                            #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm <br>
+                            Ultimo Aggiornamento: #{item.last_update}
+                tbody
+                    if(item.temperature !== "N/A" && item.humidity !== "N/A")
+                        tr
+                            th(colspan='2') Temperatura / Umidità
+                        tr
+                            td(style="width: 50%")
+                                i.wi.wi-thermometer.d-inline
+                                p.d-inline Temperatura: #{item.temperature}°C
+                            td(style="width: 50%")
+                                i.wi.wi-thermometer.d-inline
+                                p.d-inline Percepita: #{meteoUtils.humidex(item.temperature, item.humidity)}°C
+                        tr
+                            td(style="width: 50%")
+                                i.wi.wi-thermometer.d-inline
+                                p.d-inline Punto di Rugiada: #{meteoUtils.dewPoint(item.temperature, item.humidity)}°C
+                            td(style="width: 50%")
+                                i.wi.wi-humidity.d-inline
+                                p.d-inline Umidità: #{item.humidity}%
+
+                    if(item.pressure !== "N/A")
+                        tr
+                            th(colspan='2') Pressione Atmosferica
+                        tr
+                            td(style="width: 50%")
+                                i.wi.wi-barometer.d-inline
+                                p.d-inline Pressione: #{Math.round(item.pressure) / 100} hPa
+                            td(style="width: 50%")
+                                i.wi.wi-barometer.d-inline
+                                p.d-inline Mare: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
+
+                    if(item.rain !== "N/A")
+                        tr
+                            th(colspan='2') Pioggia Ultime 2 Ore
+                        tr
+                            if((Math.round(item.rain * 100)) / 100 === 0)
+                                td(style="width: 50%" colspan='2')
+                                    i.wi.wi-day-sunny.d-inline
+                                    p.d-inline Non Piove
+                            else
+                                td(style="width: 50%" colspan='2')
+                                    i.wi.wi-showers.d-inline
+                                    p.d-inline #{(Math.round(item.rain * 100)) / 100} mm
+
+                    if(item.wind !== "N/A")
+                        tr
+                            th(colspan='2') Vento
+                        tr
+                            td(style="width: 50%")
+                                i.wi.wi-strong-wind.d-inline
+                                p.d-inline Velocità: #{item.wind.speed} Km/h
+                            td(style="width: 50%")
+                                i.wi.wi-wind.towards-23-deg.d-inline
+                                p.d-inline Direzione: #{item.wind.direction}°
+
+                    if(item.lighting !== "N/A")
+                        tr
+                            th(colspan='2') Ultimo Fulmine
+                        tr
+                            td(style="width: 50%")
+                                i.wi.wi-time-1.d-inline
+                                p.d-inline Ora: #{dateConvert.dateFormatter(new Date(item.lighting.stamp + 'Z'))}
+                            td(style="width: 50%")
+                                i.wi.wi-lightning.d-inline
+                                p.d-inline Distance: #{item.lighting.distance} Km

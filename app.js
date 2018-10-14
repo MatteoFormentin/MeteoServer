@@ -8,6 +8,7 @@ var cookieParser = require("cookie-parser");
 var flash = require("connect-flash");
 var helmet = require('helmet');
 var session = require("express-session");
+var device = require('express-device');
 uuidv4 = require('uuid/v4');
 async = require('async');
 dateConvert = require('./utils/date_convert');
@@ -82,6 +83,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
+app.use(device.capture());
 
 
 app.use('/', indexRouter);
