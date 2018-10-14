@@ -8,6 +8,8 @@ const {matchedData, sanitize} = require('express-validator/filter');
 router.post('/', isAuthenticated, [
         check('ModifyStationName').exists().withMessage('Inserisci un nome'),
         check('ModifyLocation').exists().withMessage('Inserisci un luogo'),
+    check('ModifyLatitude').exists().isFloat().withMessage('Inserisci una latitudine'),
+    check('Modify Longitude').exists().isFloat().withMessage('Inserisci un longitudine'),
         check('ModifyAltitude').exists().isInt().withMessage('Inserisci una altitudine')
     ], function (req, res, next) {
         const errors = validationResult(req);
@@ -18,10 +20,14 @@ router.post('/', isAuthenticated, [
 
         var update_station_query = 'UPDATE Station SET StationName=\'' +
             req.body.ModifyStationName + '\', Location=\'' +
-            req.body.ModifyLocation + '\', Altitude=\'' +
+            req.body.ModifyLocation + '\', Latitude=\'' +
+            req.body.ModifyLatitude + '\', Longitude=\'' +
+            req.body.ModifyLongitude + '\', Altitude=\'' +
             req.body.ModifyAltitude + '\', IP=\'' +
             req.body.ModifyIP + '\' WHERE Id=\'' +
             req.body.ModifyId + '\'';
+
+    console.log(update_station_query);
 
         database.query(update_station_query, function (err, rows) {
             if (err) throw err;

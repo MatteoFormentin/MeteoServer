@@ -17,22 +17,22 @@ block content
                 form.form-row.padding-bottom(method='POST' action='/config/station/new_station')
                     div.col-auto.form-group
                         label(for='StationName') Nome:
-                        input.form-control(id='StationName' name='StationName' type='text' placeholder= 'Inserisci nome')
+                        input.form-control(id='StationName' name='StationName' type='text' placeholder= 'Inserisci Nome' style="width: 150px;")
                     div.col-auto.form-group
                         label(for='Location') Luogo:
-                        input.form-control(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo')
+                        input.form-control(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo' style="width: 150px;")
                     div.col-auto.form-group
                         label(for='Latitude') Latitudine:
-                        input.form-control(id='Latitude' name='Latitude' type='text' placeholder= 'Inserisci Latitudine')
+                        input.form-control(id='Latitude' name='Latitude' type='text' placeholder= 'Inserisci Lat.' style="width: 150px;")
                     div.col-auto.form-group
                         label(for='Longitude') Longitudine:
-                        input.form-control(id='Longitude' name='Longitude' type='text' placeholder= 'Inserisci Longitudine')
+                        input.form-control(id='Longitude' name='Longitude' type='text' placeholder= 'Inserisci Long.' style="width: 150px;")
                     div.col-auto.form-group
                         label(for='Altitude') Altitudine:
-                        input.form-control(id='Altitude' name='Altitude' type='text' placeholder= 'Inserisci Altitudine')
+                        input.form-control(id='Altitude' name='Altitude' type='text' placeholder= 'Inserisci Altitudine' style="width: 150px;")
                     div.col-auto.form-group
                         label(for='IP') Indirizzo IP:
-                        input.form-control(id='IP' name='IP' type='text' placeholder= 'Inserisci IP')
+                        input.form-control(id='IP' name='IP' type='text' placeholder= 'Inserisci IP' style="width: 150px;")
                     div.col-auto.form-group
                         button.btn.btn-m.btn-primary(type='submit' style='margin-top: 32px;') CREA
 
@@ -43,8 +43,10 @@ block content
                         th ID
                         th Nome
                         th Luogo
-                        th Altitudine (m)
-                        th Indirizzo IP
+                        th Latitudine
+                        th Longitudine
+                        th Altitudine
+                        th Indirizzo
                         th Token
                         th Modifica
 
@@ -53,15 +55,17 @@ block content
                         td.align-middle#thId=item.Id
                         td.align-middle#thName=item.StationName
                         td.align-middle#thLocation=item.Location
+                        td.align-middle#thLatitude=item.Latitude
+                        td.align-middle#thLongitude=item.Longitude
                         td.align-middle#thAltitude=item.Altitude
                         td.align-middle#thIP=item.IP
                         td.align-middle#thToken=item.Token
                         td
                             div
+                                button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton(style="width: 100px;") MODIFICA
                                 form.form-inline.d-inline(method='POST' action='/config/station/delete_station')
-                                    input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id)
-                                    button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit') ELIMINA
-                                button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton MODIFICA
+                                    input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id )
+                                    button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="margin-top: 5px; width: 100px;") ELIMINA
 
                     div.modal.fade(id="modifyModal" role="dialog")
                         script.
@@ -71,19 +75,22 @@ block content
                                 $("#ModifyId").val($(event.target).closest('tr').find("#thId").text());
                                 $("#ModifyStationName").val($(event.target).closest('tr').find("#thName").text());
                                 $("#ModifyLocation").val($(event.target).closest('tr').find("#thLocation").text());
+                                $("#ModifyLatitude").val($(event.target).closest('tr').find("#thLatitude").text());
+                                $("#ModifyLongitude").val($(event.target).closest('tr').find("#thLongitude").text());
                                 $("#ModifyAltitude").val($(event.target).closest('tr').find("#thAltitude").text());
                                 $("#ModifyIP").val($(event.target).closest('tr').find("#thIP").text());
                             })
+
                         div.modal-dialog
 
                             div.modal-content
                                 div.modal-header
                                     h4.modal-title Modifica Stazione
-                                    button.close(data-dismiss="modifyModal") X
+                                    button.close(data-dismiss="modal") X
 
                                 div.modal-body
                                     div.container.tab-pane.active(id='stat')
-                                        form.form-inline.padding-bottom(method='POST' action='/config/station/modify_station')
+                                        form.form-inline(method='POST' action='/config/station/modify_station')
                                             input.form-control.form-margin.d-inline(id='ModifyId' name='ModifyId' type='hidden')
                                             label(for='ModifyStationName') Nome:
                                             input.form-control.form-margin(id='ModifyStationName' name='ModifyStationName' type='text')
@@ -91,13 +98,19 @@ block content
                                             label(for='ModifyLocation').little-margin-top Luogo:
                                             input.form-control.form-margin(id='ModifyLocation' name='ModifyLocation' type='text')
 
+                                            label(for='ModifyLatitude').little-margin-top Latitudine:
+                                            input.form-control.form-margin(id='ModifyLatitude' name='ModifyLatitude' type='text')
+
+                                            label(for='ModifyLongitude').little-margin-top Longitudine:
+                                            input.form-control.form-margin(id='ModifyLongitude' name='ModifyLongitude' type='text')
+
                                             label(for='ModifyAltitude').little-margin-top Altitudine:
                                             input.form-control.form-margin(id='ModifyAltitude' name='ModifyAltitude' type='text')
 
                                             label(for='ModifyIP').little-margin-top Indirizzo IP:
                                             input.form-control.form-margin(id='ModifyIP' name='ModifyIP' type='text')
 
-                                            button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit') Modifica
+                                            button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit' style="width: 100px;") Modifica
 
         //Pannello utenti
         div.container.tab-pane(id='user')
@@ -139,10 +152,10 @@ block content
                         td.align-middle#thUserAdmin=item.Admin
                         td
                             div
+                                button.btn.btn-sm.btn-info.form-margin.d-inline.modifyUserButton.deleteButton(style="width: 100px;") MODIFICA
                                 form.form-inline.d-inline(method='POST' action='/user/delete_user')
                                     input.form-control.form-margin.d-inline(name='UserId' type='hidden' value=item.Id)
-                                    button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit') ELIMINA
-                                button.btn.btn-sm.btn-info.form-margin.d-inline.modifyUserButton.deleteButton MODIFICA
+                                    button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="width: 100px;") ELIMINA
 
                     div.modal.fade(id="userModal" role="dialog")
                         script.
@@ -161,11 +174,11 @@ block content
                             div.modal-content
                                 div.modal-header
                                     h4.modal-title Modifica
-                                    button.close(data-dismiss="userModal") X
+                                    button.close(data-dismiss="modal") X
 
                                 div.modal-body
                                     div.container.tab-pane.active(id='stat')
-                                        form.form-inline.padding-bottom(method='POST' action='/user/modify_user')
+                                        form.form-inline(method='POST' action='/user/modify_user')
                                             input.form-control.form-margin.d-inline(id='ModifyUserId' name='ModifyUserId' type='hidden')
                                             label(for='ModifyUserName') Nome:
                                             input.form-control.form-margin(id='ModifyUserName' name='ModifyUserName' type='text')
@@ -182,4 +195,4 @@ block content
                                             label(for='ModifyUserPasswordConfirm').little-margin-top Conferma Password:
                                             input.form-control.form-margin(id='ModifyUserPasswordConfirm' name='ModifyUserPasswordConfirm' type='password')
 
-                                            button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit') Modifica
+                                            button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit' style="width: 100px;") Modifica

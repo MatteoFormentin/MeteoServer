@@ -73,7 +73,6 @@ router.get('/', function (req, res, next) {
                         }
 
                         database.query(rain_query, function (err, rows) {
-                            console.log(rain_query);
                             if (rows === undefined) {
                                 rain = 'N/A';
                             }
