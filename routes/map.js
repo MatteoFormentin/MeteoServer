@@ -19,8 +19,6 @@ router.get('/', isAuthenticated, function (req, res, next) {
     database.query('SELECT * FROM Station', function (err, rows) {
         let station = rows;
         async.each(station, function (item, callback) {
-
-
                 let name = item.StationName;
                 let id = item.Id;
                 let location = item.Location;

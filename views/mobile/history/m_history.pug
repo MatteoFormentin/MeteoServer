@@ -1,0 +1,33 @@
+extends ../m_layout
+
+block content
+    //h2.little-padding-bottom Data History
+
+    form.form-inline.little-padding-bottom.col-10.offset-1(method='GET' action='/history')
+        label(for='station') Stazione:
+        select.form-control.form-margin(id='station' name='station')
+            option(value=0) Seleziona...
+            each item in data.station
+                if item.StationName === selected_station.StationName
+                    option(value=item.Id selected) #{item.StationName} - #{item.Location}
+                else
+                    option(value=item.Id) #{item.StationName} - #{item.Location}
+
+        label(for='date_start') Inizio:
+        input.form-control.form-margin(id='date_start' name='date_start' type='text' value=date_start)
+        label(for='date_end') Fine:
+        input.form-control.form-margin(id='date_end' name='date_end' type='text' value=date_end)
+        select.form-control.form-margin(id='type' name='type')
+            if type === 0
+                option(value=0 selected) Grafici
+                option(value=1) Tabelle
+
+            else if type === 1
+                option(value=0) Grafici
+                option(value=1 selected) Tabelle
+            else
+                option(value=0 selected) Grafici
+                option(value=1) Tabelle
+        button.btn.btn-m.btn-primary.form-margin(type='submit') OK
+
+    block data

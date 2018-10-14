@@ -33,16 +33,25 @@ html
             div.bg-success(class="collapse" id="navbarToggleExternalContent")
                 div.bg-success.p-4
                     if logged_user
+                        a.nav-link.text-center(href='#' style="")
+                            if logged_user.Admin === 'true'
+                                h7.text-white=logged_user.Name + " - Amministratore"
+                            else
+                                h7.text-white=logged_user.Name + " - Utente Standard"
+                            div.dropdown-divider
                         a.nav-link(href='/history')
                             h5.text-white Dati
                         a.nav-link(href='/map')
-                            h5.text-white(href='/map') Mappa
+                            h5.text-white Mappa
                         if logged_user.Admin === 'true'
                             a.nav-link(href='/config/configuration')
-                                h5.text-white(href='/config/configuration') Configurazione
+                                h5.text-white Configurazione
+                        a.nav-link(href='/logout')
+                            h5.text-white Logout
                     else
                         a.nav-link(href='/login')
                             h5.text-white Login
+
 
             nav.navbar.navbar-dark.bg-success
                 a.navbar-brand(href='/')
@@ -60,11 +69,6 @@ html
                 if message.error
                     each mes in message.error
                         div.text-center.col-10.offset-1.alert.alert-primary.padding-base=mes
-
-
-
-
-
 
         block content
 
