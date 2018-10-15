@@ -1,5 +1,5 @@
 .padding-base {
-    padding: 100px;
+    padding: 40px;
     padding-bottom: 0;
 }
 
@@ -44,4 +44,8 @@ p.home-card {
 
 i {
     margin-right: 10px;
+}
+
+nav {
+    height: 7vh;
 }

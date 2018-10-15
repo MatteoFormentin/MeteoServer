@@ -25,7 +25,7 @@ html
         meta(name="theme-color", content="#ffffff")
 
     body(onload="startTime()")
-        nav.navbar.navbar-expand-sm.bg-success.navbar-dark.navbar-expand-sm.fixed-top
+        nav.navbar.navbar-expand-sm.bg-success.navbar-dark.navbar-expand-sm.sticky-top
             div.container-fluid
                 ul.nav.navbar-nav
                     li.nav-item
@@ -60,7 +60,7 @@ html
                         li
                             a.nav-link.active(href="/login")
                                 span.glyphicon.glyphicon-log-in Login
-        div.padding-base
+        div
             if message
                 if message.info
                     each mes in message.info

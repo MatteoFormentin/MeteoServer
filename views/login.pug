@@ -1,19 +1,20 @@
 extends layout
 
 block content
-    //h1.text-center.little-padding-bottom MeteoServer
-    img.col-4.offset-4(src="/images/logo.png")
-    div.container
-        div.row
-            div.col-4.offset-4
-                form(action="/login" method="POST")
-                    div.form-group
-                        label(for='username') Email:
-                        input.form-control(id='username' type='email' name='username' placeholder='email@example.com')
-                    div.form-group
-                        label(for='password') Password:
-                        input.form-control(id='password' type='password' name='password' placeholder='password')
-                    div
-                        button.btn.btn-m.btn-primary(type='submit') LOGIN
+    div.padding-base
+        //h1.text-center.little-padding-bottom MeteoServer
+        img.col-4.offset-4(src="/images/logo.png")
+        div.container
+            div.row
+                div.col-4.offset-4
+                    form(action="/login" method="POST")
+                        div.form-group
+                            label(for='username') Email:
+                            input.form-control(id='username' type='email' name='username' placeholder='email@example.com')
+                        div.form-group
+                            label(for='password') Password:
+                            input.form-control(id='password' type='password' name='password' placeholder='password')
+                        div
+                            button.btn.btn-m.btn-primary(type='submit') LOGIN
 
 

@@ -27,9 +27,14 @@ html
         //meta(name="viewport" content="width=device-width, initial-scale=1.0")
         meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
 
+    style.
+        nav {
+            height: 10vh;
+        }
+
     body(onload="startTime()")
 
-        div.pos-f-t.fixed-top
+        div.pos-f-t.sticky-top
             div.bg-success(class="collapse" id="navbarToggleExternalContent")
                 div.bg-success.p-4
                     if logged_user
@@ -52,7 +57,6 @@ html
                         a.nav-link(href='/login')
                             h5.text-white Login
 
-
             nav.navbar.navbar-dark.bg-success
                 a.navbar-brand(href='/')
                     img(src="/images/logo_navbar.png" onclick='window.location.replace(\'/\'' width=160)
@@ -60,7 +64,7 @@ html
                     span.navbar-toggler-icon
 
 
-        div.padding-base
+        div
             if message
                 if message.info
                     each mes in message.info

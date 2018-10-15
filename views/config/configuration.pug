@@ -1,198 +1,199 @@
 extends ../layout
 
 block content
-    h1.text-center Configurazione
-    ul.nav.nav-tabs(role='tablist')
-        li.nav-item
-            a.nav-link.active(data-toggle='tab' href='#stat') Stazioni
-        li.nav-item
-            a.nav-link(data-toggle='tab' href='#user') Utenti
+    div.padding-base
+        h1.text-center Configurazione
+        ul.nav.nav-tabs(role='tablist')
+            li.nav-item
+                a.nav-link.active(data-toggle='tab' href='#stat') Stazioni
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#user') Utenti
 
 
-    div.tab-content
+        div.tab-content
 
-        //Pannello stazioni
-        div.container.tab-pane.active(id='stat')
-            div.row.justify-content-md-center.little-margin-top
-                form.form-row.padding-bottom(method='POST' action='/config/station/new_station')
-                    div.col-auto.form-group
-                        label(for='StationName') Nome:
-                        input.form-control(id='StationName' name='StationName' type='text' placeholder= 'Inserisci Nome' style="width: 150px;")
-                    div.col-auto.form-group
-                        label(for='Location') Luogo:
-                        input.form-control(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo' style="width: 150px;")
-                    div.col-auto.form-group
-                        label(for='Latitude') Latitudine:
-                        input.form-control(id='Latitude' name='Latitude' type='text' placeholder= 'Inserisci Lat.' style="width: 150px;")
-                    div.col-auto.form-group
-                        label(for='Longitude') Longitudine:
-                        input.form-control(id='Longitude' name='Longitude' type='text' placeholder= 'Inserisci Long.' style="width: 150px;")
-                    div.col-auto.form-group
-                        label(for='Altitude') Altitudine:
-                        input.form-control(id='Altitude' name='Altitude' type='text' placeholder= 'Inserisci Altitudine' style="width: 150px;")
-                    div.col-auto.form-group
-                        label(for='IP') Indirizzo IP:
-                        input.form-control(id='IP' name='IP' type='text' placeholder= 'Inserisci IP' style="width: 150px;")
-                    div.col-auto.form-group
-                        button.btn.btn-m.btn-primary(type='submit' style='margin-top: 32px;') CREA
-
-
-            table.table.table-bordered
-                thead
-                    tr.text-center
-                        th ID
-                        th Nome
-                        th Luogo
-                        th Latitudine
-                        th Longitudine
-                        th Altitudine
-                        th Indirizzo
-                        th Token
-                        th Modifica
-
-                each item in station
-                    tr.text-center
-                        td.align-middle#thId=item.Id
-                        td.align-middle#thName=item.StationName
-                        td.align-middle#thLocation=item.Location
-                        td.align-middle#thLatitude=item.Latitude
-                        td.align-middle#thLongitude=item.Longitude
-                        td.align-middle#thAltitude=item.Altitude
-                        td.align-middle#thIP=item.IP
-                        td.align-middle#thToken=item.Token
-                        td
-                            div
-                                button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton(style="width: 100px;") MODIFICA
-                                form.form-inline.d-inline(method='POST' action='/config/station/delete_station')
-                                    input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id )
-                                    button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="margin-top: 5px; width: 100px;") ELIMINA
-
-                    div.modal.fade(id="modifyModal" role="dialog")
-                        script.
-                            $(".modifyButton").click(function (e) {
-                                $("#modifyModal").modal()
-
-                                $("#ModifyId").val($(event.target).closest('tr').find("#thId").text());
-                                $("#ModifyStationName").val($(event.target).closest('tr').find("#thName").text());
-                                $("#ModifyLocation").val($(event.target).closest('tr').find("#thLocation").text());
-                                $("#ModifyLatitude").val($(event.target).closest('tr').find("#thLatitude").text());
-                                $("#ModifyLongitude").val($(event.target).closest('tr').find("#thLongitude").text());
-                                $("#ModifyAltitude").val($(event.target).closest('tr').find("#thAltitude").text());
-                                $("#ModifyIP").val($(event.target).closest('tr').find("#thIP").text());
-                            })
-
-                        div.modal-dialog
-
-                            div.modal-content
-                                div.modal-header
-                                    h4.modal-title Modifica Stazione
-                                    button.close(data-dismiss="modal") X
-
-                                div.modal-body
-                                    div.container.tab-pane.active(id='stat')
-                                        form.form-inline(method='POST' action='/config/station/modify_station')
-                                            input.form-control.form-margin.d-inline(id='ModifyId' name='ModifyId' type='hidden')
-                                            label(for='ModifyStationName') Nome:
-                                            input.form-control.form-margin(id='ModifyStationName' name='ModifyStationName' type='text')
-
-                                            label(for='ModifyLocation').little-margin-top Luogo:
-                                            input.form-control.form-margin(id='ModifyLocation' name='ModifyLocation' type='text')
-
-                                            label(for='ModifyLatitude').little-margin-top Latitudine:
-                                            input.form-control.form-margin(id='ModifyLatitude' name='ModifyLatitude' type='text')
-
-                                            label(for='ModifyLongitude').little-margin-top Longitudine:
-                                            input.form-control.form-margin(id='ModifyLongitude' name='ModifyLongitude' type='text')
-
-                                            label(for='ModifyAltitude').little-margin-top Altitudine:
-                                            input.form-control.form-margin(id='ModifyAltitude' name='ModifyAltitude' type='text')
-
-                                            label(for='ModifyIP').little-margin-top Indirizzo IP:
-                                            input.form-control.form-margin(id='ModifyIP' name='ModifyIP' type='text')
-
-                                            button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit' style="width: 100px;") Modifica
-
-        //Pannello utenti
-        div.container.tab-pane(id='user')
-            div.row.justify-content-md-center.little-margin-top
-                form.form-row.padding-bottom(method='POST' action='/user/new_user')
-                    form.form-row.padding-bottom(method='POST' action='/user/new_user')
+            //Pannello stazioni
+            div.container.tab-pane.active(id='stat')
+                div.row.justify-content-md-center.little-margin-top
+                    form.form-row.padding-bottom(method='POST' action='/config/station/new_station')
                         div.col-auto.form-group
-                            label(for='Email') Email:
-                            input.form-control(id='Email' name='Email' type='text' placeholder= 'Inserisci email')
+                            label(for='StationName') Nome:
+                            input.form-control(id='StationName' name='StationName' type='text' placeholder= 'Inserisci Nome' style="width: 150px;")
                         div.col-auto.form-group
-                            label(for='Name') Nome:
-                            input.form-control(id='Name' name='Name' type='text' placeholder= 'Inserisci nome')
+                            label(for='Location') Luogo:
+                            input.form-control(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo' style="width: 150px;")
                         div.col-auto.form-group
-                            label(for='Password') Password:
-                            input.form-control(id='Password' name='Password' type='password' placeholder= 'Inserisci password')
+                            label(for='Latitude') Latitudine:
+                            input.form-control(id='Latitude' name='Latitude' type='text' placeholder= 'Inserisci Lat.' style="width: 150px;")
                         div.col-auto.form-group
-                            label(for='PasswordConfirm') Conferma Password:
-                            input.form-control(id='PasswordConfirm' name='PasswordConfirm' type='password' placeholder= 'Reinserisci password')
+                            label(for='Longitude') Longitudine:
+                            input.form-control(id='Longitude' name='Longitude' type='text' placeholder= 'Inserisci Long.' style="width: 150px;")
                         div.col-auto.form-group
-                            label(for='Name') Admin:
-                            input.form-control(id='Admin' name='Admin' type='checkbox' placeholder= 'Admin')
+                            label(for='Altitude') Altitudine:
+                            input.form-control(id='Altitude' name='Altitude' type='text' placeholder= 'Inserisci Altitudine' style="width: 150px;")
+                        div.col-auto.form-group
+                            label(for='IP') Indirizzo IP:
+                            input.form-control(id='IP' name='IP' type='text' placeholder= 'Inserisci IP' style="width: 150px;")
                         div.col-auto.form-group
                             button.btn.btn-m.btn-primary(type='submit' style='margin-top: 32px;') CREA
 
-            table.table.table-bordered
-                thead
-                    tr.text-center
-                        th ID
-                        th Email
-                        th Nome
-                        th Admin
-                        th Modifica
 
-                each item in user
-                    tr.text-center
-                        td.align-middle#thUserId=item.Id
-                        td.align-middle#thUserEmail=item.Email
-                        td.align-middle#thUserName=item.Name
-                        td.align-middle#thUserAdmin=item.Admin
-                        td
-                            div
-                                button.btn.btn-sm.btn-info.form-margin.d-inline.modifyUserButton.deleteButton(style="width: 100px;") MODIFICA
-                                form.form-inline.d-inline(method='POST' action='/user/delete_user')
-                                    input.form-control.form-margin.d-inline(name='UserId' type='hidden' value=item.Id)
-                                    button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="width: 100px;") ELIMINA
+                table.table.table-bordered
+                    thead
+                        tr.text-center
+                            th ID
+                            th Nome
+                            th Luogo
+                            th Latitudine
+                            th Longitudine
+                            th Altitudine
+                            th Indirizzo
+                            th Token
+                            th Modifica
 
-                    div.modal.fade(id="userModal" role="dialog")
-                        script.
-                            $(".modifyUserButton").click(function (e) {
-                                $("#userModal").modal()
-                                $("#ModifyUserId").val($(event.target).closest('tr').find("#thUserId").text());
-                                $("#ModifyUserName").val($(event.target).closest('tr').find("#thUserName").text());
+                    each item in station
+                        tr.text-center
+                            td.align-middle#thId=item.Id
+                            td.align-middle#thName=item.StationName
+                            td.align-middle#thLocation=item.Location
+                            td.align-middle#thLatitude=item.Latitude
+                            td.align-middle#thLongitude=item.Longitude
+                            td.align-middle#thAltitude=item.Altitude
+                            td.align-middle#thIP=item.IP
+                            td.align-middle#thToken=item.Token
+                            td
+                                div
+                                    button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton(style="width: 100px;") MODIFICA
+                                    form.form-inline.d-inline(method='POST' action='/config/station/delete_station')
+                                        input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id )
+                                        button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="margin-top: 5px; width: 100px;") ELIMINA
 
-                                if ($(event.target).closest('tr').find("#thUserAdmin").text().toString() === 'true') {
-                                    $("#ModifyUserAdmin").prop("checked", true);
-                                }
-                                $("#ModifyUserEmail").val($(event.target).closest('tr').find("#thUserEmail").text());
-                            })
-                        div.modal-dialog
+                        div.modal.fade(id="modifyModal" role="dialog")
+                            script.
+                                $(".modifyButton").click(function (e) {
+                                    $("#modifyModal").modal()
 
-                            div.modal-content
-                                div.modal-header
-                                    h4.modal-title Modifica
-                                    button.close(data-dismiss="modal") X
+                                    $("#ModifyId").val($(event.target).closest('tr').find("#thId").text());
+                                    $("#ModifyStationName").val($(event.target).closest('tr').find("#thName").text());
+                                    $("#ModifyLocation").val($(event.target).closest('tr').find("#thLocation").text());
+                                    $("#ModifyLatitude").val($(event.target).closest('tr').find("#thLatitude").text());
+                                    $("#ModifyLongitude").val($(event.target).closest('tr').find("#thLongitude").text());
+                                    $("#ModifyAltitude").val($(event.target).closest('tr').find("#thAltitude").text());
+                                    $("#ModifyIP").val($(event.target).closest('tr').find("#thIP").text());
+                                })
 
-                                div.modal-body
-                                    div.container.tab-pane.active(id='stat')
-                                        form.form-inline(method='POST' action='/user/modify_user')
-                                            input.form-control.form-margin.d-inline(id='ModifyUserId' name='ModifyUserId' type='hidden')
-                                            label(for='ModifyUserName') Nome:
-                                            input.form-control.form-margin(id='ModifyUserName' name='ModifyUserName' type='text')
+                            div.modal-dialog
 
-                                            label(for='ModifyUserEmail').little-margin-top Email:
-                                            input.form-control.form-margin(id='ModifyUserEmail' name='ModifyUserEmail' type='mail')
+                                div.modal-content
+                                    div.modal-header
+                                        h4.modal-title Modifica Stazione
+                                        button.close(data-dismiss="modal") X
 
-                                            label(for='ModifyUserAdmin').little-margin-top Admin:
-                                            input.form-control.form-margin(id='ModifyUserAdmin' name='ModifyUserAdmin' type='checkbox')
+                                    div.modal-body
+                                        div.container.tab-pane.active(id='stat')
+                                            form.form-inline(method='POST' action='/config/station/modify_station')
+                                                input.form-control.form-margin.d-inline(id='ModifyId' name='ModifyId' type='hidden')
+                                                label(for='ModifyStationName') Nome:
+                                                input.form-control.form-margin(id='ModifyStationName' name='ModifyStationName' type='text')
 
-                                            label(for='ModifyUserPassword').little-margin-top Password:
-                                            input.form-control.form-margin(id='ModifyUserPassword' name='ModifyUserPassword' type='password')
+                                                label(for='ModifyLocation').little-margin-top Luogo:
+                                                input.form-control.form-margin(id='ModifyLocation' name='ModifyLocation' type='text')
 
-                                            label(for='ModifyUserPasswordConfirm').little-margin-top Conferma Password:
-                                            input.form-control.form-margin(id='ModifyUserPasswordConfirm' name='ModifyUserPasswordConfirm' type='password')
+                                                label(for='ModifyLatitude').little-margin-top Latitudine:
+                                                input.form-control.form-margin(id='ModifyLatitude' name='ModifyLatitude' type='text')
 
-                                            button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit' style="width: 100px;") Modifica
+                                                label(for='ModifyLongitude').little-margin-top Longitudine:
+                                                input.form-control.form-margin(id='ModifyLongitude' name='ModifyLongitude' type='text')
+
+                                                label(for='ModifyAltitude').little-margin-top Altitudine:
+                                                input.form-control.form-margin(id='ModifyAltitude' name='ModifyAltitude' type='text')
+
+                                                label(for='ModifyIP').little-margin-top Indirizzo IP:
+                                                input.form-control.form-margin(id='ModifyIP' name='ModifyIP' type='text')
+
+                                                button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit' style="width: 100px;") Modifica
+
+            //Pannello utenti
+            div.container.tab-pane(id='user')
+                div.row.justify-content-md-center.little-margin-top
+                    form.form-row.padding-bottom(method='POST' action='/user/new_user')
+                        form.form-row.padding-bottom(method='POST' action='/user/new_user')
+                            div.col-auto.form-group
+                                label(for='Email') Email:
+                                input.form-control(id='Email' name='Email' type='text' placeholder= 'Inserisci email')
+                            div.col-auto.form-group
+                                label(for='Name') Nome:
+                                input.form-control(id='Name' name='Name' type='text' placeholder= 'Inserisci nome')
+                            div.col-auto.form-group
+                                label(for='Password') Password:
+                                input.form-control(id='Password' name='Password' type='password' placeholder= 'Inserisci password')
+                            div.col-auto.form-group
+                                label(for='PasswordConfirm') Conferma Password:
+                                input.form-control(id='PasswordConfirm' name='PasswordConfirm' type='password' placeholder= 'Reinserisci password')
+                            div.col-auto.form-group
+                                label(for='Name') Admin:
+                                input.form-control(id='Admin' name='Admin' type='checkbox' placeholder= 'Admin')
+                            div.col-auto.form-group
+                                button.btn.btn-m.btn-primary(type='submit' style='margin-top: 32px;') CREA
+
+                table.table.table-bordered
+                    thead
+                        tr.text-center
+                            th ID
+                            th Email
+                            th Nome
+                            th Admin
+                            th Modifica
+
+                    each item in user
+                        tr.text-center
+                            td.align-middle#thUserId=item.Id
+                            td.align-middle#thUserEmail=item.Email
+                            td.align-middle#thUserName=item.Name
+                            td.align-middle#thUserAdmin=item.Admin
+                            td
+                                div
+                                    button.btn.btn-sm.btn-info.form-margin.d-inline.modifyUserButton.deleteButton(style="width: 100px;") MODIFICA
+                                    form.form-inline.d-inline(method='POST' action='/user/delete_user')
+                                        input.form-control.form-margin.d-inline(name='UserId' type='hidden' value=item.Id)
+                                        button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="width: 100px;") ELIMINA
+
+                        div.modal.fade(id="userModal" role="dialog")
+                            script.
+                                $(".modifyUserButton").click(function (e) {
+                                    $("#userModal").modal()
+                                    $("#ModifyUserId").val($(event.target).closest('tr').find("#thUserId").text());
+                                    $("#ModifyUserName").val($(event.target).closest('tr').find("#thUserName").text());
+
+                                    if ($(event.target).closest('tr').find("#thUserAdmin").text().toString() === 'true') {
+                                        $("#ModifyUserAdmin").prop("checked", true);
+                                    }
+                                    $("#ModifyUserEmail").val($(event.target).closest('tr').find("#thUserEmail").text());
+                                })
+                            div.modal-dialog
+
+                                div.modal-content
+                                    div.modal-header
+                                        h4.modal-title Modifica
+                                        button.close(data-dismiss="modal") X
+
+                                    div.modal-body
+                                        div.container.tab-pane.active(id='stat')
+                                            form.form-inline(method='POST' action='/user/modify_user')
+                                                input.form-control.form-margin.d-inline(id='ModifyUserId' name='ModifyUserId' type='hidden')
+                                                label(for='ModifyUserName') Nome:
+                                                input.form-control.form-margin(id='ModifyUserName' name='ModifyUserName' type='text')
+
+                                                label(for='ModifyUserEmail').little-margin-top Email:
+                                                input.form-control.form-margin(id='ModifyUserEmail' name='ModifyUserEmail' type='mail')
+
+                                                label(for='ModifyUserAdmin').little-margin-top Admin:
+                                                input.form-control.form-margin(id='ModifyUserAdmin' name='ModifyUserAdmin' type='checkbox')
+
+                                                label(for='ModifyUserPassword').little-margin-top Password:
+                                                input.form-control.form-margin(id='ModifyUserPassword' name='ModifyUserPassword' type='password')
+
+                                                label(for='ModifyUserPasswordConfirm').little-margin-top Conferma Password:
+                                                input.form-control.form-margin(id='ModifyUserPasswordConfirm' name='ModifyUserPasswordConfirm' type='password')
+
+                                                button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit' style="width: 100px;") Modifica
