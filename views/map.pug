@@ -1,10 +1,19 @@
 extends layout
 
 block content
-    div
-        h1.little-padding-bottom(align = "center") MAPPA
-        div(id="mapid" style="height: 500px;")
+    style.
+        body {
+            padding: 0;
+            margin: 0;
+        }
 
+        html, body, #mapid {
+            height: 93vh;
+            width: 100vw;
+            margin-top: -2vh;
+        }
+    //h1.little-padding-bottom(align = "center") MAPPA
+    div(id="mapid" style="")
         script.
             var data = JSON.parse(!{"\'" + stations_data + "\'"});
 
