@@ -169,7 +169,19 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                                 }
 
                                                 //RENDER VIEW
-                                                if (req.query.type === "0") {
+                                                if (req.device.type === "phone") {
+                                                    res.render('mobile/history/m_chart', {
+                                                        title: 'Meteo Server',
+                                                        logged_user: req.user,
+                                                        selected_station: selected_station,
+                                                        type: 0,
+                                                        data: data,
+                                                        data_chart: data_chart,
+                                                        rain_amount: rain_amount,
+                                                        date_start: date_start,
+                                                        date_end: date_end
+                                                    });
+                                                } else if (req.query.type === "0") {
                                                     res.render('history/chart', {
                                                         title: 'Meteo Server',
                                                         logged_user: req.user,
@@ -181,8 +193,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
                                                         date_start: date_start,
                                                         date_end: date_end
                                                     });
-                                                }
-                                                else if (req.query.type === "1") {
+                                                } else if (req.query.type === "1") {
                                                     res.render('history/table', {
                                                         title: 'Meteo Server',
                                                         logged_user: req.user,
@@ -211,17 +222,31 @@ router.get('/', isAuthenticated, function (req, res, next) {
             database.query(station_query, function (err, rows) {
                 if (err) throw err;
                 data.station = rows; //Elenco stazioni per menu selezione
-                res.render('history/history', {
-                    title: 'Meteo Server',
-                    logged_user: req.user,
-                    message: req.flash(),
-                    selected_station: {StationName: "seleziona...", Location: "seleziona..."},
-                    data: data,
-                    data_chart: data_chart,
-                    rain_amount: rain_amount,
-                    date_start: '',
-                    date_end: ''
-                });
+                if (req.device.type === "phone") {
+                    res.render('mobile/history/m_history', {
+                        title: 'Meteo Server',
+                        logged_user: req.user,
+                        message: req.flash(),
+                        selected_station: {StationName: "seleziona...", Location: "seleziona..."},
+                        data: data,
+                        data_chart: data_chart,
+                        rain_amount: rain_amount,
+                        date_start: '',
+                        date_end: ''
+                    });
+                } else {
+                    res.render('history/history', {
+                        title: 'Meteo Server',
+                        logged_user: req.user,
+                        message: req.flash(),
+                        selected_station: {StationName: "seleziona...", Location: "seleziona..."},
+                        data: data,
+                        data_chart: data_chart,
+                        rain_amount: rain_amount,
+                        date_start: '',
+                        date_end: ''
+                    });
+                }
             });
         }
     }

@@ -1,33 +1,73 @@
 extends ../m_layout
 
 block content
-    //h2.little-padding-bottom Data History
+    block content
+        style.
+            warning-message {
+                display: none;
+            }
 
-    form.form-inline.little-padding-bottom.col-10.offset-1(method='GET' action='/history')
-        label(for='station') Stazione:
-        select.form-control.form-margin(id='station' name='station')
-            option(value=0) Seleziona...
-            each item in data.station
-                if item.StationName === selected_station.StationName
-                    option(value=item.Id selected) #{item.StationName} - #{item.Location}
-                else
-                    option(value=item.Id) #{item.StationName} - #{item.Location}
+            @media only screen and (orientation: portrait) {
 
-        label(for='date_start') Inizio:
-        input.form-control.form-margin(id='date_start' name='date_start' type='text' value=date_start)
-        label(for='date_end') Fine:
-        input.form-control.form-margin(id='date_end' name='date_end' type='text' value=date_end)
-        select.form-control.form-margin(id='type' name='type')
-            if type === 0
-                option(value=0 selected) Grafici
-                option(value=1) Tabelle
+                #wrapper {
+                    display: none;
+                }
 
-            else if type === 1
-                option(value=0) Grafici
-                option(value=1 selected) Tabelle
-            else
-                option(value=0 selected) Grafici
-                option(value=1) Tabelle
-        button.btn.btn-m.btn-primary.form-margin(type='submit') OK
+                #warning-message {
+                    display: block;
+                }
 
-    block data
+            }
+
+            @media only screen and (orientation: landscape) {
+
+                #warning-message {
+                    display: none;
+                }
+
+            }
+
+            #type {
+                display: none;
+            }
+    div.padding-base.col-10.offset-2(id="warning-message")
+        h4 GIRA LO SCHERMO!
+
+    div(id="wrapper")
+        div(id="accordion" role="tablist" aria-multiselectable="true" )
+            div.bg-info
+                div.card-header(role="tab" id="headingOne")
+                    h5.mb-0
+                        a.collapsed.text-white(data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne")
+                            h12 IMPOSTAZIONI...
+
+        div.collapse.jumbotron.jumbotron-fluid(id="collapseOne" role="tabpanel" aria-labelledby="headingOne" style="padding-top: 20px; padding-bottom: 20px;")
+            div.card-block.col-10.offset-1
+                form(method='GET' action='/history')
+                    label(for='station') Stazione:
+                    select.form-control.form-margin(id='station' name='station')
+                        option(value=0) Seleziona...
+                        each item in data.station
+                            if item.StationName === selected_station.StationName
+                                option(value=item.Id selected) #{item.StationName} - #{item.Location}
+                            else
+                                option(value=item.Id) #{item.StationName} - #{item.Location}
+
+                    label.little-margin-top(for='date_start') Inizio:
+                    input.form-control.form-margin(id='date_start' name='date_start' type='text' value=date_start)
+                    label.little-margin-top(for='date_end') Fine:
+                    input.form-control.form-margin(id='date_end' name='date_end' type='text' value=date_end)
+                    select.form-control.form-margin.little-margin-top(id='type' name='type')
+                        if type === 0
+                            option(value=0 selected) Grafici
+                            option(value=1) Tabelle
+
+                        else if type === 1
+                            option(value=0) Grafici
+                            option(value=1 selected) Tabelle
+                        else
+                            option(value=0 selected) Grafici
+                            option(value=1) Tabelle
+                    button.btn.btn-m.btn-primary.form-margin.little-margin-top(type='submit' style="width: 100px;") OK
+
+        block data

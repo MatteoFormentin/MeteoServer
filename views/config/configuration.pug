@@ -117,24 +117,23 @@ block content
             div.container.tab-pane(id='user')
                 div.row.justify-content-md-center.little-margin-top
                     form.form-row.padding-bottom(method='POST' action='/user/new_user')
-                        form.form-row.padding-bottom(method='POST' action='/user/new_user')
-                            div.col-auto.form-group
-                                label(for='Email') Email:
-                                input.form-control(id='Email' name='Email' type='text' placeholder= 'Inserisci email')
-                            div.col-auto.form-group
-                                label(for='Name') Nome:
-                                input.form-control(id='Name' name='Name' type='text' placeholder= 'Inserisci nome')
-                            div.col-auto.form-group
-                                label(for='Password') Password:
-                                input.form-control(id='Password' name='Password' type='password' placeholder= 'Inserisci password')
-                            div.col-auto.form-group
-                                label(for='PasswordConfirm') Conferma Password:
-                                input.form-control(id='PasswordConfirm' name='PasswordConfirm' type='password' placeholder= 'Reinserisci password')
-                            div.col-auto.form-group
-                                label(for='Name') Admin:
-                                input.form-control(id='Admin' name='Admin' type='checkbox' placeholder= 'Admin')
-                            div.col-auto.form-group
-                                button.btn.btn-m.btn-primary(type='submit' style='margin-top: 32px;') CREA
+                        div.col-auto.form-group
+                            label(for='Email') Email:
+                            input.form-control(id='Email' name='Email' type='text' placeholder= 'Inserisci email')
+                        div.col-auto.form-group
+                            label(for='Name') Nome:
+                            input.form-control(id='Name' name='Name' type='text' placeholder= 'Inserisci nome')
+                        div.col-auto.form-group
+                            label(for='Password') Password:
+                            input.form-control(id='Password' name='Password' type='password' placeholder= 'Inserisci password')
+                        div.col-auto.form-group
+                            label(for='PasswordConfirm') Conferma Password:
+                            input.form-control(id='PasswordConfirm' name='PasswordConfirm' type='password' placeholder= 'Reinserisci password')
+                        div.col-auto.form-group
+                            label(for='Name') Admin:
+                            input.form-control(id='Admin' name='Admin' type='checkbox' placeholder= 'Admin')
+                        div.col-auto.form-group
+                            button.btn.btn-m.btn-primary(type='submit' style='margin-top: 32px;') CREA
 
                 table.table.table-bordered
                     thead
