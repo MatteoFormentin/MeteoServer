@@ -17,9 +17,9 @@ block content
             table.table.table-dark.container(style="font-size: 80%")
                 thead
                     tr.text-center.bg-success
-                        th(colspan='2')
+                        th(colspan='2').
                             #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm <br>
-                            Ultimo Aggiornamento: #{item.last_update}
+                            Aggiornato: #{item.last_update}
                 tbody
                     if(item.temperature !== "N/A")
                         tr
