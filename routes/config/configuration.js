@@ -8,11 +8,9 @@ router.get('/', isAuthenticated, isAdmin, function (req, res, next) {
 
     database.query('SELECT * FROM Station', function (err, rows) {
         if (err) throw err;
-        //console.log(rows);
         station = rows;
         database.query('SELECT * FROM User', function (err, rows) {
             if (err) throw err;
-            //console.log(rows);
             user = rows;
 
             res.render('./config/configuration', {

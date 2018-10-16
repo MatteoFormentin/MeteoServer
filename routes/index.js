@@ -16,6 +16,10 @@ router.get('/', function (req, res, next) {
 
     var query_end = '\' ORDER BY Stamp DESC LIMIT 1';
 
+    var max_temp_query_initial = 'SELECT MAX(Val) AS Max FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
+    var min_temp_query_initial = 'SELECT MIN(Val) AS Min FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
+
+
     database.query('SELECT * FROM Station', function (err, rows) {
         let station = rows;
 
@@ -29,6 +33,8 @@ router.get('/', function (req, res, next) {
             let altitude = item.Altitude;
             let last_update = undefined;
             let temperature = 0;
+            let max_temperature = 0;
+            let min_temperature = 0;
             let pressure = 0;
             let humidity = 0;
             let rain = 0;
@@ -41,10 +47,13 @@ router.get('/', function (req, res, next) {
             let rain_query = rain_query_initial;
             let lighting_query = lighting_query_initial;
             let wind_query = wind_query_initial;
+            let max_temp_query = max_temp_query_initial;
+            let min_temp_query = min_temp_query_initial;
 
 
             rain_query = rain_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(2) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
-            lighting_query += id + '\' ORDER BY Stamp DESC LIMIT 1';
+            max_temp_query = max_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
+            min_temp_query = min_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
 
             database.query(temp_query + id + query_end, function (err, rows) {
                 if (rows[0] === undefined) {
@@ -54,6 +63,13 @@ router.get('/', function (req, res, next) {
                 else {
                     temperature = rows[0].Val;
                     last_update = dateConvert.dateFormatter(new Date(rows[0].Stamp + 'Z'));
+
+                    database.query(max_temp_query, function (err, rows) {
+                        max_temperature = Math.round(rows[0].Max * 10) / 10;
+                        database.query(min_temp_query, function (err, rows) {
+                            min_temperature = Math.round(rows[0].Min * 10) / 10;
+                        });
+                    });
                 }
 
                 database.query(pres_query + id + query_end, function (err, rows) {
@@ -75,12 +91,13 @@ router.get('/', function (req, res, next) {
                         database.query(rain_query, function (err, rows) {
                             if (rows === undefined) {
                                 rain = 'N/A';
-                            }
-                            else {
+                            } else if (rows[0].total === null) {
+                                rain = 'N/A';
+                            } else {
                                 rain = rows[0].total;
                             }
 
-                            database.query(lighting_query, function (err, rows) {
+                            database.query(lighting_query + id + query_end, function (err, rows) {
                                 if (rows[0] === undefined) {
                                     lighting = 'N/A';
                                 }
@@ -106,6 +123,8 @@ router.get('/', function (req, res, next) {
                                         altitude: altitude,
                                         last_update: last_update,
                                         temperature: temperature,
+                                        max_temperature: max_temperature,
+                                        min_temperature: min_temperature,
                                         pressure: pressure,
                                         humidity: humidity,
                                         rain: rain,
@@ -137,7 +156,6 @@ router.get('/', function (req, res, next) {
             }
         });
     });
-})
-;
+});
 
 module.exports = router;

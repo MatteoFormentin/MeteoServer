@@ -28,8 +28,6 @@ router.post('/', isAuthenticated, [
             req.body.Password + '\', \'' +
             admin_on + '\')';
 
-        console.log(insert_user_query);
-
             database.query(insert_user_query, function (err, rows) {
                 if (err) throw err;
                 req.flash('info', 'Utente creato');

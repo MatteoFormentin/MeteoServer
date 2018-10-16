@@ -91,7 +91,6 @@ router.get('/', function (req, res, next) {
                 });
             });
         }, function (err) { //eseguita dopo che la funzione precedente è stata eseguita per ogni item
-            console.log(data);
             res.render('kiosk', {
                 title: 'Meteo Server',
                 logged_user: req.user,

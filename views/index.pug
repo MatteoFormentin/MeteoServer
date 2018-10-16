@@ -12,10 +12,10 @@ block content
 
     h1.padding-base.little-padding-bottom(align = "center") STAZIONI METEO
     each item in data
-        div.row(style="width: 100vw; margin: 0; padding: 0;")
+        div.row(style="width: 100vw; margin: 0; padding: 0; padding-bottom: 25px;")
             div.container.font-size.col-10
-                table.table.table-striped.table-dark.container
-                    thead
+                table.table.table-dark.container
+                    thead.bg-success
                         tr.text-center
                             th(colspan='2').
                                 #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
@@ -33,6 +33,13 @@ block content
                                     td(style="width: 50%")
                                         i.wi.wi-thermometer.d-inline
                                         p.d-inline Percepita: #{meteoUtils.humidex(item.temperature, item.humidity)}°C
+                            tr
+                                td(style="width: 50%").text-danger
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Max: #{item.max_temperature}°C
+                                td(style="width: 50%").text-info
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Min: #{item.min_temperature}°C
 
                         if(item.humidity !== "N/A")
                             tr
@@ -76,7 +83,7 @@ block content
                                     p.d-inline Velocità: #{item.wind.speed} Km/h
                                 td(style="width: 50%")
                                     i.wi.wi-wind.towards-23-deg.d-inline
-                                    p.d-inline Direzione: #{item.wind.direction}°
+                                    p.d-inline Direzione: #{meteoUtils.degToCardinal(item.wind.direction)}
 
                         if(item.lighting !== "N/A")
                             tr

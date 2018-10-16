@@ -27,8 +27,6 @@ router.post('/', isAuthenticated, [
             req.body.ModifyIP + '\' WHERE Id=\'' +
             req.body.ModifyId + '\'';
 
-    console.log(update_station_query);
-
         database.query(update_station_query, function (err, rows) {
             if (err) throw err;
             res.redirect('/config/configuration');
