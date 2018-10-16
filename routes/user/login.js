@@ -7,7 +7,7 @@ router.get("/", function (req, res) {
     }
     else {
         //req.flash('info',"welcome");
-        if (req.device.type == "phone") {
+        if (req.device.type === "phone") {
             res.render('mobile/m_login', {
                 title: 'Meteo Server',
                 logged_user: req.user,
@@ -24,7 +24,7 @@ router.get("/", function (req, res) {
     }
 });
 
-
+//Dati inviati per effettuare il login
 router.post('/',
     passport.authenticate('login', {
         successRedirect: '/',

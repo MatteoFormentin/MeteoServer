@@ -22,10 +22,12 @@ router.post('/', isAuthenticated, [
         if (req.body.Admin === 'on') {
             admin_on = 'true';
         }
+
+        let hash = crypto.createHash('sha256');
         var insert_user_query = 'INSERT INTO User(Email, Name, Password, Admin) VALUES (\'' +
                 req.body.Email + '\', \'' +
                 req.body.Name + '\', \'' +
-            req.body.Password + '\', \'' +
+            hash.update(req.body.Password).digest('hex') + '\', \'' +
             admin_on + '\')';
 
             database.query(insert_user_query, function (err, rows) {

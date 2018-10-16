@@ -10,6 +10,8 @@ var helmet = require('helmet');
 var session = require("express-session");
 var device = require('express-device');
 uuidv4 = require('uuid/v4');
+crypto = require('crypto');
+
 async = require('async');
 dateConvert = require('./utils/date_convert');
 meteoUtils = require('./utils/meteo_utils');

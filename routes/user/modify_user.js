@@ -24,10 +24,11 @@ router.post('/', isAuthenticated, [
 
     if (req.body.ModifyUserPassword !== "") {
         if (req.body.ModifyUserPassword === req.body.ModifyUserPasswordConfirm) {
+            let hash = crypto.createHash('sha256');
             update_user_query = 'UPDATE User SET Email=\'' +
                 req.body.ModifyUserEmail + '\', Name=\'' +
                 req.body.ModifyUserName + '\', Password=\'' +
-                req.body.ModifyUserPassword + '\', Admin=\'' +
+                hash.update(req.body.ModifyUserPassword).digest('hex') + '\', Admin=\'' +
                 admin_on + '\'' +
                 ' WHERE Id=\'' +
                 req.body.ModifyUserId + '\'';

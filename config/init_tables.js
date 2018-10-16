@@ -34,12 +34,13 @@ module.exports = function initTables() {
     database.query('SELECT * FROM User', function (err, rows, fields) {
         if (err) throw err;
         if (rows[0] === undefined) {
+            let hash = crypto.createHash('sha256');
             database.query('INSERT INTO User(Email, Name, Password, Admin) VALUES (' +
                 '\'admin@meteoserver.com\', ' +
-                '\'admin\', ' +
-                '\'password\', ' +
-                '\'true\');'
-                , function (err, rows, fields) {
+                '\'admin\', \'' +
+                hash.update('password').digest('hex') +
+                '\', \'true\');',
+                function (err, rows, fields) {
                     if (err) throw err;
                 });
         }

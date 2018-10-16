@@ -18,6 +18,7 @@ module.exports = function initPassport() {
     //Funzione che controlla se la password è corretta e accetta il login NB username è l'email
     passport.use('login', new LocalStrategy(
         function (username, password, done) {
+            let hash = crypto.createHash('sha256');
             let query = 'SELECT * FROM User WHERE Email = \'' + username + '\'';
             database.query(query, function (err, user) {
                 if (err) {
@@ -26,7 +27,7 @@ module.exports = function initPassport() {
                 if (user[0] === undefined) {
                     return done(null, false, {message: 'Incorrect username.'});
                 }
-                if (user[0].Password !== password) {
+                if (user[0].Password !== hash.update(password).digest('hex')) {
                     return done(null, false, {message: 'Incorrect password.'});
                 }
                 return done(null, user[0]);
