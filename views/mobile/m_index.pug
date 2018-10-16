@@ -10,9 +10,10 @@ block content
             color: White;
             font-size: 2em;
         }
+
     h1.padding-base.little-padding-bottom(align = "center") STAZIONI METEO
-    div.row(style="width: 100vw; margin: 0; padding: 0;")
-        each item in data
+    each item in data
+        div.row(style="width: 100vw; margin: 0; padding: 0;")
             table.table.table-striped.table-dark.container(style="font-size: 80%")
                 thead
                     tr.text-center

@@ -9,9 +9,10 @@ block content
         h1 {
             color: White;
         }
+
     h1.padding-base.little-padding-bottom(align = "center") STAZIONI METEO
-    div.row
-        each item in data
+    each item in data
+        div.row(style="width: 100vw; margin: 0; padding: 0;")
             div.container.font-size.col-10
                 table.table.table-striped.table-dark.container
                     thead
