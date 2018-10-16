@@ -24,23 +24,27 @@ block content
                     if(item.temperature !== "N/A")
                         tr
                             th(colspan='2') Temperatura / Umidità
-
                         tr
                             td(style="width: 50%")
                                 i.wi.wi-thermometer.d-inline
                                 p.d-inline Temperatura: #{item.temperature}°C
 
-                            if(item.humidity !== "N/A")
+                            if(item.humidity !== "N/A" && item.temperature > 10)
                                 td(style="width: 50%")
                                     i.wi.wi-thermometer.d-inline
                                     p.d-inline Percepita: #{meteoUtils.humidex(item.temperature, item.humidity)}°C
+
+                            else if (item.wind !== "N/A")
+                                td(style="width: 50%")
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Percepita: #{meteoUtils.windchill(item.temperature, item.wind.speed)}°C
                         tr
-                            td(style="width: 50%").text-danger
-                                i.wi.wi-thermometer.d-inline
-                                p.d-inline Max: #{item.max_temperature}°C
                             td(style="width: 50%").text-info
                                 i.wi.wi-thermometer.d-inline
                                 p.d-inline Min: #{item.min_temperature}°C
+                            td(style="width: 50%").text-danger
+                                i.wi.wi-thermometer.d-inline
+                                p.d-inline Max: #{item.max_temperature}°C
 
                     if(item.humidity !== "N/A")
                         tr
