@@ -17,7 +17,7 @@ router.post('/', function (req, res, next) {
     console.log('Request Token: ' + data.Token);
     console.log(data);
 
-    database.query('SELECT * FROM Station Token= \'' + data.Token + '\'', function (err, rows) {
+    database.query('SELECT * FROM Station WHERE Token= \'' + data.Token + '\'', function (err, rows) {
         if (err) throw err;
         if (rows[0] === undefined) {
             res.send('unauthorized');
