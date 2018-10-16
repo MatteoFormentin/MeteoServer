@@ -21,16 +21,20 @@ block content
                             #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm <br>
                             Ultimo Aggiornamento: #{item.last_update}
                 tbody
-                    if(item.temperature !== "N/A" && item.humidity !== "N/A")
+                    if(item.temperature !== "N/A")
                         tr
                             th(colspan='2') Temperatura / Umidità
                         tr
                             td(style="width: 50%")
                                 i.wi.wi-thermometer.d-inline
                                 p.d-inline Temperatura: #{item.temperature}°C
-                            td(style="width: 50%")
-                                i.wi.wi-thermometer.d-inline
-                                p.d-inline Percepita: #{meteoUtils.humidex(item.temperature, item.humidity)}°C
+
+                            if(item.humidity !== "N/A")
+                                td(style="width: 50%")
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Percepita: #{meteoUtils.humidex(item.temperature, item.humidity)}°C
+
+                    if(item.humidity !== "N/A")
                         tr
                             td(style="width: 50%")
                                 i.wi.wi-thermometer.d-inline

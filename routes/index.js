@@ -120,7 +120,7 @@ router.get('/', function (req, res, next) {
                 });
             });
         }, function (err) { //eseguita dopo che la funzione precedente è stata eseguita per ogni item
-            if (req.device.type == "phone") {
+            if (req.device.type === "phone") {
                 res.render('mobile/m_index', {
                     title: 'Meteo Server',
                     logged_user: req.user,
