@@ -27,7 +27,6 @@ function windchill(temperature, wind) {
 }
 
 function degToCardinal(direction) {
-    console.log(direction);
     if (direction < 22.5) return "N";
     if (direction < 45) return "NNE";
     if (direction < 67.5) return "NE";

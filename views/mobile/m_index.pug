@@ -39,12 +39,16 @@ block content
                                     i.wi.wi-thermometer.d-inline
                                     p.d-inline Percepita: #{meteoUtils.windchill(item.temperature, item.wind.speed)}°C
                         tr
-                            td(style="width: 50%").text-info
-                                i.wi.wi-thermometer.d-inline
-                                p.d-inline Min: #{item.min_temperature}°C
-                            td(style="width: 50%").text-danger
-                                i.wi.wi-thermometer.d-inline
-                                p.d-inline Max: #{item.max_temperature}°C
+                            if(item.min_temperature !== "N/A" && item.max_temperature !== "N/A")
+                                td(style="width: 50%").text-info
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Min: #{item.min_temperature}°C
+                                td(style="width: 50%").text-danger
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Max: #{item.max_temperature}°C
+                            else
+                                td.text-center Dati odierni non disponibili
+
 
                     if(item.humidity !== "N/A")
                         tr
@@ -66,18 +70,23 @@ block content
                                 i.wi.wi-barometer.d-inline
                                 p.d-inline Mare: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
 
-                    if(item.rain !== "N/A")
+                    if(item.rain_last !== "N/A")
                         tr
-                            th(colspan='2') Pioggia Ultime 2 Ore
+                            th(colspan='2') Pioggia
                         tr
-                            if((Math.round(item.rain * 100)) / 100 === 0)
-                                td(style="width: 50%" colspan='2')
+                            if((Math.round(item.rain_last * 100)) / 100 === 0)
+                                td(style="width: 50%")
                                     i.wi.wi-day-sunny.d-inline
                                     p.d-inline Non Piove
                             else
-                                td(style="width: 50%" colspan='2')
+                                td(style="width: 50%")
                                     i.wi.wi-showers.d-inline
-                                    p.d-inline #{(Math.round(item.rain * 100)) / 100} mm
+                                    p.d-inline #{(Math.round(item.rain_last * 100)) / 100} mm
+
+                            td(style="width: 50%")
+                                i.wi.wi-showers.d-inline
+                                p.d-inline Ultime 24 Ore: #{(Math.round(item.rain_sum * 100)) / 100} mm
+
 
                     if(item.wind !== "N/A")
                         tr
