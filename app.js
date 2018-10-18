@@ -78,9 +78,9 @@ app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
-    /*cookie: {
-        maxAge: 3600000 //One hour login max (in millisecond)
-    }*/
+    cookie: {
+        maxAge: 24 * 3600000 //One hour login max (in millisecond)
+    }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
