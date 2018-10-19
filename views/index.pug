@@ -70,7 +70,7 @@ block content
                                     i.wi.wi-barometer.d-inline
                                     p.d-inline Mare: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
 
-                        if(item.rain_last !== "N/A")
+                        if(item.rain_last !== "N/A" && item.rain_sum !== "N/A")
                             tr
                                 th(colspan='2') Pioggia
                             tr
