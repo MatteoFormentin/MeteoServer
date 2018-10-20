@@ -73,15 +73,15 @@ router.get('/', isAuthenticated, function (req, res, next) {
                             database.query(rain_query, function (err, rows) {
                                 if (rows === undefined) {
                                     rain = 'N/A';
-                                }
-                                else {
+                                } else if (rows[0].total === null) {
+                                    rain = 'N/A';
+                                } else {
                                     rain = rows[0].total;
                                 }
 
                                 database.query(lighting_query, function (err, rows) {
                                     if (rows[0] === undefined) {
-                                        lighting.distance = 'N/A';
-                                        lighting.stamp = 'N/A';
+                                        lighting = 'N/A';
                                     }
                                     else {
                                         lighting.distance = rows[0].Distance;

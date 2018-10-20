@@ -52,13 +52,8 @@ function addZero(d) {
 function checkOnline(d) {
     var difference_minute = 30;
     var now = new Date(Date.now());
-    var h = now.getHours();
-
-    console.log(now.toLocaleString());
-    console.log(d);
 
     if ((now.getFullYear() - d.getFullYear()) === 0) {
-
         if ((now.getMonth() - d.getMonth()) === 0) {
             if ((now.getDate() - d.getUTCDate()) === 0) {
                 if ((now.getHours() - d.getUTCHours()) === 0) {

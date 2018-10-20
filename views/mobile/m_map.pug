@@ -27,16 +27,18 @@ block content
 
                 var marker = [];
                 data.forEach(function (station) {
-                    var m = L.marker([station.latitude, station.longitude]).addTo(mymap)
-                    m.bindPopup("<p><b>" + station.station + " - " + station.altitude + " mslm<br></b>" +
-                        "<span class='wi wi-thermometer'></span> " + station.temperature + " °C <br>" +
-                        "<span class='wi wi-humidity'></span> " + station.humidity + " % <br>" +
-                        "<span class='wi wi-barometer'></span> " + station.pressure + " hPa <br>" +
-                        "<span class='wi wi-showers'></span> " + station.rain + " mm <br>" +
-                        "<span class='wi wi-strong-wind'></span> " + station.wind.speed + " Km/h " + station.wind.direction + " °N <br>" +
-                        "<span class='wi wi-lightning'></span> " + station.lighting.distance + " Km " + station.lighting.stamp + "<br>" +
-                        "</p>"
-                    ).openPopup();
+                    var m = L.marker([station.latitude, station.longitude]).addTo(mymap);
+
+                    var html = "<p><b>" + station.station + " - " + station.altitude + " mslm<br></b>"
+                    if (station.temperature !== "N/A") html += "<span class='wi wi-thermometer'></span> " + station.temperature + " °C <br>";
+                    if (station.humidity !== "N/A") html += "<span class='wi wi-humidity'></span> " + station.humidity + " % <br>";
+                    if (station.pressure !== "N/A") html += "<span class='wi wi-barometer'></span> " + station.pressure + " hPa <br>";
+                    if (station.rain !== "N/A") html += "<span class='wi wi-showers'></span> " + station.rain + " mm <br>";
+                    if (station.wind !== "N/A") html += "<span class='wi wi-strong-wind'></span> " + station.wind.speed + " Km/h " + station.wind.direction + " °N <br>";
+                    if (station.lighting !== "N/A") html += "<span class='wi wi-lightning'></span> " + station.lighting.distance + " Km " + station.lighting.stamp + "<br>";
+                    html += "</p>";
+
+                    m.bindPopup(html).openPopup();
                     marker.push(m);
                 });
             } else document.getElementById('mapid').innerHTML = "Nessuna stazione presente"
