@@ -65,7 +65,7 @@ router.get('/', function (req, res, next) {
                 }
                 else {
                     temperature = rows[0].Val;
-                    last_update = dateConvert.dateFormatter(new Date(rows[0].Stamp + 'Z'));
+                    last_update = new Date(rows[0].Stamp + 'Z');
 
                     database.query(max_temp_query, function (err, rows) {
                         if (rows[0].Max !== null) {

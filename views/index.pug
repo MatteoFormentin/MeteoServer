@@ -15,11 +15,20 @@ block content
         div.row(style="width: 100vw; margin: 0; padding: 0; padding-bottom: 25px;")
             div.container.font-size.col-10
                 table.table.table-dark.container
-                    thead.bg-success
-                        tr.text-center
-                            th(colspan='2').
-                                #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
-                                Ultimo Aggiornamento: #{item.last_update}
+                    if(dateConvert.checkOnline(item.last_update))
+                        thead.bg-success
+                            tr.text-center
+                                th(colspan='2').
+                                    #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
+                                    Ultimo Aggiornamento: #{dateConvert.dateFormatter(item.last_update)} ONLINE
+                    else
+                        thead.bg-danger
+                            tr.text-center
+                                th(colspan='2').
+                                    #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
+                                    Ultimo Aggiornamento: #{dateConvert.dateFormatter(item.last_update)} OFFLINE
+
+
                     tbody
                         if(item.temperature !== "N/A")
                             tr
