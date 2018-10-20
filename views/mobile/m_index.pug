@@ -27,92 +27,119 @@ block content
                             th(colspan='2').
                                 #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
                                 Ultimo Aggiornamento: #{dateConvert.dateFormatter(item.last_update)} OFFLINE
-            tbody
-                if(item.temperature !== "N/A")
-                    tr
-                        th(colspan='2') Temperatura / Umidità
-                    tr
-                        td(style="width: 50%")
-                            i.wi.wi-thermometer.d-inline
-                            p.d-inline Temperatura: #{item.temperature}°C
 
-                        if(item.humidity !== "N/A" && item.temperature > 10)
+                tbody
+                    if(item.temperature !== "N/A")
+                        tr
+                            th(colspan='2') Temperatura / Umidità
+                        tr
                             td(style="width: 50%")
                                 i.wi.wi-thermometer.d-inline
-                                p.d-inline Percepita: #{meteoUtils.humidex(item.temperature, item.humidity)}°C
+                                p(style="padding-right: 5px;").d-inline Temperatura: #{item.temperature}°C
 
-                        else if (item.wind !== "N/A")
+                                if(parseInt(item.temperature_diff) < -5)
+                                    i.wi.wi-direction-down.text-info
+                                else if(parseInt(item.temperature_diff) < -1)
+                                    i.wi.wi-direction-down-right.text-info
+                                else if(parseInt(item.temperature_diff) < 0)
+                                    i.wi.wi-direction-right.text-success
+                                else if(parseInt(item.temperature_diff) < 1)
+                                    i.wi.wi-direction-right.text-success
+                                else if(parseInt(item.temperature_diff) < 5)
+                                    i.wi.wi-direction-up-right.text-danger
+                                else
+                                    i.wi.wi-direction-up.text-danger
+
+                            if(item.humidity !== "N/A" && item.temperature > 10)
+                                td(style="width: 50%")
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Percepita: #{meteoUtils.humidex(item.temperature, item.humidity)}°C
+
+                            else if (item.wind !== "N/A")
+                                td(style="width: 50%")
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Percepita: #{meteoUtils.windchill(item.temperature, item.wind.speed)}°C
+                        tr
+                            if(item.min_temperature !== "N/A" && item.max_temperature !== "N/A")
+                                td(style="width: 50%").text-info
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Min: #{item.min_temperature}°C
+                                td(style="width: 50%").text-danger
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Max: #{item.max_temperature}°C
+                            else
+                                td.text-center Dati odierni non disponibili
+
+                    if(item.humidity !== "N/A")
+                        tr
+                            td(style="width: 50%")
+                                i.wi.wi-humidity.d-inline
+                                p.d-inline Umidità: #{item.humidity}%
                             td(style="width: 50%")
                                 i.wi.wi-thermometer.d-inline
-                                p.d-inline Percepita: #{meteoUtils.windchill(item.temperature, item.wind.speed)}°C
-                    tr
-                        if(item.min_temperature !== "N/A" && item.max_temperature !== "N/A")
-                            td(style="width: 50%").text-info
-                                i.wi.wi-thermometer.d-inline
-                                p.d-inline Min: #{item.min_temperature}°C
-                            td(style="width: 50%").text-danger
-                                i.wi.wi-thermometer.d-inline
-                                p.d-inline Max: #{item.max_temperature}°C
-                        else
-                            td.text-center Dati odierni non disponibili
+                                p.d-inline Punto di Rugiada: #{meteoUtils.dewPoint(item.temperature, item.humidity)}°C
 
-
-                if(item.humidity !== "N/A")
-                    tr
-                        td(style="width: 50%")
-                            i.wi.wi-thermometer.d-inline
-                            p.d-inline Punto di Rugiada: #{meteoUtils.dewPoint(item.temperature, item.humidity)}°C
-                        td(style="width: 50%")
-                            i.wi.wi-humidity.d-inline
-                            p.d-inline Umidità: #{item.humidity}%
-
-                if(item.pressure !== "N/A")
-                    tr
-                        th(colspan='2') Pressione Atmosferica
-                    tr
-                        td(style="width: 50%")
-                            i.wi.wi-barometer.d-inline
-                            p.d-inline Pressione: #{Math.round(item.pressure) / 100} hPa
-                        td(style="width: 50%")
-                            i.wi.wi-barometer.d-inline
-                            p.d-inline Mare: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
-
-                if(item.rain_last !== "N/A" && item.rain_sum !== "N/A")
-                    tr
-                        th(colspan='2') Pioggia
-                    tr
-                        if((Math.round(item.rain_last * 100)) / 100 === 0)
+                    if(item.pressure !== "N/A")
+                        tr
+                            th(colspan='2') Pressione Atmosferica
+                        tr
                             td(style="width: 50%")
-                                i.wi.wi-day-sunny.d-inline
-                                p.d-inline Non Piove
-                        else
+                                i.wi.wi-barometer.d-inline
+                                p(style="padding-right: 5px;").d-inline Pressione: #{Math.round(item.pressure) / 100} hPa
+
+                                if(parseInt(item.pressure_diff) < -2)
+                                    i.wi.wi-direction-down.text-info
+                                else if(parseInt(item.pressure_diff) < -1)
+                                    i.wi.wi-direction-down-right.text-info
+                                else if(parseInt(item.pressure_diff) < 0)
+                                    i.wi.wi-direction-right.text-success
+                                else if(parseInt(item.pressure_diff) < 1)
+                                    i.wi.wi-direction-right.text-success
+                                else if(parseInt(item.pressure_diff) < 2)
+                                    i.wi.wi-direction-up-right.text-danger
+                                else
+                                    i.wi.wi-direction-up.text-danger
+
+                            td(style="width: 50%")
+                                i.wi.wi-barometer.d-inline
+                                p.d-inline Livello del Mare: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
+
+                    if(item.rain_last !== "N/A" && item.rain_sum !== "N/A")
+                        tr
+                            th(colspan='2') Pioggia
+                        tr
+                            if((Math.round(item.rain_last * 100)) / 100 === 0)
+                                td(style="width: 50%")
+                                    i.wi.wi-day-sunny.d-inline
+                                    p.d-inline Non Piove
+                            else
+                                td(style="width: 50%")
+                                    i.wi.wi-showers.d-inline
+                                    p.d-inline #{(Math.round(item.rain_last * 100)) / 100} mm
+
                             td(style="width: 50%")
                                 i.wi.wi-showers.d-inline
-                                p.d-inline #{(Math.round(item.rain_last * 100)) / 100} mm
+                                p.d-inline Ultime 24 Ore: #{(Math.round(item.rain_sum * 100)) / 100} mm
 
-                        td(style="width: 50%")
-                            i.wi.wi-showers.d-inline
-                            p.d-inline Ultime 24 Ore: #{(Math.round(item.rain_sum * 100)) / 100} mm
+                    if(item.wind !== "N/A")
+                        tr
+                            th(colspan='2') Vento
+                        tr
+                            td(style="width: 50%")
+                                i.wi.wi-strong-wind.d-inline
+                                p.d-inline Velocità: #{item.wind.speed} Km/h
+                            td(style="width: 50%")
+                                i.wi.wi-wind.towards-23-deg.d-inline
+                                p.d-inline Direzione: #{meteoUtils.degToCardinal(item.wind.direction)}
 
+                    if(item.lighting !== "N/A")
+                        tr
+                            th(colspan='2') Ultimo Fulmine
+                        tr
+                            td(style="width: 50%")
+                                i.wi.wi-time-1.d-inline
+                                p.d-inline Ora: #{dateConvert.dateFormatter(new Date(item.lighting.stamp + 'Z'))}
+                            td(style="width: 50%")
+                                i.wi.wi-lightning.d-inline
+                                p.d-inline Distance: #{item.lighting.distance} Km
 
-                if(item.wind !== "N/A")
-                    tr
-                        th(colspan='2') Vento
-                    tr
-                        td(style="width: 50%")
-                            i.wi.wi-strong-wind.d-inline
-                            p.d-inline Velocità: #{item.wind.speed} Km/h
-                        td(style="width: 50%")
-                            i.wi.wi-wind.towards-23-deg.d-inline
-                            p.d-inline #{meteoUtils.degToCardinal(item.wind.direction)}
-
-                if(item.lighting !== "N/A")
-                    tr
-                        th(colspan='2') Ultimo Fulmine
-                    tr
-                        td(style="width: 50%")
-                            i.wi.wi-time-1.d-inline
-                            p.d-inline Ora: #{dateConvert.dateFormatter(new Date(item.lighting.stamp + 'Z'))}
-                        td(style="width: 50%")
-                            i.wi.wi-lightning.d-inline
-                            p.d-inline Distance: #{item.lighting.distance} Km

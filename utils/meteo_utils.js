@@ -45,12 +45,30 @@ function degToCardinal(direction) {
     if (direction < 360) return "NNO";
 }
 
+function calcBarometerDifference(val) {
+    //if (!val.isArray()) return 0;
+    if (val.length === 1) return 0;
+    let curr;
+    let prec = 0;
+    let difference = 0;
+    for (let i = 0; i < val.length; i++) {
+        curr = val[i];
+        if (i !== 0) {
+            difference += curr - prec;
+        }
+        prec = curr;
+    }
+    return difference;
+}
+
 
 module.exports.seaLevelPressure = seaLevelPressure;
 module.exports.dewPoint = dewPoint;
 module.exports.humidex = humidex;
 module.exports.windchill = windchill;
 module.exports.degToCardinal = degToCardinal;
+module.exports.calcBarometerDifference = calcBarometerDifference;
+
 
 
 /*

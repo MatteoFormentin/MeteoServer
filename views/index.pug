@@ -28,7 +28,6 @@ block content
                                     #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
                                     Ultimo Aggiornamento: #{dateConvert.dateFormatter(item.last_update)} OFFLINE
 
-
                     tbody
                         if(item.temperature !== "N/A")
                             tr
@@ -36,7 +35,20 @@ block content
                             tr
                                 td(style="width: 50%")
                                     i.wi.wi-thermometer.d-inline
-                                    p.d-inline Temperatura: #{item.temperature}°C
+                                    p(style="padding-right: 5px;").d-inline Temperatura: #{item.temperature}°C
+
+                                    if(parseInt(item.temperature_diff) < -5)
+                                        i.wi.wi-direction-down.text-info
+                                    else if(parseInt(item.temperature_diff) < -1)
+                                        i.wi.wi-direction-down-right.text-info
+                                    else if(parseInt(item.temperature_diff) < 0)
+                                        i.wi.wi-direction-right.text-success
+                                    else if(parseInt(item.temperature_diff) < 1)
+                                        i.wi.wi-direction-right.text-success
+                                    else if(parseInt(item.temperature_diff) < 5)
+                                        i.wi.wi-direction-up-right.text-danger
+                                    else
+                                        i.wi.wi-direction-up.text-danger
 
                                 if(item.humidity !== "N/A" && item.temperature > 10)
                                     td(style="width: 50%")
@@ -58,15 +70,14 @@ block content
                                 else
                                     td.text-center Dati odierni non disponibili
 
-
                         if(item.humidity !== "N/A")
                             tr
                                 td(style="width: 50%")
-                                    i.wi.wi-thermometer.d-inline
-                                    p.d-inline Punto di Rugiada: #{meteoUtils.dewPoint(item.temperature, item.humidity)}°C
-                                td(style="width: 50%")
                                     i.wi.wi-humidity.d-inline
                                     p.d-inline Umidità: #{item.humidity}%
+                                td(style="width: 50%")
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Punto di Rugiada: #{meteoUtils.dewPoint(item.temperature, item.humidity)}°C
 
                         if(item.pressure !== "N/A")
                             tr
@@ -74,10 +85,24 @@ block content
                             tr
                                 td(style="width: 50%")
                                     i.wi.wi-barometer.d-inline
-                                    p.d-inline Pressione: #{Math.round(item.pressure) / 100} hPa
+                                    p(style="padding-right: 5px;").d-inline Pressione: #{Math.round(item.pressure) / 100} hPa
+
+                                    if(parseInt(item.pressure_diff) < -2)
+                                        i.wi.wi-direction-down.text-info
+                                    else if(parseInt(item.pressure_diff) < -1)
+                                        i.wi.wi-direction-down-right.text-info
+                                    else if(parseInt(item.pressure_diff) < 0)
+                                        i.wi.wi-direction-right.text-success
+                                    else if(parseInt(item.pressure_diff) < 1)
+                                        i.wi.wi-direction-right.text-success
+                                    else if(parseInt(item.pressure_diff) < 2)
+                                        i.wi.wi-direction-up-right.text-danger
+                                    else
+                                        i.wi.wi-direction-up.text-danger
+
                                 td(style="width: 50%")
                                     i.wi.wi-barometer.d-inline
-                                    p.d-inline Mare: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
+                                    p.d-inline Livello del Mare: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
 
                         if(item.rain_last !== "N/A" && item.rain_sum !== "N/A")
                             tr

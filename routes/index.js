@@ -34,9 +34,11 @@ router.get('/', function (req, res, next) {
             let altitude = item.Altitude;
             let last_update = undefined;
             let temperature = 0;
+            let temperature_diff = 0;
             let max_temperature = 0;
             let min_temperature = 0;
             let pressure = 0;
+            let pressure_diff = 0;
             let humidity = 0;
             let rain_sum = 0;
             let rain_last = 0;
@@ -55,17 +57,23 @@ router.get('/', function (req, res, next) {
 
 
             rain_sum_query = rain_sum_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
+
+            temp_query = temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(1) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
             max_temp_query = max_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
             min_temp_query = min_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
 
-            database.query(temp_query + id + query_end, function (err, rows) {
+            pres_query = pres_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(3) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
+
+
+            database.query(temp_query, function (err, rows) {
                 if (rows[0] === undefined) {
                     temperature = 'N/A';
                     last_update = 'Non disponibile'
                 }
                 else {
                     temperature = rows[0].Val;
-                    last_update = new Date(rows[0].Stamp + 'Z');
+                    temperature_diff = rows[rows.length - 1].Val - rows[0].Val;
+                    last_update = new Date(rows[rows.length - 1].Stamp + 'Z');
 
                     database.query(max_temp_query, function (err, rows) {
                         if (rows[0].Max !== null) {
@@ -80,12 +88,16 @@ router.get('/', function (req, res, next) {
                     });
                 }
 
-                database.query(pres_query + id + query_end, function (err, rows) {
+                database.query(pres_query, function (err, rows) {
                     if (rows[0] === undefined) {
                         pressure = 'N/A';
                     }
                     else {
                         pressure = rows[0].Val;
+                        pressure_diff = (rows[rows.length - 1].Val - rows[0].Val) / 100;
+
+                        console.log(pressure_diff);
+                        console.log(pressure);
                     }
 
                     database.query(hum_query + id + query_end, function (err, rows) {
@@ -139,9 +151,11 @@ router.get('/', function (req, res, next) {
                                             altitude: altitude,
                                             last_update: last_update,
                                             temperature: temperature,
+                                            temperature_diff: temperature_diff,
                                             max_temperature: max_temperature,
                                             min_temperature: min_temperature,
                                             pressure: pressure,
+                                            pressure_diff: pressure_diff,
                                             humidity: humidity,
                                             rain_sum: rain_sum,
                                             rain_last: rain_last,

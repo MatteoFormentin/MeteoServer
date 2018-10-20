@@ -1,5 +1,9 @@
 var express = require('express');
 
+/*
+ * NB: Le date create dal timestamp database sono già in UTC+2 e vanno gestite con le funzioni standard (come se fossimo a UTC 0).
+ *  Le date create con date.setNow() vanno gestite con le funzioni getUTC--() essendo riferite a UTC 0
+ */
 
 function dateToTimeStamp(date) {
     let year = date.getFullYear();
