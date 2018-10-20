@@ -25,10 +25,10 @@ module.exports = function initPassport() {
                     return done(err);
                 }
                 if (user[0] === undefined) {
-                    return done(null, false, {message: 'Incorrect username.'});
+                    return done(null, false, {message: 'Username non Presente.'});
                 }
                 if (user[0].Password !== hash.update(password).digest('hex')) {
-                    return done(null, false, {message: 'Incorrect password.'});
+                    return done(null, false, {message: 'Password Errata.'});
                 }
                 return done(null, user[0]);
             });
