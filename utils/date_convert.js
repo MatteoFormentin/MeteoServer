@@ -50,6 +50,7 @@ function addZero(d) {
 }
 
 function checkOnline(d) {
+    if (!(d instanceof Date)) return false;
     var difference_minute = 30;
     var now = new Date(Date.now());
 
