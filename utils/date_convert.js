@@ -6,6 +6,7 @@ var express = require('express');
  */
 
 function dateToTimeStamp(date) {
+    if (!(date instanceof Date)) return "N/A";
     let year = date.getFullYear();
     let month = addZero(date.getMonth() + 1);
     let day = addZero(date.getDate());
@@ -15,6 +16,7 @@ function dateToTimeStamp(date) {
 }
 
 function dateFormatter(date) {
+    if (!(date instanceof Date)) return "N/A";
     let year = date.getFullYear();
     let month = addZero(date.getMonth() + 1);
     let day = addZero(date.getUTCDate());
