@@ -36,7 +36,6 @@ router.post('/', isAuthenticated, isAdmin, function (req, res, next) {
 
         database.query(delete_data_query, function (err, rows) {
             if (err) throw err;
-            req.flash('info', 'Dato Eliminato');
             res.redirect('back');
         });
     }
