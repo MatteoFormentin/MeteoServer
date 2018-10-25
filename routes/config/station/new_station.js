@@ -5,7 +5,7 @@ const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
 
 /* POST new station. */
-router.post('/', isAuthenticated, [
+router.post('/', isAuthenticated, isAdmin, [
         check('StationName').exists().withMessage('Inserisci un nome'),
         check('Location').exists().withMessage('Inserisci un luogo'),
     check('Latitude').exists().isFloat().withMessage('Inserisci una latitudine'),

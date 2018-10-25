@@ -59,6 +59,8 @@ var configuration = require('./routes/config/configuration');
 var configuration_new_station = require('./routes/config/station/new_station');
 var configuration_delete_station = require('./routes/config/station/delete_station');
 var configuration_modify_station = require('./routes/config/station/modify_station');
+var configuration_delete_data = require('./routes/config/delete_data');
+
 
 var app = express();
 
@@ -104,6 +106,9 @@ app.use('/config/configuration', configuration);
 app.use('/config/station/new_station', configuration_new_station);
 app.use('/config/station/delete_station', configuration_delete_station);
 app.use('/config/station/modify_station', configuration_modify_station);
+
+app.use('/config/delete_data', configuration_delete_data);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

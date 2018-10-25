@@ -5,7 +5,7 @@ const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
 
 /* GET configuration page. */
-router.post('/', isAuthenticated, [
+router.post('/', isAuthenticated, isAdmin, [
         check('ModifyStationName').exists().withMessage('Inserisci un nome'),
         check('ModifyLocation').exists().withMessage('Inserisci un luogo'),
     check('ModifyLatitude').exists().isFloat().withMessage('Inserisci una latitudine'),

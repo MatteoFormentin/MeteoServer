@@ -7,18 +7,29 @@ var express = require('express');
 
 function dateToTimeStamp(date) {
     if (!(date instanceof Date)) return "N/A";
-    let year = date.getFullYear();
-    let month = addZero(date.getMonth() + 1);
-    let day = addZero(date.getDate());
-    let hour = addZero(date.getHours());
-    let minute = addZero(date.getMinutes());
+    let year = date.getUTCFullYear();
+    let month = addZero(date.getUTCMonth() + 1);
+    let day = addZero(date.getUTCDate());
+    let hour = addZero(date.getUTCHours());
+    let minute = addZero(date.getUTCMinutes());
     return year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
+}
+
+function dateToTimeStampSecond(date) {
+    if (!(date instanceof Date)) return "N/A";
+    let year = date.getUTCFullYear();
+    let month = addZero(date.getUTCMonth() + 1);
+    let day = addZero(date.getUTCDate());
+    let hour = addZero(date.getUTCHours());
+    let minute = addZero(date.getUTCMinutes());
+    let second = addZero(date.getUTCSeconds());
+    return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
 }
 
 function dateFormatter(date) {
     if (!(date instanceof Date)) return "N/A";
-    let year = date.getFullYear();
-    let month = addZero(date.getMonth() + 1);
+    let year = date.getUTCFullYear();
+    let month = addZero(date.getUTCMonth() + 1);
     let day = addZero(date.getUTCDate());
     let hour = addZero(date.getUTCHours());
     let minute = addZero(date.getUTCMinutes());
@@ -33,7 +44,7 @@ function yesterdayTimeStamp() {
 
 function midnightTimeStamp() {
     let date = new Date();
-    date.setHours(0);
+    date.setUTCHours(0);
     date.setMinutes(0);
     return dateToTimeStamp(date);
 }
@@ -75,6 +86,7 @@ function checkOnline(d) {
 }
 
 module.exports.dateToTimeStamp = dateToTimeStamp;
+module.exports.dateToTimeStampSecond = dateToTimeStampSecond;
 module.exports.dateFormatter = dateFormatter;
 module.exports.yesterdayTimeStamp = yesterdayTimeStamp;
 module.exports.midnightTimeStamp = midnightTimeStamp;
