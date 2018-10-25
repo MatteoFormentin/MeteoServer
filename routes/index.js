@@ -95,9 +95,6 @@ router.get('/', function (req, res, next) {
                     else {
                         pressure = rows[0].Val;
                         pressure_diff = (rows[rows.length - 1].Val - rows[0].Val) / 100;
-
-                        console.log(pressure_diff);
-                        console.log(pressure);
                     }
 
                     database.query(hum_query + id + query_end, function (err, rows) {

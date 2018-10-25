@@ -32,12 +32,13 @@ block data
                             tr.text-center
                                 td(style="width: 50%").align-middle=item.Val + ' °C'
                                 td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                td
-                                    form(method='POST' action='/config/delete_data')
-                                        input(id='Type' name='Type' type='hidden' value='Temperature')
-                                        input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                        input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
-                                        button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
+                                if logged_user.Admin === 'true'
+                                    td
+                                        form(method='POST' action='/config/delete_data')
+                                            input(id='Type' name='Type' type='hidden' value='Temperature')
+                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
 
@@ -55,12 +56,13 @@ block data
                             tr.text-center
                                 td(style="width: 50%").align-middle=item.Val + ' %'
                                 td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                td
-                                    form(method='POST' action='/config/delete_data')
-                                        input(id='Type' name='Type' type='hidden' value='Humidity')
-                                        input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                        input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
-                                        button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
+                                if logged_user.Admin === 'true'
+                                    td
+                                        form(method='POST' action='/config/delete_data')
+                                            input(id='Type' name='Type' type='hidden' value='Humidity')
+                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
         //Pressione
@@ -78,12 +80,13 @@ block data
                             tr.text-center
                                 td(style="width: 50%").align-middle #{meteoUtils.seaLevelPressure(parseInt(item.Val), parseInt(selected_station.Altitude)) / 100} hPa
                                 td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                td
-                                    form(method='POST' action='/config/delete_data')
-                                        input(id='Type' name='Type' type='hidden' value='Pressure')
-                                        input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                        input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
-                                        button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
+                                if logged_user.Admin === 'true'
+                                    td
+                                        form(method='POST' action='/config/delete_data')
+                                            input(id='Type' name='Type' type='hidden' value='Pressure')
+                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
 
@@ -101,12 +104,13 @@ block data
                             tr.text-center
                                 td(style="width: 50%").align-middle=item.Val + ' mm'
                                 td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                td
-                                    form(method='POST' action='/config/delete_data')
-                                        input(id='Type' name='Type' type='hidden' value='Rain')
-                                        input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                        input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
-                                        button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
+                                if logged_user.Admin === 'true'
+                                    td
+                                        form(method='POST' action='/config/delete_data')
+                                            input(id='Type' name='Type' type='hidden' value='Rain')
+                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
 
@@ -126,12 +130,13 @@ block data
                                 td(style="width: 33%").align-middle=item.Speed + ' Km/h'
                                 td(style="width: 33%").align-middle=meteoUtils.degToCardinal(item.Direction)
                                 td(style="width: 33%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                td
-                                    form(method='POST' action='/config/delete_data')
-                                        input(id='Type' name='Type' type='hidden' value='Wind')
-                                        input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                        input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
-                                        button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
+                                if logged_user.Admin === 'true'
+                                    td
+                                        form(method='POST' action='/config/delete_data')
+                                            input(id='Type' name='Type' type='hidden' value='Wind')
+                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
 
@@ -149,11 +154,12 @@ block data
                             tr.text-center
                                 td(style="width: 50%").align-middle=item.Distance + ' Km'
                                 td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                td
-                                    form(method='POST' action='/config/delete_data')
-                                        input(id='Type' name='Type' type='hidden' value='Lighting')
-                                        input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                        input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
-                                        button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
+                                if logged_user.Admin === 'true'
+                                    td
+                                        form(method='POST' action='/config/delete_data')
+                                            input(id='Type' name='Type' type='hidden' value='Lighting')
+                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
