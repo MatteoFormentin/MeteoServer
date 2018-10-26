@@ -68,7 +68,9 @@ block content
                                         i.wi.wi-thermometer.d-inline
                                         p.d-inline Massima: #{item.max_temperature}°C
                                 else
-                                    td.text-center Dati odierni non disponibili
+                                    td(colspan='2')
+                                        i.wi.wi-thermometer.d-inline
+                                        p.d-inline Massime / Minime odierne non disponibili
 
                         if(item.humidity !== "N/A")
                             tr

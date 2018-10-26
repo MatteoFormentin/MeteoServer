@@ -64,6 +64,7 @@ function addZero(d) {
     else return d;
 }
 
+/*
 function checkOnline(d) {
     if (!(d instanceof Date)) return false;
     var difference_minute = 30;
@@ -85,6 +86,14 @@ function checkOnline(d) {
         }
     }
     return false;
+}*/
+
+function checkOnline(d) {
+    if (!(d instanceof Date)) return false;
+    var difference_minute = 30;
+    var difference_milliseconds = difference_minute * 60 * 1000;
+    var now = new Date(Date.now());
+    return now.getTime() - d.getTime() < difference_milliseconds;
 }
 
 module.exports.dateToTimeStamp = dateToTimeStamp;
