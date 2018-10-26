@@ -68,7 +68,9 @@ block content
                                     i.wi.wi-thermometer.d-inline
                                     p.d-inline Max: #{item.max_temperature}°C
                             else
-                                td.text-center Dati odierni non disponibili
+                                td(colspan='2')
+                                    i.wi.wi-thermometer.d-inline
+                                    p.d-inline Massime / Minime odierne non disponibili
 
                     if(item.humidity !== "N/A")
                         tr
@@ -108,18 +110,29 @@ block content
                         tr
                             th(colspan='2') Pioggia
                         tr
-                            if((Math.round(item.rain_last * 100)) / 100 === 0)
+                            if(item.rain_last === 0)
                                 td(style="width: 50%")
                                     i.wi.wi-day-sunny.d-inline
                                     p.d-inline Non Piove
                             else
                                 td(style="width: 50%")
                                     i.wi.wi-showers.d-inline
-                                    p.d-inline #{(Math.round(item.rain_last * 100)) / 100} mm
+                                    if(item.rain_sum_hour <= 1)
+                                        p.d-inline Pioviggine: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
+                                    else if(item.rain_sum_hour <= 2)
+                                        p.d-inline Debole: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
+                                    else if(item.rain_sum_hour <= 5)
+                                        p.d-inline Moderata: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
+                                    else if(item.rain_sum_hour <= 10)
+                                        p.d-inline Forte: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
+                                    else if(item.rain_sum_hour <= 30)
+                                        p.d-inline Rovescio: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
+                                    else if(item.rain_sum_hour > 30)
+                                        p.d-inline Nubifragio: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
 
                             td(style="width: 50%")
                                 i.wi.wi-showers.d-inline
-                                p.d-inline Ultime 24 Ore: #{(Math.round(item.rain_sum * 100)) / 100} mm
+                                p.d-inline 24 Ore: #{(Math.round(item.rain_sum * 100)) / 100} mm
 
                     if(item.wind !== "N/A")
                         tr

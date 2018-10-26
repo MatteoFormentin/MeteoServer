@@ -11,6 +11,7 @@ router.get('/', function (req, res, next) {
     var pres_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
     var hum_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=\'';
     var rain_sum_query_initial = 'SELECT SUM(Val) AS total FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id= \'';
+    var rain_sum_query_hour_initial = 'SELECT SUM(Val) AS total FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id= \'';
     var rain_query_initial = 'SELECT Station.Id, Val, Stamp FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=\'';
     var lighting_query_initial = 'SELECT Station.Id, Distance, Stamp FROM Lighting INNER JOIN Station ON Lighting.Id = Station.Id WHERE Station.Id=\'';
     var wind_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Speed, Direction, Stamp FROM Wind INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=\'';
@@ -41,6 +42,7 @@ router.get('/', function (req, res, next) {
             let pressure_diff = 0;
             let humidity = 0;
             let rain_sum = 0;
+            let rain_sum_hour = 0;
             let rain_last = 0;
             let lighting = {distance: 0, stamp: 0};
             let wind = {speed: 0, direction: 0};
@@ -48,8 +50,9 @@ router.get('/', function (req, res, next) {
             let temp_query = temp_query_initial;
             let pres_query = pres_query_initial;
             let hum_query = hum_query_initial;
-            let rain_sum_query = rain_sum_query_initial;
             let rain_query = rain_query_initial;
+            let rain_sum_query = rain_sum_query_initial;
+            let rain_sum_query_hour = rain_sum_query_hour_initial;
             let lighting_query = lighting_query_initial;
             let wind_query = wind_query_initial;
             let max_temp_query = max_temp_query_initial;
@@ -57,7 +60,7 @@ router.get('/', function (req, res, next) {
 
 
             rain_sum_query = rain_sum_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
-
+            rain_sum_query_hour = rain_sum_query_hour + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(1) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
             temp_query = temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(1) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
             max_temp_query = max_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
             min_temp_query = min_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
@@ -114,52 +117,63 @@ router.get('/', function (req, res, next) {
                                 rain_sum = rows[0].total;
                             }
 
-                            database.query(rain_query + id + query_end, function (err, rows) {
-                                if (rows[0] === undefined) {
-                                    rain_last = 'N/A';
-                                }
-                                else {
-                                    rain_last = rows[0].Val;
+                            database.query(rain_sum_query_hour, function (err, rows) {
+                                if (rows === undefined) {
+                                    rain_sum_hour = 'N/A';
+                                } else if (rows[0].total === null) {
+                                    rain_sum_hour = 'N/A';
+                                } else {
+                                    rain_sum_hour = rows[0].total;
                                 }
 
-                                database.query(lighting_query + id + query_end, function (err, rows) {
+                                database.query(rain_query + id + query_end, function (err, rows) {
                                     if (rows[0] === undefined) {
-                                        lighting = 'N/A';
+                                        rain_last = 'N/A';
                                     }
                                     else {
-                                        lighting.distance = rows[0].Distance;
-                                        lighting.stamp = rows[0].Stamp;
+                                        rain_last = rows[0].Val;
                                     }
 
-                                    database.query(wind_query + id + query_end, function (err, rows) {
+                                    database.query(lighting_query + id + query_end, function (err, rows) {
                                         if (rows[0] === undefined) {
-                                            wind = 'N/A';
+                                            lighting = 'N/A';
                                         }
                                         else {
-                                            wind.speed = rows[0].Speed;
-                                            wind.direction = rows[0].Direction;
+                                            lighting.distance = rows[0].Distance;
+                                            lighting.stamp = rows[0].Stamp;
                                         }
 
-                                        data.push({
-                                            station: name,
-                                            location: location,
-                                            latitude: latitude,
-                                            longitude: longitude,
-                                            altitude: altitude,
-                                            last_update: last_update,
-                                            temperature: temperature,
-                                            temperature_diff: temperature_diff,
-                                            max_temperature: max_temperature,
-                                            min_temperature: min_temperature,
-                                            pressure: pressure,
-                                            pressure_diff: pressure_diff,
-                                            humidity: humidity,
-                                            rain_sum: rain_sum,
-                                            rain_last: rain_last,
-                                            lighting: lighting,
-                                            wind: wind
+                                        database.query(wind_query + id + query_end, function (err, rows) {
+                                            if (rows[0] === undefined) {
+                                                wind = 'N/A';
+                                            }
+                                            else {
+                                                wind.speed = rows[0].Speed;
+                                                wind.direction = rows[0].Direction;
+                                            }
+
+                                            data.push({
+                                                station: name,
+                                                location: location,
+                                                latitude: latitude,
+                                                longitude: longitude,
+                                                altitude: altitude,
+                                                last_update: last_update,
+                                                temperature: temperature,
+                                                temperature_diff: temperature_diff,
+                                                max_temperature: max_temperature,
+                                                min_temperature: min_temperature,
+                                                pressure: pressure,
+                                                pressure_diff: pressure_diff,
+                                                humidity: humidity,
+                                                rain_sum: rain_sum,
+                                                rain_sum_hour: rain_sum_hour,
+                                                rain_last: rain_last,
+                                                lighting: lighting,
+                                                wind: wind
+                                            });
+                                            callback(); //indica ad async che il singolo item ha finito
                                         });
-                                        callback(); //indica ad async che il singolo item ha finito
                                     });
                                 });
                             });
@@ -167,6 +181,7 @@ router.get('/', function (req, res, next) {
                     });
                 });
             });
+
 
         }, function (err) { //eseguita dopo che la funzione precedente è stata eseguita per ogni item
             if (req.device.type === "phone") {
