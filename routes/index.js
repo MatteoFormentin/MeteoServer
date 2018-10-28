@@ -61,7 +61,7 @@ router.get('/', function (req, res, next) {
 
             rain_sum_query = rain_sum_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
             rain_sum_query_hour = rain_sum_query_hour + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(1) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
-            temp_query = temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(1) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
+            temp_query = temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(1) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\' ORDER BY Stamp DESC';
             max_temp_query = max_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
             min_temp_query = min_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
 
@@ -71,12 +71,10 @@ router.get('/', function (req, res, next) {
             database.query(temp_query, function (err, rows) {
                 if (rows[0] === undefined) {
                     temperature = 'N/A';
-                    last_update = 'Non disponibile'
                 }
                 else {
                     temperature = rows[0].Val;
                     temperature_diff = rows[rows.length - 1].Val - rows[0].Val;
-                    last_update = new Date(rows[rows.length - 1].Stamp + 'Z');
 
                     database.query(max_temp_query, function (err, rows) {
                         if (rows[0].Max !== null) {
@@ -103,9 +101,12 @@ router.get('/', function (req, res, next) {
                     database.query(hum_query + id + query_end, function (err, rows) {
                         if (rows[0] === undefined) {
                             humidity = 'N/A';
+                            last_update = 'Non disponibile'
                         }
                         else {
                             humidity = rows[0].Val;
+                            last_update = new Date(rows[0].Stamp + 'Z');
+
                         }
 
                         database.query(rain_sum_query, function (err, rows) {
