@@ -76,7 +76,6 @@ router.get('/', function (req, res, next) {
             } else {
                 temperature = rows[0].Val;
                 temperature_diff = rows[rows.length - 1].Val - rows[0].Val;
-                console.log(temperature);
                 rows = await database.asynchQuery(max_temp_query);
                 if (rows[0].Max !== null) {
                     max_temperature = Math.round(rows[0].Max * 10) / 10;

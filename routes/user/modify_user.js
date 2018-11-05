@@ -48,7 +48,7 @@ router.post('/', isAuthenticated, [
     }
 
     database.query(update_user_query, function (err, rows) {
-        if (err) throw err;
+        if (err) error.errorHandler(err, req, res);
         res.redirect('/config/configuration');
     });
 });

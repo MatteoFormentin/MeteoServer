@@ -20,18 +20,30 @@ module.exports = function initPassport() {
         function (username, password, done) {
             let hash = crypto.createHash('sha256');
             let query = 'SELECT * FROM User WHERE Email = \'' + username + '\'';
-            database.query(query, function (err, user) {
-                if (err) {
-                    return done(err);
+
+            async function getUser() {
+
+                //First try with redis cache
+                let user = await redis_client.hgetallAsynch(username);
+                //Then use primary sql db
+                if (user === null) {
+                    user = await database.asynchQuery(query);
+                    user = user[0];
+                    if (user === undefined) {
+                        return done(null, false, {message: 'Username non Presente.'});
+                    }
+                    //Cache user
+                    redis_client.hmset(user.Email, "Email", user.Email, "Id", user.Id, "Name", user.Name, "Password", user.Password, "Admin", user.Admin);
                 }
-                if (user[0] === undefined) {
-                    return done(null, false, {message: 'Username non Presente.'});
-                }
-                if (user[0].Password !== hash.update(password).digest('hex')) {
+
+                if (user.Password !== hash.update(password).digest('hex')) {
                     return done(null, false, {message: 'Password Errata.'});
                 }
-                return done(null, user[0]);
-            });
+
+                return done(null, user);
+            }
+
+            getUser().catch((err) => error.errorHandler(err));
         }
     ));
 };

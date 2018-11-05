@@ -41,6 +41,10 @@ database.asynchQuery = util.promisify(database.query);
 var initTables = require('./config/init_tables.js'); //Modulo che crea le tabelle
 initTables();
 
+/*REDIS CACHING DB*/
+redis = require('redis');
+redis_client = redis.createClient();
+redis_client.hgetallAsynch = util.promisify(redis_client.hgetall);
 
 /*PASSPORT*/
 passport = require("passport");

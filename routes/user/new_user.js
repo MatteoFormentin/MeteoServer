@@ -31,7 +31,7 @@ router.post('/', isAuthenticated, [
             admin_on + '\')';
 
             database.query(insert_user_query, function (err, rows) {
-                if (err) throw err;
+                if (err) error.errorHandler(err, req, res);
                 req.flash('info', 'Utente creato');
                 res.redirect('/config/configuration');
             });
