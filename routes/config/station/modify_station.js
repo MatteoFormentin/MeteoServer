@@ -9,7 +9,7 @@ router.post('/', isAuthenticated, isAdmin, [
         check('ModifyStationName').exists().withMessage('Inserisci un nome'),
         check('ModifyLocation').exists().withMessage('Inserisci un luogo'),
     check('ModifyLatitude').exists().isFloat().withMessage('Inserisci una latitudine'),
-    check('Modify Longitude').exists().isFloat().withMessage('Inserisci un longitudine'),
+    check('ModifyLongitude').exists().isFloat().withMessage('Inserisci un longitudine'),
         check('ModifyAltitude').exists().isInt().withMessage('Inserisci una altitudine')
     ], function (req, res, next) {
         const errors = validationResult(req);
@@ -28,7 +28,7 @@ router.post('/', isAuthenticated, isAdmin, [
             req.body.ModifyId + '\'';
 
         database.query(update_station_query, function (err, rows) {
-            if (err) throw err;
+            if (err) error.errorHandler(err, req, res);
             res.redirect('/config/configuration');
         });
     }

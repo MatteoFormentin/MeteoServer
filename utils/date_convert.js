@@ -13,7 +13,6 @@ function dateToTimeStamp(date) {
     let day = addZero(date.getDate());
     let hour = addZero(date.getHours());
     let minute = addZero(date.getMinutes());
-    console.log(year + '-' + month + '-' + day + ' ' + hour + ':' + minute);
     return year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
 }
 

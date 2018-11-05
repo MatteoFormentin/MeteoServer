@@ -27,7 +27,7 @@ router.post('/', isAuthenticated, isAdmin, [
             uuidv4() + '\')';
 
         database.query(insert_station_query, function (err, rows) {
-            if (err) throw err;
+            if (err) error.errorHandler(err, req, res);
             req.flash('info', 'Stazione creata');
             res.redirect('/config/configuration');
         });

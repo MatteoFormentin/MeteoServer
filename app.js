@@ -9,6 +9,10 @@ var flash = require("connect-flash");
 var helmet = require('helmet');
 var session = require("express-session");
 var device = require('express-device');
+var util = require('util');
+
+error = require('./utils/error_handler');
+
 uuidv4 = require('uuid/v4');
 crypto = require('crypto');
 
@@ -27,41 +31,25 @@ database = mysql.createConnection({
     password: db_config.password
 });
 
-var initTables = require('./config/init_tables.js'); //Modulo che crea le tabelle
 database.connect(function (err) {
     if (err) {
         console.error("Can't connect to database. Check configuration.");
         process.exit();
     }
 });
-
+database.asynchQuery = util.promisify(database.query);
+var initTables = require('./config/init_tables.js'); //Modulo che crea le tabelle
 initTables();
+
 
 /*PASSPORT*/
 passport = require("passport");
 var initPassport = require("./config/init_passport");
 isAuthenticated = require("./routes/user/is_auth");
 isAdmin = require("./routes/user/is_admin");
-
 initPassport();
 
-var indexRouter = require('./routes/index');
-var kioskRouter = require('./routes/kiosk');
-var postData = require('./routes/post_data');
-var history = require('./routes/history');
-var map = require('./routes/map');
-var login = require('./routes/user/login');
-var logout = require('./routes/user/logout');
-var new_user = require('./routes/user/new_user');
-var modify_user = require('./routes/user/modify_user');
-var delete_user = require('./routes/user/delete_user');
-var configuration = require('./routes/config/configuration');
-var configuration_new_station = require('./routes/config/station/new_station');
-var configuration_delete_station = require('./routes/config/station/delete_station');
-var configuration_modify_station = require('./routes/config/station/modify_station');
-var configuration_delete_data = require('./routes/config/delete_data');
-
-
+/*Express*/
 var app = express();
 
 // view engine setup
@@ -89,6 +77,22 @@ app.use(passport.session());
 app.use(flash());
 app.use(device.capture());
 
+/*Routing*/
+var indexRouter = require('./routes/index');
+var kioskRouter = require('./routes/kiosk');
+var postData = require('./routes/post_data');
+var history = require('./routes/history');
+var map = require('./routes/map');
+var login = require('./routes/user/login');
+var logout = require('./routes/user/logout');
+var new_user = require('./routes/user/new_user');
+var modify_user = require('./routes/user/modify_user');
+var delete_user = require('./routes/user/delete_user');
+var configuration = require('./routes/config/configuration');
+var configuration_new_station = require('./routes/config/station/new_station');
+var configuration_delete_station = require('./routes/config/station/delete_station');
+var configuration_modify_station = require('./routes/config/station/modify_station');
+var configuration_delete_data = require('./routes/config/delete_data');
 
 app.use('/', indexRouter);
 app.use('/kiosk', kioskRouter);

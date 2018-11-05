@@ -6,22 +6,20 @@ router.get('/', isAuthenticated, isAdmin, function (req, res, next) {
     var station;
     var user;
 
-    database.query('SELECT * FROM Station', function (err, rows) {
-        if (err) throw err;
-        station = rows;
-        database.query('SELECT * FROM User', function (err, rows) {
-            if (err) throw err;
-            user = rows;
+    async function query() {
+        station = await database.asynchQuery('SELECT * FROM Station');
+        user = await database.asynchQuery('SELECT * FROM User');
+    }
 
-            res.render('./config/configuration', {
-                title: 'Meteo Server',
-                logged_user: req.user,
-                message: req.flash(),
-                station: station,
-                user: user
-            });
+    query().then(() => {
+        res.render('./config/configuration', {
+            title: 'Meteo Server',
+            logged_user: req.user,
+            message: req.flash(),
+            station: station,
+            user: user
         });
-    });
+    }).catch((err) => error.errorHandler(err, req, res));
 });
 
 module.exports = router;

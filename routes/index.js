@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
+
 /* GET home page. */
 
 router.get('/', function (req, res, next) {
 
-    var data = [];
+    var all_station_data = [];
 
     var temp_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
     var pres_query_initial = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=\'';
@@ -21,12 +22,12 @@ router.get('/', function (req, res, next) {
     var max_temp_query_initial = 'SELECT MAX(Val) AS Max FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
     var min_temp_query_initial = 'SELECT MIN(Val) AS Min FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=\'';
 
+    //Declare a function async that can await for promises to end
+    async function query() {
+        let station = await database.asynchQuery('SELECT * FROM Station');
 
-    database.query('SELECT * FROM Station', function (err, rows) {
-        let station = rows;
-
-        async.each(station, function (item, callback) {
-
+        for (let i = 0; i < station.length; i++) {
+            let item = station[i];
             let name = item.StationName;
             let id = item.Id;
             let location = item.Location;
@@ -68,139 +69,135 @@ router.get('/', function (req, res, next) {
             pres_query = pres_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(3) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
 
 
-            database.query(temp_query, function (err, rows) {
-                if (rows[0] === undefined) {
-                    temperature = 'N/A';
-                }
-                else {
-                    temperature = rows[0].Val;
-                    temperature_diff = rows[rows.length - 1].Val - rows[0].Val;
-
-                    database.query(max_temp_query, function (err, rows) {
-                        if (rows[0].Max !== null) {
-                            max_temperature = Math.round(rows[0].Max * 10) / 10;
-                            database.query(min_temp_query, function (err, rows) {
-                                min_temperature = Math.round(rows[0].Min * 10) / 10;
-                            });
-                        } else {
-                            max_temperature = 'N/A';
-                            min_temperature = 'N/A';
-                        }
-                    });
-                }
-
-                database.query(pres_query, function (err, rows) {
-                    if (rows[0] === undefined) {
-                        pressure = 'N/A';
-                    }
-                    else {
-                        pressure = rows[0].Val;
-                        pressure_diff = (rows[rows.length - 1].Val - rows[0].Val) / 100;
-                    }
-
-                    database.query(hum_query + id + query_end, function (err, rows) {
-                        if (rows[0] === undefined) {
-                            humidity = 'N/A';
-                            last_update = 'Non disponibile'
-                        }
-                        else {
-                            humidity = rows[0].Val;
-                            last_update = new Date(rows[0].Stamp + 'Z');
-
-                        }
-
-                        database.query(rain_sum_query, function (err, rows) {
-                            if (rows === undefined) {
-                                rain_sum = 'N/A';
-                            } else if (rows[0].total === null) {
-                                rain_sum = 'N/A';
-                            } else {
-                                rain_sum = rows[0].total;
-                            }
-
-                            database.query(rain_sum_query_hour, function (err, rows) {
-                                if (rows === undefined) {
-                                    rain_sum_hour = 'N/A';
-                                } else if (rows[0].total === null) {
-                                    rain_sum_hour = 'N/A';
-                                } else {
-                                    rain_sum_hour = rows[0].total;
-                                }
-
-                                database.query(rain_query + id + query_end, function (err, rows) {
-                                    if (rows[0] === undefined) {
-                                        rain_last = 'N/A';
-                                    }
-                                    else {
-                                        rain_last = rows[0].Val;
-                                    }
-
-                                    database.query(lighting_query + id + query_end, function (err, rows) {
-                                        if (rows[0] === undefined) {
-                                            lighting = 'N/A';
-                                        }
-                                        else {
-                                            lighting.distance = rows[0].Distance;
-                                            lighting.stamp = rows[0].Stamp;
-                                        }
-
-                                        database.query(wind_query + id + query_end, function (err, rows) {
-                                            if (rows[0] === undefined) {
-                                                wind = 'N/A';
-                                            }
-                                            else {
-                                                wind.speed = rows[0].Speed;
-                                                wind.direction = rows[0].Direction;
-                                            }
-
-                                            data.push({
-                                                station: name,
-                                                location: location,
-                                                latitude: latitude,
-                                                longitude: longitude,
-                                                altitude: altitude,
-                                                last_update: last_update,
-                                                temperature: temperature,
-                                                temperature_diff: temperature_diff,
-                                                max_temperature: max_temperature,
-                                                min_temperature: min_temperature,
-                                                pressure: pressure,
-                                                pressure_diff: pressure_diff,
-                                                humidity: humidity,
-                                                rain_sum: rain_sum,
-                                                rain_sum_hour: rain_sum_hour,
-                                                rain_last: rain_last,
-                                                lighting: lighting,
-                                                wind: wind
-                                            });
-                                            callback(); //indica ad async che il singolo item ha finito
-                                        });
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
-
-
-        }, function (err) { //eseguita dopo che la funzione precedente è stata eseguita per ogni item
-            if (req.device.type === "phone") {
-                res.render('mobile/m_index', {
-                    title: 'Meteo Server',
-                    logged_user: req.user,
-                    message: req.flash(),
-                    data: data
-                });
+            //Temperature - related
+            let rows = await database.asynchQuery(temp_query);
+            if (rows[0] === undefined) {
+                temperature = 'N/A';
             } else {
-                res.render('index', {
-                    title: 'Meteo Server',
-                    logged_user: req.user,
-                    message: req.flash(),
-                    data: data
-                });
+                temperature = rows[0].Val;
+                temperature_diff = rows[rows.length - 1].Val - rows[0].Val;
+                console.log(temperature);
+                rows = await database.asynchQuery(max_temp_query);
+                if (rows[0].Max !== null) {
+                    max_temperature = Math.round(rows[0].Max * 10) / 10;
+                    rows = await database.asynchQuery(min_temp_query);
+                    min_temperature = Math.round(rows[0].Min * 10) / 10;
+                } else {
+                    max_temperature = 'N/A';
+                    min_temperature = 'N/A';
+                }
             }
-        });
+
+            //Pressure - related
+            rows = await database.asynchQuery(pres_query);
+            if (rows[0] === undefined) {
+                pressure = 'N/A';
+            }
+            else {
+                pressure = rows[0].Val;
+                pressure_diff = (rows[rows.length - 1].Val - rows[0].Val) / 100;
+            }
+
+            //Humidity - related
+            rows = await database.asynchQuery(hum_query + id + query_end);
+            if (rows[0] === undefined) {
+                humidity = 'N/A';
+                last_update = 'Non disponibile'
+            }
+            else {
+                humidity = rows[0].Val;
+                last_update = new Date(rows[0].Stamp + 'Z');
+            }
+
+            //Rain - related
+            rows = await database.asynchQuery(rain_sum_query);
+            if (rows === undefined) {
+                rain_sum = 'N/A';
+            } else if (rows[0].total === null) {
+                rain_sum = 'N/A';
+            } else {
+                rain_sum = rows[0].total;
+            }
+
+            rows = await database.asynchQuery(rain_sum_query_hour);
+            if (rows === undefined) {
+                rain_sum_hour = 'N/A';
+            } else if (rows[0].total === null) {
+                rain_sum_hour = 'N/A';
+            } else {
+                rain_sum_hour = rows[0].total;
+            }
+
+            rows = await database.asynchQuery(rain_query + id + query_end);
+            if (rows[0] === undefined) {
+                rain_last = 'N/A';
+            }
+            else {
+                rain_last = rows[0].Val;
+            }
+
+            //Wind - related
+            rows = await database.asynchQuery(wind_query + id + query_end);
+            if (rows[0] === undefined) {
+                wind = 'N/A';
+            }
+            else {
+                wind.speed = rows[0].Speed;
+                wind.direction = rows[0].Direction;
+            }
+
+            //Lighting - related
+            rows = await database.asynchQuery(lighting_query + id + query_end);
+            if (rows[0] === undefined) {
+                lighting = 'N/A';
+            }
+            else {
+                lighting.distance = rows[0].Distance;
+                lighting.stamp = rows[0].Stamp;
+            }
+
+            all_station_data.push({
+                station: name,
+                location: location,
+                latitude: latitude,
+                longitude: longitude,
+                altitude: altitude,
+                last_update: last_update,
+                temperature: temperature,
+                temperature_diff: temperature_diff,
+                max_temperature: max_temperature,
+                min_temperature: min_temperature,
+                pressure: pressure,
+                pressure_diff: pressure_diff,
+                humidity: humidity,
+                rain_sum: rain_sum,
+                rain_sum_hour: rain_sum_hour,
+                rain_last: rain_last,
+                lighting: lighting,
+                wind: wind
+            });
+        }
+    }
+
+    //Execute the async function
+    query().then(() => {
+        if (req.device.type === "phone") {
+            res.render('mobile/m_index', {
+                title: 'Meteo Server',
+                logged_user: req.user,
+                message: req.flash(),
+                data: all_station_data
+            });
+        } else {
+            res.render('index', {
+                title: 'Meteo Server',
+                logged_user: req.user,
+                message: req.flash(),
+                data: all_station_data
+            });
+        }
+    }).catch((err) => {
+        error.errorHandler(err, req, res)
     });
 });
 

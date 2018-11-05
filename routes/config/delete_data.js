@@ -35,7 +35,7 @@ router.post('/', isAuthenticated, isAdmin, function (req, res, next) {
         delete_data_query += "WHERE Id=\'" + req.body.Id + "\' AND Stamp=\'" + dateConvert.dateToTimeStampSecond(new Date(req.body.Stamp + 'Z')) + "\'";
 
         database.query(delete_data_query, function (err, rows) {
-            if (err) throw err;
+            if (err) error.errorHandler(err, req, res);
             res.redirect('back');
         });
     }

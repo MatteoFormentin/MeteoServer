@@ -30,8 +30,7 @@ router.post('/', function (req, res, next) {
                     database.query('INSERT INTO  Temperature (Id, Val) VALUES (\'' + id + '\', \'' + data.Val + '\')',
                         function (err, rows, fields) {
                             if (err) {
-                                console.log('error');
-                                res.send('no');
+                                error.errorHandlerAPI(err, req, res);
                             } else {
                                 res.send('ok');
                             }
@@ -43,8 +42,7 @@ router.post('/', function (req, res, next) {
                     database.query('INSERT INTO Pressure (Id, Val) VALUES (\'' + id + '\', \'' + data.Val + '\')',
                         function (err, rows, fields) {
                             if (err) {
-                                console.log('error');
-                                res.send('no');
+                                error.errorHandlerAPI(err, req, res);
                             } else {
                                 res.send('ok');
                             }
@@ -55,8 +53,7 @@ router.post('/', function (req, res, next) {
                     database.query('INSERT INTO Humidity (Id, Val) VALUES (\'' + id + '\', \'' + data.Val + '\')',
                         function (err, rows, fields) {
                             if (err) {
-                                console.log('error');
-                                res.send('no');
+                                error.errorHandlerAPI(err, req, res);
                             } else {
                                 res.send('ok');
                             }
@@ -67,8 +64,7 @@ router.post('/', function (req, res, next) {
                     database.query('INSERT INTO Rain (Id, Val) VALUES (\'' + id + '\', \'' + data.Val + '\')',
                         function (err, rows, fields) {
                             if (err) {
-                                console.log('error');
-                                res.send('no');
+                                error.errorHandlerAPI(err, req, res);
                             } else {
                                 res.send('ok');
                             }
@@ -80,8 +76,7 @@ router.post('/', function (req, res, next) {
                         '\', \'' + data.Direction + '\')',
                         function (err, rows, fields) {
                             if (err) {
-                                console.log('error');
-                                res.send('no');
+                                error.errorHandlerAPI(err, req, res);
                             } else {
                                 res.send('ok');
                             }
@@ -92,8 +87,7 @@ router.post('/', function (req, res, next) {
                     database.query('INSERT INTO Lighting (Id, Distance) VALUES (\'' + id + '\', \'' + data.Distance + '\')',
                         function (err, rows, fields) {
                             if (err) {
-                                console.log('error');
-                                res.send('no');
+                                error.errorHandlerAPI(err, req, res);
                             } else {
                                 res.send('ok');
                             }
