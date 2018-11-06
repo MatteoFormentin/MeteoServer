@@ -6,8 +6,6 @@ var express = require('express');
 */
 module.exports = async function initTables() {
     try {
-
-
         await database.asynchQuery('CREATE TABLE IF NOT EXISTS User(\n' +
             '    Id Int NOT NULL AUTO_INCREMENT,\n' +
             '    Email Varchar(255) NOT NULL,\n' +
@@ -31,7 +29,6 @@ module.exports = async function initTables() {
             '    PRIMARY KEY (Id) \n' +
             ');'
         );
-
 
         //Seed default Admin User (You should delete it after initial configuration)
         await database.asynchQuery('SELECT * FROM User').then((rows) => {

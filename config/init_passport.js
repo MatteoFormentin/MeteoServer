@@ -9,9 +9,8 @@ module.exports = function initPassport() {
 
     //ritorna un user da un id
     passport.deserializeUser(function (id, done) {
-        let query = 'SELECT * FROM User WHERE Id = ' + id;
-        database.query(query, function (err, user) {
-            return done(null, user[0]);
+        redis_client.hgetall("user:" + id, function (err, user) {
+            return done(null, user);
         });
     });
 
@@ -32,8 +31,9 @@ module.exports = function initPassport() {
                     if (user === undefined) {
                         return done(null, false, {message: 'Username non Presente.'});
                     }
-                    //Cache user
+                    //Cache user - first for next time login, second for session deserialize (get user using cookie-stored id)
                     redis_client.hmset(user.Email, "Email", user.Email, "Id", user.Id, "Name", user.Name, "Password", user.Password, "Admin", user.Admin);
+                    redis_client.hmset("user:" + user.Id, "Email", user.Email, "Id", user.Id, "Name", user.Name, "Password", user.Password, "Admin", user.Admin);
                 }
 
                 if (user.Password !== hash.update(password).digest('hex')) {

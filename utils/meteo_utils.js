@@ -70,7 +70,6 @@ module.exports.degToCardinal = degToCardinal;
 module.exports.calcBarometerDifference = calcBarometerDifference;
 
 
-
 /*
 if (0 <= direction < 22.5) return "N";
     if (22.5 <= direction < 45) return "NNE";
