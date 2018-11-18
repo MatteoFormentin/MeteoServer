@@ -16,6 +16,7 @@ router.post('/', function (req, res, next) {
     let data = req.body;
     console.log('Request Token: ' + data.Token);
     console.log(data);
+    let timestamp = dateConvert.dateToTimeStampSecond(new Date(Date.now()));
 
     database.query('SELECT * FROM Station WHERE Token= \'' + data.Token + '\'', function (err, rows) {
         if (err) throw err;
@@ -50,7 +51,7 @@ router.post('/', function (req, res, next) {
                     break;
 
                 case 'Humidity':
-                    database.query('INSERT INTO Humidity (Id, Val) VALUES (\'' + id + '\', \'' + data.Val + '\')',
+                    database.query('INSERT INTO Humidity (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \'' + timestamp + '\')',
                         function (err, rows, fields) {
                             if (err) {
                                 error.errorHandlerAPI(err, req, res);

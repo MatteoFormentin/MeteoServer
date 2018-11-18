@@ -16,7 +16,8 @@ function dateToTimeStamp(date) {
     return year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
 }
 
-function dateToTimeStampSecond(date) { //NB: Essendo creata per convertire  timestamp sql in timestamp sql utilizzo le ore in UTC
+//diff from the first because it adds seconds
+function dateToTimeStampSecond(date) { //NB: Essendo creata per convertire timestamp sql in timestamp sql utilizzo le ore in UTC
     if (!(date instanceof Date)) return "N/A";
     let year = date.getUTCFullYear();
     let month = addZero(date.getUTCMonth() + 1);
@@ -31,9 +32,9 @@ function dateFormatter(date) {
     if (!(date instanceof Date)) return "N/A";
     let year = date.getFullYear();
     let month = addZero(date.getMonth() + 1);
-    let day = addZero(date.getUTCDate());
-    let hour = addZero(date.getUTCHours());
-    let minute = addZero(date.getUTCMinutes());
+    let day = addZero(date.getDate());
+    let hour = addZero(date.getHours());
+    let minute = addZero(date.getMinutes());
     return day + '/' + month + '/' + year + ' ' + hour + ':' + minute;
 }
 
