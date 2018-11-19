@@ -53,7 +53,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
             }
             else {
                 temperature = rows[0].Val;
-                last_update = dateConvert.dateFormatter(new Date(rows[0].Stamp + 'Z'));
+                last_update = dateConvert.timestampToDate(item.Stamp);
             }
 
             rows = await database.asynchQuery(pres_query + id + query_end);
@@ -87,7 +87,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
             }
             else {
                 lighting.distance = rows[0].Distance;
-                lighting.stamp = dateConvert.dateFormatter(new Date(rows[0].Stamp + 'Z'));
+                lighting.stamp = dateConvert.timestampToDate(item.Stamp);
             }
 
             rows = await database.asynchQuery(wind_query + id + query_end);

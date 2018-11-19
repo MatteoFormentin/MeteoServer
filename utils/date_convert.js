@@ -1,18 +1,17 @@
 var express = require('express');
 
 /*
- * NB1: getUTC return greenwich time, get return current UTC(+2) time
- * NB2: Le date create dal timestamp database sono già in UTC+2 e vanno gestite con le funzioni standard (come se fossimo a UTC 0).
- *  Le date create con date.setNow() vanno gestite con le funzioni getUTC--() essendo riferite a UTC 0
+ *  Database data are UTC 
+ *
  */
 
-function dateToTimeStamp(date) {
+function dateToTimeStamp(date, utc = true) {
     if (!(date instanceof Date)) return "N/A";
-    let year = date.getFullYear();
-    let month = addZero(date.getMonth() + 1);
-    let day = addZero(date.getDate());
-    let hour = addZero(date.getHours());
-    let minute = addZero(date.getMinutes());
+    let year = addZero(utc ? date.getUTCFullYear() : date.getFullYear());
+    let month = addZero(utc ? date.getUTCMonth() : date.getMonth() + 1);
+    let day = addZero(utc ? date.getUTCDate() : date.getDate());
+    let hour = addZero(utc ? date.getUTCHours() : date.getHours());
+    let minute = addZero(utc ? date.getUTCMinutes() : date.getMinutes());
     return year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
 }
 
@@ -26,6 +25,14 @@ function dateToTimeStampSecond(date) { //NB: Essendo creata per convertire times
     let minute = addZero(date.getUTCMinutes());
     let second = addZero(date.getUTCSeconds());
     return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+}
+
+/*
+ * Convert UTC timestamp to local time in a readable format (dd/mm/yyyy hh:mm)
+ */
+function timestampToDate(stamp) {
+    let date = new Date(Date.parse(stamp + " GMT"))
+    return dateFormatter(date);
 }
 
 function dateFormatter(date) {
@@ -98,6 +105,7 @@ function checkOnline(d) {
 
 module.exports.dateToTimeStamp = dateToTimeStamp;
 module.exports.dateToTimeStampSecond = dateToTimeStampSecond;
+module.exports.timestampToDate = timestampToDate;
 module.exports.dateFormatter = dateFormatter;
 module.exports.yesterdayTimeStamp = yesterdayTimeStamp;
 module.exports.midnightTimeStamp = midnightTimeStamp;

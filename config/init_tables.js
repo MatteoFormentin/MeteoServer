@@ -46,7 +46,7 @@ module.exports = async function initTables() {
         await database.asynchQuery('CREATE TABLE IF NOT EXISTS Temperature(\n' +
             '    Id Int NOT NULL,\n' +
             '    Val Float,\n' +
-            '    Stamp TimeStamp, \n' +
+            '    Stamp DATETIME, \n' +
             '    FOREIGN KEY (Id) \n' +
             '    REFERENCES Station (Id)\n' +
             '    ON DELETE CASCADE\n' +
@@ -56,7 +56,7 @@ module.exports = async function initTables() {
         await database.asynchQuery('CREATE TABLE IF NOT EXISTS Pressure(\n' +
             '    Id Int NOT NULL,\n' +
             '    Val Float,\n' +
-            '    Stamp TimeStamp, \n' +
+            '    Stamp DATETIME, \n' +
             '    FOREIGN KEY (Id) \n' +
             '    REFERENCES Station (Id)\n' +
             '    ON DELETE CASCADE\n' +
@@ -66,7 +66,7 @@ module.exports = async function initTables() {
         await database.asynchQuery('CREATE TABLE IF NOT EXISTS Humidity(\n' +
             '    Id Int NOT NULL,\n' +
             '    Val Float,\n' +
-            '    Stamp TimeStamp, \n' +
+            '    Stamp DATETIME, \n' +
             '    FOREIGN KEY (Id) \n' +
             '    REFERENCES Station (Id)\n' +
             '    ON DELETE CASCADE\n' +
@@ -76,7 +76,7 @@ module.exports = async function initTables() {
         await database.asynchQuery('CREATE TABLE IF NOT EXISTS Rain(\n' +
             '    Id Int NOT NULL,\n' +
             '    Val Float,\n' +
-            '    Stamp TimeStamp, \n' +
+            '    Stamp DATETIME, \n' +
             '    FOREIGN KEY (Id) \n' +
             '    REFERENCES Station (Id)\n' +
             '    ON DELETE CASCADE\n' +
@@ -87,7 +87,7 @@ module.exports = async function initTables() {
             '    Id Int NOT NULL,\n' +
             '    Speed Float,\n' +
             '    Direction Float,\n' +
-            '    Stamp TimeStamp, \n' +
+            '    Stamp DATETIME, \n' +
             '    FOREIGN KEY (Id) \n' +
             '    REFERENCES Station (Id)\n' +
             '    ON DELETE CASCADE\n' +
@@ -97,7 +97,7 @@ module.exports = async function initTables() {
         await database.asynchQuery('CREATE TABLE IF NOT EXISTS Lighting(\n' +
             '    Id Int NOT NULL,\n' +
             '    Distance Float,\n' +
-            '    Stamp TimeStamp, \n' +
+            '    Stamp DATETIME, \n' +
             '    FOREIGN KEY (Id) \n' +
             '    REFERENCES Station (Id)\n' +
             '    ON DELETE CASCADE\n' +

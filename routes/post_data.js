@@ -28,7 +28,8 @@ router.post('/', function (req, res, next) {
             switch (data.Table) {
                 //Inserimento temperatura
                 case 'Temperature':
-                    database.query('INSERT INTO  Temperature (Id, Val) VALUES (\'' + id + '\', \'' + data.Val + '\')',
+                    database.query('INSERT INTO  Temperature (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
+                        + timestamp + '\')',
                         function (err, rows, fields) {
                             if (err) {
                                 error.errorHandlerAPI(err, req, res);
@@ -40,7 +41,8 @@ router.post('/', function (req, res, next) {
 
                 //Inserimento pressione
                 case 'Pressure':
-                    database.query('INSERT INTO Pressure (Id, Val) VALUES (\'' + id + '\', \'' + data.Val + '\')',
+                    database.query('INSERT INTO Pressure (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
+                        + timestamp + '\')',
                         function (err, rows, fields) {
                             if (err) {
                                 error.errorHandlerAPI(err, req, res);
@@ -51,7 +53,8 @@ router.post('/', function (req, res, next) {
                     break;
 
                 case 'Humidity':
-                    database.query('INSERT INTO Humidity (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \'' + timestamp + '\')',
+                    database.query('INSERT INTO Humidity (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
+                        + timestamp + '\')',
                         function (err, rows, fields) {
                             if (err) {
                                 error.errorHandlerAPI(err, req, res);
@@ -62,7 +65,8 @@ router.post('/', function (req, res, next) {
                     break;
 
                 case 'Rain':
-                    database.query('INSERT INTO Rain (Id, Val) VALUES (\'' + id + '\', \'' + data.Val + '\')',
+                    database.query('INSERT INTO Rain (Id, Val) (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
+                        + timestamp + '\')',
                         function (err, rows, fields) {
                             if (err) {
                                 error.errorHandlerAPI(err, req, res);
@@ -73,8 +77,8 @@ router.post('/', function (req, res, next) {
                     break;
 
                 case 'Wind':
-                    database.query('INSERT INTO Wind (Id, Speed, Direction) VALUES (\'' + id + '\', \'' + data.Speed +
-                        '\', \'' + data.Direction + '\')',
+                    database.query('INSERT INTO Wind (Id, Speed, Direction, Stamp) VALUES (\'' + id + '\', \'' + data.Speed +
+                        '\', \'' + data.Direction + '\', \'' + timestamp + '\')',
                         function (err, rows, fields) {
                             if (err) {
                                 error.errorHandlerAPI(err, req, res);
@@ -85,7 +89,8 @@ router.post('/', function (req, res, next) {
                     break;
 
                 case 'Lighting':
-                    database.query('INSERT INTO Lighting (Id, Distance) VALUES (\'' + id + '\', \'' + data.Distance + '\')',
+                    database.query('INSERT INTO Lighting (Id, Distance, Stamp) VALUES (\'' + id + '\', \'' + data.Distance + '\', \''
+                        + timestamp + '\')',
                         function (err, rows, fields) {
                             if (err) {
                                 error.errorHandlerAPI(err, req, res);

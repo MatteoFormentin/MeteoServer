@@ -105,7 +105,7 @@ router.get('/', function (req, res, next) {
             }
             else {
                 humidity = rows[0].Val;
-                last_update = new Date(rows[0].Stamp + 'Z');
+                last_update = dateConvert.timestampToDate(rows[0].Stamp);
             }
 
             //Rain - related
@@ -152,7 +152,7 @@ router.get('/', function (req, res, next) {
             }
             else {
                 lighting.distance = rows[0].Distance;
-                lighting.stamp = rows[0].Stamp;
+                lighting.stamp = dateConvert.timestampToDate(rows[0].Stamp);
             }
 
             all_station_data.push({

@@ -20,13 +20,13 @@ block content
                         tr.text-center
                             th(colspan='2').
                                 #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
-                                Agg.: #{dateConvert.dateFormatter(item.last_update)} ONLINE
+                                Agg.: #{item.last_update} ONLINE
                 else
                     thead.bg-danger
                         tr.text-center
                             th(colspan='2').
                                 #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
-                                Agg: #{dateConvert.dateFormatter(item.last_update)} OFFLINE
+                                Agg: #{item.last_update} OFFLINE
 
                 tbody
                     if(item.temperature !== "N/A")
@@ -151,7 +151,7 @@ block content
                         tr
                             td(style="width: 50%")
                                 i.wi.wi-time-1.d-inline
-                                p.d-inline Ora: #{dateConvert.dateFormatter(new Date(item.lighting.stamp + 'Z'))}
+                                p.d-inline Ora: #{item.lighting.stamp)}
                             td(style="width: 50%")
                                 i.wi.wi-lightning.d-inline
                                 p.d-inline Distance: #{item.lighting.distance} Km
