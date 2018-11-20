@@ -60,13 +60,13 @@ router.get('/', function (req, res, next) {
             let min_temp_query = min_temp_query_initial;
 
 
-            rain_sum_query = rain_sum_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
-            rain_sum_query_hour = rain_sum_query_hour + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(1) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
-            temp_query = temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(1) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\' ORDER BY Stamp DESC';
-            max_temp_query = max_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
-            min_temp_query = min_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
+            rain_sum_query = rain_sum_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date(), true) + '\'';
+            rain_sum_query_hour = rain_sum_query_hour + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(1) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date(), true) + '\'';
+            temp_query = temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(1) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date(), true) + '\' ORDER BY Stamp DESC';
+            max_temp_query = max_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date(), true) + '\'';
+            min_temp_query = min_temp_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.midnightTimeStamp() + '\' AND \'' + dateConvert.dateToTimeStamp(new Date(), true) + '\'';
 
-            pres_query = pres_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(3) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date()) + '\'';
+            pres_query = pres_query + id + '\' AND Stamp BETWEEN \'' + dateConvert.hourAgoTimeStamp(3) + '\' AND \'' + dateConvert.dateToTimeStamp(new Date(), true) + '\'';
 
 
             //Temperature - related
@@ -105,7 +105,7 @@ router.get('/', function (req, res, next) {
             }
             else {
                 humidity = rows[0].Val;
-                last_update = dateConvert.timestampToDate(rows[0].Stamp);
+                last_update = rows[0].Stamp;
             }
 
             //Rain - related
@@ -152,7 +152,7 @@ router.get('/', function (req, res, next) {
             }
             else {
                 lighting.distance = rows[0].Distance;
-                lighting.stamp = dateConvert.timestampToDate(rows[0].Stamp);
+                lighting.stamp = dateConvert.timestampToDate(rows[0].Stamp, false);
             }
 
             all_station_data.push({

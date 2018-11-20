@@ -2,13 +2,12 @@ var express = require('express');
 
 /*
  *  Database data are UTC 
- *
  */
 
 function dateToTimeStamp(date, utc = true) {
     if (!(date instanceof Date)) return "N/A";
     let year = addZero(utc ? date.getUTCFullYear() : date.getFullYear());
-    let month = addZero(utc ? date.getUTCMonth() : date.getMonth() + 1);
+    let month = addZero((utc ? date.getUTCMonth() : date.getMonth()) + 1);
     let day = addZero(utc ? date.getUTCDate() : date.getDate());
     let hour = addZero(utc ? date.getUTCHours() : date.getHours());
     let minute = addZero(utc ? date.getUTCMinutes() : date.getMinutes());
@@ -30,8 +29,8 @@ function dateToTimeStampSecond(date) { //NB: Essendo creata per convertire times
 /*
  * Convert UTC timestamp to local time in a readable format (dd/mm/yyyy hh:mm)
  */
-function timestampToDate(stamp) {
-    let date = new Date(Date.parse(stamp + " GMT"))
+function timestampToDate(stamp, utc = true) {
+    let date = new Date(Date.parse(stamp + (utc ? " GMT" : "")));
     return dateFormatter(date);
 }
 
@@ -51,17 +50,19 @@ function yesterdayTimeStamp() {
     return dateToTimeStamp(date);
 }
 
-function midnightTimeStamp() {
+function midnightTimeStamp(utc = true) {
     let date = new Date();
     date.setHours(0);
     date.setMinutes(0);
-    return dateToTimeStamp(date);
+    if (utc) return dateToTimeStamp(date);
+    else return dateToTimeStamp(date, false)
 }
 
-function hourAgoTimeStamp(ago) {
+function hourAgoTimeStamp(ago, utc = true) {
     let date = new Date();
     date.setHours(date.getHours() - ago);
-    return dateToTimeStamp(date);
+    if (utc) return dateToTimeStamp(date);
+    else return dateToTimeStamp(date, false)
 }
 
 function addZero(d) {
@@ -96,11 +97,11 @@ function checkOnline(d) {
 }*/
 
 function checkOnline(d) {
-    if (!(d instanceof Date)) return false;
+    d = new Date(Date.parse(d + " GMT"));
     var difference_minute = 30;
     var difference_milliseconds = difference_minute * 60 * 1000;
     var now = new Date(Date.now());
-    return now.getTime() - d.getTime() < difference_milliseconds;
+    return (now.getTime() - d.getTime()) < difference_milliseconds;
 }
 
 module.exports.dateToTimeStamp = dateToTimeStamp;

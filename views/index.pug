@@ -20,13 +20,13 @@ block content
                             tr.text-center
                                 th(colspan='2').
                                     #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
-                                    Ultimo Aggiornamento: #{item.last_update} ONLINE
+                                    Ultimo Aggiornamento: #{dateConvert.timestampToDate(item.last_update)} ONLINE
                     else
                         thead.bg-danger
                             tr.text-center
                                 th(colspan='2').
                                     #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
-                                    Ultimo Aggiornamento: #{item.last_update} OFFLINE
+                                    Ultimo Aggiornamento: #{dateConvert.timestampToDate(item.last_update)} OFFLINE
 
                     tbody
                         if(item.temperature !== "N/A")
