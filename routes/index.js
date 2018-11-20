@@ -152,7 +152,7 @@ router.get('/', function (req, res, next) {
             }
             else {
                 lighting.distance = rows[0].Distance;
-                lighting.stamp = dateConvert.timestampToDate(rows[0].Stamp, false);
+                lighting.stamp = dateConvert.timestampToDate(rows[0].Stamp);
             }
 
             all_station_data.push({
