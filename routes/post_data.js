@@ -16,7 +16,7 @@ router.post('/', function (req, res, next) {
     let data = req.body;
     console.log('Request Token: ' + data.Token);
 
-    let timestamp = dateConvert.dateToTimeStampSecond(new Date(Date.now()));
+    let timestamp = dateConvert.dateToTimeStampSecond(new Date());
     console.log(timestamp);
 
     database.query('SELECT * FROM Station WHERE Token= \'' + data.Token + '\'', function (err, rows) {
