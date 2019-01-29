@@ -1,5 +1,5 @@
 {
-  "host": "10.0.0.9",
+  "host": "10.0.20.3",
   "database": "MeteoServer",
   "user": "MeteoServer",
   "password": "password"
