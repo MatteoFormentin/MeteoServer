@@ -7,9 +7,16 @@ router.post('/', function (req, res, next) {
     /*
         STRUTTURA RICHIESTA JSON
         {
-            "Token": "uuid"
-            "Table":
-            "Val":
+            "Token": "uuid",
+            "Temperature": "Val",
+            "Pressure": 10,
+            "Humidity": 10,
+            "Rain": 10,
+            "Wind": {
+                "Speed": 10,
+                "Direction": "NE"
+            },
+            "Lighting": 10
         }
      */
 
@@ -20,7 +27,7 @@ router.post('/', function (req, res, next) {
     console.log(timestamp);
 
     database.query('SELECT * FROM Station WHERE Token= \'' + data.Token + '\'', function (err, rows) {
-        if (err) throw err;
+        if (err) error.errorHandlerAPI(err, req, res);
         if (rows[0] === undefined) {
             res.send('unauthorized');
             console.log('unauthorized request');

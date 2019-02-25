@@ -20,6 +20,7 @@ async = require('async');
 dateConvert = require('./utils/date_convert');
 meteoUtils = require('./utils/meteo_utils');
 
+WORKING_DIR = __dirname;
 
 /*DATABASE MySQL*/
 var mysql = require('mysql');
@@ -40,17 +41,18 @@ database.connect(function (err) {
 database.asynchQuery = util.promisify(database.query);
 var initTables = require('./config/init_tables.js'); //Modulo che crea le tabelle
 initTables();
+db = require('./database/database.js');
 
-/*REDIS CACHING DB*/
+/*REDIS CACHING DB
 redis = require('redis');
 redis_client = redis.createClient();
-redis_client.hgetallAsynch = util.promisify(redis_client.hgetall);
+redis_client.hgetallAsynch = util.promisify(redis_client.hgetall);*/
 
 /*PASSPORT*/
 passport = require("passport");
 var initPassport = require("./config/init_passport");
-isAuthenticated = require("./routes/user/is_auth");
-isAdmin = require("./routes/user/is_admin");
+isAuthenticated = require("./routes/web/user/is_auth");
+isAdmin = require("./routes/web/user/is_admin");
 initPassport();
 
 /*Express*/
@@ -65,9 +67,10 @@ app.use(compression());
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
@@ -81,26 +84,24 @@ app.use(passport.session());
 app.use(flash());
 app.use(device.capture());
 
-/*Routing*/
-var indexRouter = require('./routes/index');
-var kioskRouter = require('./routes/kiosk');
-var postData = require('./routes/post_data');
-var history = require('./routes/history');
-var map = require('./routes/map');
-var login = require('./routes/user/login');
-var logout = require('./routes/user/logout');
-var new_user = require('./routes/user/new_user');
-var modify_user = require('./routes/user/modify_user');
-var delete_user = require('./routes/user/delete_user');
-var configuration = require('./routes/config/configuration');
-var configuration_new_station = require('./routes/config/station/new_station');
-var configuration_delete_station = require('./routes/config/station/delete_station');
-var configuration_modify_station = require('./routes/config/station/modify_station');
-var configuration_delete_data = require('./routes/config/delete_data');
+/*Web Routing*/
+var indexRouter = require('./routes/web/index');
+var kioskRouter = require('./routes/web/kiosk');
+var history = require('./routes/web/history');
+var map = require('./routes/web/map');
+var login = require('./routes/web/user/login');
+var logout = require('./routes/web/user/logout');
+var new_user = require('./routes/web/user/new_user');
+var modify_user = require('./routes/web/user/modify_user');
+var delete_user = require('./routes/web/user/delete_user');
+var configuration = require('./routes/web/config/configuration');
+var configuration_new_station = require('./routes/web/config/station/new_station');
+var configuration_delete_station = require('./routes/web/config/station/delete_station');
+var configuration_modify_station = require('./routes/web/config/station/modify_station');
+var configuration_delete_data = require('./routes/web/config/delete_data');
 
 app.use('/', indexRouter);
 app.use('/kiosk', kioskRouter);
-app.use('/post_data', postData);
 app.use('/history', history);
 app.use('/map', map);
 
@@ -117,6 +118,15 @@ app.use('/config/station/modify_station', configuration_modify_station);
 
 app.use('/config/delete_data', configuration_delete_data);
 
+
+/*API Routing*/
+var postData = require('./routes/api/post_data');
+var api_station = require('./routes/api/station');
+var firmw_updater = require('./routes/api/update');
+
+app.use('/api/post_data', postData);
+app.use('/api/station/', api_station);
+app.use('/api/update', firmw_updater);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

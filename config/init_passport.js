@@ -9,9 +9,9 @@ module.exports = function initPassport() {
 
     //ritorna un user da un id
     passport.deserializeUser(function (id, done) {
-        redis_client.hgetall("user:" + id, function (err, user) {
+        /*redis_client.hgetall("user:" + id, function (err, user) {
             return done(null, user);
-        });
+        });*/
     });
 
     //Funzione che controlla se la password è corretta e accetta il login NB username è l'email
@@ -22,22 +22,22 @@ module.exports = function initPassport() {
 
             async function getUser() {
 
-                //First try with redis cache
-                let user = await redis_client.hgetallAsynch(username);
-                //Then use primary sql db
-                if (user === null) {
-                    user = await database.asynchQuery(query);
-                    user = user[0];
-                    if (user === undefined) {
-                        return done(null, false, {message: 'Username non Presente.'});
-                    }
-                    //Cache user - first for next time login, second for session deserialize (get user using cookie-stored id)
-                    redis_client.hmset(user.Email, "Email", user.Email, "Id", user.Id, "Name", user.Name, "Password", user.Password, "Admin", user.Admin);
-                    redis_client.hmset("user:" + user.Id, "Email", user.Email, "Id", user.Id, "Name", user.Name, "Password", user.Password, "Admin", user.Admin);
+                /* //First try with redis cache
+                 let user = await redis_client.hgetallAsynch(username);
+                 //Then use primary sql db
+                 if (user === null) {*/
+                user = await database.asynchQuery(query);
+                user = user[0];
+                if (user === undefined) {
+                    return done(null, false, { message: 'Username non Presente.' });
                 }
+                /*//Cache user - first for next time login, second for session deserialize (get user using cookie-stored id)
+                redis_client.hmset(user.Email, "Email", user.Email, "Id", user.Id, "Name", user.Name, "Password", user.Password, "Admin", user.Admin);
+                redis_client.hmset("user:" + user.Id, "Email", user.Email, "Id", user.Id, "Name", user.Name, "Password", user.Password, "Admin", user.Admin);
+                    */
 
                 if (user.Password !== hash.update(password).digest('hex')) {
-                    return done(null, false, {message: 'Password Errata.'});
+                    return done(null, false, { message: 'Password Errata.' });
                 }
 
                 return done(null, user);
