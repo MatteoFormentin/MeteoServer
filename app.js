@@ -125,6 +125,8 @@ var api_station = require('./routes/api/station');
 var firmw_updater = require('./routes/api/update');
 
 app.use('/api/post_data', postData);
+app.use('/post_data', postData); //Retro-compatibility
+
 app.use('/api/station/', api_station);
 app.use('/api/update', firmw_updater);
 
