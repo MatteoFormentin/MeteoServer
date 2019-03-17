@@ -9,9 +9,10 @@ module.exports = function initPassport() {
 
     //ritorna un user da un id
     passport.deserializeUser(function (id, done) {
-        /*redis_client.hgetall("user:" + id, function (err, user) {
-            return done(null, user);
-        });*/
+        let query = 'SELECT * FROM User WHERE Id = ' + id;
+        database.query(query, function (err, user) {
+            return done(null, user[0]);
+        });
     });
 
     //Funzione che controlla se la password è corretta e accetta il login NB username è l'email
@@ -28,6 +29,8 @@ module.exports = function initPassport() {
                  if (user === null) {*/
                 user = await database.asynchQuery(query);
                 user = user[0];
+                console.log(user);
+
                 if (user === undefined) {
                     return done(null, false, { message: 'Username non Presente.' });
                 }
@@ -40,6 +43,7 @@ module.exports = function initPassport() {
                     return done(null, false, { message: 'Password Errata.' });
                 }
 
+                console.log("logged in");
                 return done(null, user);
             }
 

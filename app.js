@@ -88,6 +88,8 @@ app.use(device.capture());
 var indexRouter = require('./routes/web/index');
 var kioskRouter = require('./routes/web/kiosk');
 var history = require('./routes/web/history');
+var station = require('./routes/web/station');
+
 var map = require('./routes/web/map');
 var login = require('./routes/web/user/login');
 var logout = require('./routes/web/user/logout');
@@ -103,6 +105,7 @@ var configuration_delete_data = require('./routes/web/config/delete_data');
 app.use('/', indexRouter);
 app.use('/kiosk', kioskRouter);
 app.use('/history', history);
+app.use('/station', station);
 app.use('/map', map);
 
 app.use('/login', login);
@@ -110,6 +113,7 @@ app.use('/logout', logout);
 app.use('/user/new_user', new_user);
 app.use('/user/modify_user', modify_user);
 app.use('/user/delete_user', delete_user);
+
 
 app.use('/config/configuration', configuration);
 app.use('/config/station/new_station', configuration_new_station);

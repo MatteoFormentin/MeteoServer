@@ -1,5 +1,5 @@
 # Meteo Server  
-Node.Js and MySQL based weather station data logger and analyzer.  
+Node.js and MySQL based weather station data logger and analyzer.  
 
 ### FEAUTURES:
 - Multiple weather station management
@@ -33,5 +33,5 @@ and
 ## LICENSE  
 All software is released under MIT License.
 
-*Copyright (c) 2018 Matteo Formentin*
+*Copyright (c) 2019 Matteo Formentin*
 

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET single station. */
+/* GET single or all station. */
 router.get('/:station_id', function (req, res, next) {
     //Execute the async function
     if (req.params.station_id != undefined) {
