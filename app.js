@@ -126,12 +126,15 @@ app.use('/config/delete_data', configuration_delete_data);
 /*API Routing*/
 var postData = require('./routes/api/post_data');
 var api_station = require('./routes/api/station');
+var api_list_station = require('./routes/api/list');
+
 var firmw_updater = require('./routes/api/update');
 
 app.use('/api/post_data', postData);
 app.use('/post_data', postData); //Retro-compatibility
 
-app.use('/api/station/', api_station);
+app.use('/api/station/list', api_list_station);
+app.use('/api/station', api_station);
 app.use('/api/update', firmw_updater);
 
 // catch 404 and forward to error handler

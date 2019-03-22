@@ -19,29 +19,22 @@ module.exports = function initPassport() {
     passport.use('login', new LocalStrategy(
         function (username, password, done) {
             let hash = crypto.createHash('sha256');
-            let query = 'SELECT * FROM User WHERE Email = \'' + username + '\'';
-
             async function getUser() {
 
                 /* //First try with redis cache
                  let user = await redis_client.hgetallAsynch(username);
                  //Then use primary sql db
                  if (user === null) {*/
-                user = await database.asynchQuery(query);
+                user = await db.loginUser(username, hash.update(password).digest('hex'));
                 user = user[0];
-                console.log(user);
 
                 if (user === undefined) {
-                    return done(null, false, { message: 'Username non Presente.' });
+                    return done(null, false, { message: 'Username non Presente o password errata.' });
                 }
                 /*//Cache user - first for next time login, second for session deserialize (get user using cookie-stored id)
                 redis_client.hmset(user.Email, "Email", user.Email, "Id", user.Id, "Name", user.Name, "Password", user.Password, "Admin", user.Admin);
                 redis_client.hmset("user:" + user.Id, "Email", user.Email, "Id", user.Id, "Name", user.Name, "Password", user.Password, "Admin", user.Admin);
                     */
-
-                if (user.Password !== hash.update(password).digest('hex')) {
-                    return done(null, false, { message: 'Password Errata.' });
-                }
 
                 console.log("logged in");
                 return done(null, user);

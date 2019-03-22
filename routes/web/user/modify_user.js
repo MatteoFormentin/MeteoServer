@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-const {check, validationResult} = require('express-validator/check');
-const {matchedData, sanitize} = require('express-validator/filter');
+const { check, validationResult } = require('express-validator/check');
+const { matchedData, sanitize } = require('express-validator/filter');
 
 /* POST modify user. */
 router.post('/', isAuthenticated, [
@@ -25,13 +25,7 @@ router.post('/', isAuthenticated, [
     if (req.body.ModifyUserPassword !== "") {
         if (req.body.ModifyUserPassword === req.body.ModifyUserPasswordConfirm) {
             let hash = crypto.createHash('sha256');
-            update_user_query = 'UPDATE User SET Email=\'' +
-                req.body.ModifyUserEmail + '\', Name=\'' +
-                req.body.ModifyUserName + '\', Password=\'' +
-                hash.update(req.body.ModifyUserPassword).digest('hex') + '\', Admin=\'' +
-                admin_on + '\'' +
-                ' WHERE Id=\'' +
-                req.body.ModifyUserId + '\'';
+            db.modifyUser(req.body.ModifyUserEmail, req.body.ModifyUserName, hash.update(req.body.ModifyUserPassword).digest('hex'), admin_on, req.body.ModifyUserId);
         }
         else {
             req.flash('info', 'Le password non corrispondono');
@@ -39,18 +33,9 @@ router.post('/', isAuthenticated, [
         }
     }
     else {
-        update_user_query = 'UPDATE User SET Email=\'' +
-            req.body.ModifyUserEmail + '\', Name=\'' +
-            req.body.ModifyUserName + '\', Admin=\'' +
-            admin_on + '\'' +
-            ' WHERE Id=\'' +
-            req.body.ModifyUserId + '\'';
+        db.modifyUser(req.body.ModifyUserEmail, req.body.ModifyUserName, admin_on, req.body.ModifyUserId);
     }
-
-    database.query(update_user_query, function (err, rows) {
-        if (err) error.errorHandler(err, req, res);
-        res.redirect('/config/configuration');
-    });
+    res.redirect('/config/configuration');
 });
 
 module.exports = router;
