@@ -53,12 +53,12 @@ block content
                             if(item.humidity !== "N/A" && item.temperature > 10)
                                 td(style="width: 50%")
                                     i.wi.wi-thermometer.d-inline
-                                    p.d-inline Percepita: #{meteoUtils.humidex(item.temperature, item.humidity)}°C
+                                    p.d-inline Percepita: #{tem.humidex}°C
 
                             else if (item.wind !== "N/A")
                                 td(style="width: 50%")
                                     i.wi.wi-thermometer.d-inline
-                                    p.d-inline Percepita: #{meteoUtils.windchill(item.temperature, item.wind.speed)}°C
+                                    p.d-inline Percepita: #{item.windchill}°C
                         tr
                             if(item.min_temperature !== "N/A" && item.max_temperature !== "N/A")
                                 td(style="width: 50%").text-info
@@ -79,7 +79,7 @@ block content
                                 p.d-inline Umidità: #{item.humidity}%
                             td(style="width: 50%")
                                 i.wi.wi-thermometer.d-inline
-                                p.d-inline P. Rugiada: #{meteoUtils.dewPoint(item.temperature, item.humidity)}°C
+                                p.d-inline P. Rugiada: #{item.dew_point}°C
 
                     if(item.pressure !== "N/A")
                         tr
@@ -87,7 +87,7 @@ block content
                         tr
                             td(style="width: 50%")
                                 i.wi.wi-barometer.d-inline
-                                p(style="padding-right: 5px;").d-inline Pres: #{Math.round(item.pressure) / 100} hPa
+                                p(style="padding-right: 5px;").d-inline Pres: #{item.pressure} hPa
 
                                 if(parseInt(item.pressure_diff) < -2)
                                     i.wi.wi-direction-down.text-info
@@ -104,7 +104,13 @@ block content
 
                             td(style="width: 50%")
                                 i.wi.wi-barometer.d-inline
-                                p.d-inline S.L.M: #{Math.round(meteoUtils.seaLevelPressure(item.pressure, item.altitude)) / 100} hPa
+                                p.d-inline S.L.M: #{item.sea_level_pressure} hPa
+
+                        tr
+                            th(colspan='2') Previsione Meteo
+                        tr
+                            td
+                                p #{item.forecast.forecast_phrase_it}
 
                     if(item.rain_last !== "N/A" && item.rain_sum !== "N/A")
                         tr
@@ -118,21 +124,21 @@ block content
                                 td(style="width: 50%")
                                     i.wi.wi-showers.d-inline
                                     if(item.rain_sum_hour <= 1)
-                                        p.d-inline Pioviggine: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
+                                        p.d-inline Pioviggine: #{item.rain_sum_hour} mm
                                     else if(item.rain_sum_hour <= 2)
-                                        p.d-inline Debole: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
+                                        p.d-inline Pioggia Debole: #{item.rain_sum_hour} mm
                                     else if(item.rain_sum_hour <= 5)
-                                        p.d-inline Moderata: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
+                                        p.d-inline Pioggia Moderata: #{item.rain_sum_hour} mm
                                     else if(item.rain_sum_hour <= 10)
-                                        p.d-inline Forte: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
+                                        p.d-inline Pioggia Forte: #{item.rain_sum_hour} mm
                                     else if(item.rain_sum_hour <= 30)
-                                        p.d-inline Rovescio: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
+                                        p.d-inline Rovescio: #{item.rain_sum_hour} mm
                                     else if(item.rain_sum_hour > 30)
-                                        p.d-inline Nubifragio: #{(Math.round(item.rain_sum_hour * 100)) / 100} mm
+                                        p.d-inline Nubifragio:#{item.rain_sum_hour} mm
 
-                            td(style="width: 50%")
-                                i.wi.wi-showers.d-inline
-                                p.d-inline 24 Ore: #{(Math.round(item.rain_sum * 100)) / 100} mm
+                                td(style="width: 50%")
+                                    i.wi.wi-showers.d-inline
+                                    p.d-inline Ultime 24 Ore: #{item.rain_sum} mm
 
                     if(item.wind !== "N/A")
                         tr
@@ -143,7 +149,7 @@ block content
                                 p.d-inline Velocità: #{item.wind.speed} Km/h
                             td(style="width: 50%")
                                 i.wi.wi-wind.towards-23-deg.d-inline
-                                p.d-inline Direzione: #{meteoUtils.degToCardinal(item.wind.direction)}
+                                p.d-inline Direzione: #{item.wind.cardinal_direction}
 
                     if(item.lighting !== "N/A")
                         tr

@@ -1,8 +1,19 @@
 express = require('express');
+forecast = require('./forecast');
+
+module.exports = Object.assign({}, 
+    seaLevelPressure, 
+    dewPoint,
+    humidex,
+    windchill,
+    degToCardinal,
+    calcBarometerDifference, 
+    forecast);
+
 
 
 function seaLevelPressure(pressure, altitude) {
-    return pressure + (altitude / 8) * 100;
+    return Math.round(pressure + (altitude / 8) * 100) / 100; //mbar/hpa
 }
 
 //Punto di Rugiada
@@ -13,12 +24,14 @@ function dewPoint(temperature, humidity) {
     return Math.round(dew_point * 10) / 10;
 }
 
+//Temperatura percepita
 function humidex(temperature, humidity) {
     if (temperature < 21 || humidity < 20) return temperature;
     let humidex = temperature + 0.5555 * (6.112 * humidity / 100 * Math.pow(10, ((7.5 * temperature) / (237.7 + temperature))) - 10);
     return Math.round(humidex * 10) / 10;
 }
 
+//Temperatura percepita a causa del vento
 function windchill(temperature, wind) {
     wind *= 3.6; //Km/h -> m/s
     if (temperature <= 10 || !(wind <= 25 && wind >= 1.78)) return temperature;
