@@ -203,11 +203,10 @@ module.exports.querySingleStationLastData = async function (station_id) {
         if (pressure_diff > 1) trend = 1;
         if (pressure_diff < -1) trend = 2;
 
-        if (wind !== 'N/A') {
+        if (wind !== 'N/A' && wind.speed > 0) {
             forecast = meteoUtils.forecast(sea_level_pressure, wind.cardinal_direction, trend);
         } else {
             forecast = meteoUtils.forecast(sea_level_pressure, 1, trend);
-
         }
     } else {
         forecast = 'N/A';
