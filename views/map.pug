@@ -33,7 +33,7 @@ block content
                     if (station.temperature !== "N/A") html += "<span class='wi wi-thermometer'></span> " + station.temperature + " °C <br>";
                     if (station.humidity !== "N/A") html += "<span class='wi wi-humidity'></span> " + station.humidity + " % <br>";
                     if (station.pressure !== "N/A") html += "<span class='wi wi-barometer'></span> " + station.pressure + " hPa <br>";
-                    if (station.rain !== "N/A") html += "<span class='wi wi-showers'></span> " + station.rain + " mm <br>";
+                    if (station.rain_sum !== "N/A") html += "<span class='wi wi-showers'></span> " + station.rain_sum + " mm <br>";
                     if (station.wind !== "N/A") html += "<span class='wi wi-strong-wind'></span> " + station.wind.speed + " Km/h " + station.wind.direction + " °N <br>";
                     if (station.lighting !== "N/A") html += "<span class='wi wi-lightning'></span> " + station.lighting.distance + " Km " + station.lighting.stamp + "<br>";
                     html += "</p>";
