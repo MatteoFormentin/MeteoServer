@@ -124,13 +124,14 @@ app.use('/config/delete_data', configuration_delete_data);
 
 
 /*API Routing*/
-var postData = require('./routes/api/post_data');
+var postData = require('./routes/api/post_data_old');
+var update = require('./routes/api/update');
 var api_station = require('./routes/api/station');
 var api_list_station = require('./routes/api/list');
 
-var firmw_updater = require('./routes/api/update');
+var firmw_updater = require('./routes/api/firmware_update');
 
-app.use('/api/post_data', postData);
+app.use('/api/update', update);
 app.use('/post_data', postData); //Retro-compatibility
 
 app.use('/api/station/list', api_list_station);

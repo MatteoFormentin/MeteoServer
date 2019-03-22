@@ -97,7 +97,18 @@ function checkOnline(d) {
 }*/
 
 function checkOnline(d) {
-    d = new Date(Date.parse(d + " GMT"));
+    var date = d.split(' ')[0];
+    var time = d.split(' ')[1];
+
+    var day = date.split('/')[0];
+    var month = date.split('/')[1];
+    var year = date.split('/')[2];
+
+    var hour = time.split(':')[0];
+    var minute = time.split(':')[1];
+
+    d = new Date(year, month, day, hour, minute);
+
     var difference_minute = 30;
     var difference_milliseconds = difference_minute * 60 * 1000;
     var now = new Date(Date.now());

@@ -23,8 +23,6 @@ module.exports.querySingleStationLastData = async function (station_id) {
     ]);
     station = station[0];
 
-    console.log(station);
-
     if (station == undefined) return undefined; //station id not existing
 
     /*------RETURN OBJECT INIT------*/
@@ -36,17 +34,17 @@ module.exports.querySingleStationLastData = async function (station_id) {
     let altitude = station.Altitude;
     let last_update = undefined;
     let temperature = 0;
-    let temperature_diff = 0;
+    let temperature_trend = 0;
     let max_temperature = 0;
     let min_temperature = 0;
     let pressure = 0;
     let sea_level_pressure = 0;
-    let pressure_diff = 0;
+    let pressure_trend = 0;
     let humidity = 0;
     let dew_point = 0;
     let humidex = 0;
-    let rain_sum = 0;
-    let rain_sum_hour = 0;
+    let rain_day = 0;
+    let rain_hour = 0;
     let rain_last = 0;
     let lighting = {
         distance: 0,
@@ -69,7 +67,7 @@ module.exports.querySingleStationLastData = async function (station_id) {
         temperature = 'N/A';
     } else {
         temperature = rows[0].Val;
-        temperature_diff = Math.round((rows[rows.length - 1].Val - rows[0].Val) * 10) / 10;
+        temperature_trend = Math.round((rows[rows.length - 1].Val - rows[0].Val) * 10) / 10;
         rows = await database.asynchQuery(max_temp_query, [
             station_id,
             dateConvert.midnightTimeStamp(),
@@ -101,7 +99,7 @@ module.exports.querySingleStationLastData = async function (station_id) {
     }
     else {
         pressure = Math.round(rows[0].Val) / 100;
-        pressure_diff = (rows[rows.length - 1].Val - rows[0].Val) / 100;
+        pressure_trend = (rows[rows.length - 1].Val - rows[0].Val) / 100;
         sea_level_pressure = meteoUtils.seaLevelPressure(rows[0].Val, altitude);
     }
 
@@ -115,7 +113,7 @@ module.exports.querySingleStationLastData = async function (station_id) {
     }
     else {
         humidity = rows[0].Val;
-        last_update = rows[0].Stamp;
+        last_update = dateConvert.timestampToDate(rows[0].Stamp);
     }
 
     //Dew Point -- Humidex
@@ -144,12 +142,12 @@ module.exports.querySingleStationLastData = async function (station_id) {
         dateConvert.dateToTimeStamp(new Date(), true)
     ]);
     if (rows === undefined) {
-        rain_sum = 'N/A';
+        rain_day = 'N/A';
     } else if (rows[0].total === null) {
-        rain_sum = 'N/A';
+        rain_day = 'N/A';
     } else {
 
-        rain_sum = Math.round(rows[0].total * 100) / 100;
+        rain_day = Math.round(rows[0].total * 100) / 100;
     }
 
     rows = await database.asynchQuery(rain_sum_query_hour, [
@@ -158,11 +156,11 @@ module.exports.querySingleStationLastData = async function (station_id) {
         dateConvert.dateToTimeStamp(new Date(), true)
     ]);
     if (rows === undefined) {
-        rain_sum_hour = 'N/A';
+        rain_hour = 'N/A';
     } else if (rows[0].total === null) {
-        rain_sum_hour = 'N/A';
+        rain_hour = 'N/A';
     } else {
-        rain_sum_hour = Math.round(rows[0].total * 100) / 100;
+        rain_hour = Math.round(rows[0].total * 100) / 100;
     }
 
     //Wind - related
@@ -200,8 +198,8 @@ module.exports.querySingleStationLastData = async function (station_id) {
 
     if (sea_level_pressure !== 'N/A') {
         let trend = 0;
-        if (pressure_diff > 1) trend = 1;
-        if (pressure_diff < -1) trend = 2;
+        if (pressure_trend > 1) trend = 1;
+        if (pressure_trend < -1) trend = 2;
 
         if (wind !== 'N/A' && wind.speed > 0) {
             forecast = meteoUtils.forecast(sea_level_pressure, wind.cardinal_direction, trend);
@@ -220,17 +218,17 @@ module.exports.querySingleStationLastData = async function (station_id) {
         altitude: altitude,
         last_update: last_update,
         temperature: temperature,
-        temperature_diff: temperature_diff,
+        temperature_trend: temperature_trend,
         max_temperature: max_temperature,
         min_temperature: min_temperature,
         pressure: pressure,
         sea_level_pressure: sea_level_pressure,
-        pressure_diff: pressure_diff,
+        pressure_trend: pressure_trend,
         humidity: humidity,
         dew_point: dew_point,
         humidex: humidex,
-        rain_sum: rain_sum,
-        rain_sum_hour: rain_sum_hour,
+        rain_day: rain_day,
+        rain_hour: rain_hour,
         rain_last: rain_last,
         lighting: lighting,
         wind: wind,

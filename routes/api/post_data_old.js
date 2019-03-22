@@ -4,24 +4,8 @@ var router = express.Router();
 /* POST new data from sensor. */
 router.post('/', function (req, res, next) {
 
-    /*
-        STRUTTURA RICHIESTA JSON
-        {
-            "Token": "uuid",
-            "Temperature": "Val",
-            "Pressure": 10,
-            "Humidity": 10,
-            "Rain": 10,
-            "Wind": {
-                "Speed": 10,
-                "Direction": "NE"
-            },
-            "Lighting": 10
-        }
-     */
 
     let data = req.body;
-    console.log('Request Token: ' + data.Token);
 
     let timestamp = dateConvert.dateToTimeStampSecond(new Date());
     console.log(timestamp);

@@ -20,13 +20,13 @@ block content
                             tr.text-center
                                 th(colspan='2').
                                     #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
-                                    Ultimo Aggiornamento: #{dateConvert.timestampToDate(item.last_update)} ONLINE
+                                    Ultimo Aggiornamento: #{item.last_update} ONLINE
                     else
                         thead.bg-danger
                             tr.text-center
                                 th(colspan='2').
                                     #{item.station} - #{item.location} - Altitudine: #{item.altitude} mslm -
-                                    Ultimo Aggiornamento: #{dateConvert.timestampToDate(item.last_update)} OFFLINE
+                                    Ultimo Aggiornamento: #{item.last_update} OFFLINE
 
                     tbody
                         if(item.temperature !== "N/A")
@@ -37,15 +37,15 @@ block content
                                     i.wi.wi-thermometer.d-inline
                                     p(style="padding-right: 5px;").d-inline Temperatura: #{item.temperature}°C
 
-                                    if(parseInt(item.temperature_diff) < -5)
+                                    if(parseInt(item.temperature_trend) < -5)
                                         i.wi.wi-direction-down.text-info
-                                    else if(parseInt(item.temperature_diff) < -1)
+                                    else if(parseInt(item.temperature_trend) < -1)
                                         i.wi.wi-direction-down-right.text-info
-                                    else if(parseInt(item.temperature_diff) < 0)
+                                    else if(parseInt(item.temperature_trend) < 0)
                                         i.wi.wi-direction-right.text-success
-                                    else if(parseInt(item.temperature_diff) < 1)
+                                    else if(parseInt(item.temperature_trend) < 1)
                                         i.wi.wi-direction-right.text-success
-                                    else if(parseInt(item.temperature_diff) < 5)
+                                    else if(parseInt(item.temperature_trend) < 5)
                                         i.wi.wi-direction-up-right.text-danger
                                     else
                                         i.wi.wi-direction-up.text-danger
@@ -89,15 +89,15 @@ block content
                                     i.wi.wi-barometer.d-inline
                                     p(style="padding-right: 5px;").d-inline Pressione: #{item.pressure} hPa
 
-                                    if(parseInt(item.pressure_diff) < -2)
+                                    if(parseInt(item.pressure_trend) < -2)
                                         i.wi.wi-direction-down.text-info
-                                    else if(parseInt(item.pressure_diff) < -1)
+                                    else if(parseInt(item.pressure_trend) < -1)
                                         i.wi.wi-direction-down-right.text-info
-                                    else if(parseInt(item.pressure_diff) < 0)
+                                    else if(parseInt(item.pressure_trend) < 0)
                                         i.wi.wi-direction-right.text-success
-                                    else if(parseInt(item.pressure_diff) < 1)
+                                    else if(parseInt(item.pressure_trend) < 1)
                                         i.wi.wi-direction-right.text-success
-                                    else if(parseInt(item.pressure_diff) < 2)
+                                    else if(parseInt(item.pressure_trend) < 2)
                                         i.wi.wi-direction-up-right.text-danger
                                     else
                                         i.wi.wi-direction-up.text-danger
@@ -123,22 +123,22 @@ block content
                                 else
                                     td(style="width: 50%")
                                         i.wi.wi-showers.d-inline
-                                        if(item.rain_sum_hour <= 1)
-                                            p.d-inline Pioviggine: #{item.rain_sum_hour} mm
-                                        else if(item.rain_sum_hour <= 2)
-                                            p.d-inline Pioggia Debole: #{item.rain_sum_hour} mm
-                                        else if(item.rain_sum_hour <= 5)
-                                            p.d-inline Pioggia Moderata: #{item.rain_sum_hour} mm
-                                        else if(item.rain_sum_hour <= 10)
-                                            p.d-inline Pioggia Forte: #{item.rain_sum_hour} mm
-                                        else if(item.rain_sum_hour <= 30)
-                                            p.d-inline Rovescio: #{item.rain_sum_hour} mm
-                                        else if(item.rain_sum_hour > 30)
-                                            p.d-inline Nubifragio:#{item.rain_sum_hour} mm
+                                        if(item.rain_hour <= 1)
+                                            p.d-inline Pioviggine: #{item.rain_hour} mm
+                                        else if(item.rain_hour <= 2)
+                                            p.d-inline Pioggia Debole: #{item.rain_hour} mm
+                                        else if(item.rain_hour <= 5)
+                                            p.d-inline Pioggia Moderata: #{item.rain_hour} mm
+                                        else if(item.rain_hour <= 10)
+                                            p.d-inline Pioggia Forte: #{item.rain_hour} mm
+                                        else if(item.rain_hour <= 30)
+                                            p.d-inline Rovescio: #{item.rain_hour} mm
+                                        else if(item.rain_hour > 30)
+                                            p.d-inline Nubifragio:#{item.rain_hour} mm
 
                                 td(style="width: 50%")
                                     i.wi.wi-showers.d-inline
-                                    p.d-inline Ultime 24 Ore: #{item.rain_sum} mm
+                                    p.d-inline Ultime 24 Ore: #{item.rain_day} mm
 
                         if(item.wind !== "N/A")
                             tr
