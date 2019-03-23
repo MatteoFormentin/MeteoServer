@@ -18,12 +18,10 @@ module.exports.updateStationData = async function (data) {
         }
      */
 
-    console.log(data.token);
 
     let station = await database.asynchQuery('SELECT * FROM Station WHERE Token=?', [data.token]);
 
     station = station[0];
-    console.log(station);
 
     //Unauthorized request
     if (station === undefined) {
@@ -39,7 +37,7 @@ module.exports.updateStationData = async function (data) {
 
     let timestamp = dateConvert.dateToTimeStampSecond(new Date());
 
-    if ("temperature" in data) {
+    if (data.hasOwnProperty("pressure")) {
         await database.asynchQuery(insert_temperature, [station.Id, data.temperature, timestamp]);
     }
 
@@ -54,11 +52,9 @@ module.exports.updateStationData = async function (data) {
     if (data.hasOwnProperty("rain")) {
         await database.asynchQuery(insert_rain, [station.Id, data.rain, timestamp]);
     }
-
     
     if (data.hasOwnProperty("wind")) {
         await database.asynchQuery(insert_wind, [station.Id, data.wind.speed, data.wind.direction, timestamp]);
-
     }
 
     if (data.hasOwnProperty("lighting")) {

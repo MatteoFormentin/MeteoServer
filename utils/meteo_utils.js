@@ -35,7 +35,7 @@ function humidex(temperature, humidity) {
 function windchill(temperature, wind) {
     wind *= 3.6; //Km/h -> m/s
     if (temperature <= 10 || !(wind <= 25 && wind >= 1.78)) return temperature;
-    let windchill = (0.45 * Math.pow(wind, 0.5) + 0.47 - wind)(temperature - 33) + 33;
+    let windchill = (0.45 * Math.pow(wind, 0.5) + 0.47 - wind)*(temperature - 33) + 33;
     return Math.round(windchill * 10) / 10;
 }
 
