@@ -35,6 +35,9 @@ module.exports.updateStationData = async function (data) {
     let insert_wind = 'INSERT INTO Wind (Id, Speed, Direction, Stamp) VALUES (?, ?, ?, ?)';
     let insert_lighting = 'INSERT INTO Lighting (Id, Distance, Stamp) VALUES (?, ?, ?)';
 
+    let station_last_update = 'UPDATE Station SET LastUpdate=? WHERE Id=?';
+
+
     let timestamp = dateConvert.dateToTimeStampSecond(new Date());
 
     if (data.hasOwnProperty("pressure")) {
@@ -60,6 +63,9 @@ module.exports.updateStationData = async function (data) {
     if (data.hasOwnProperty("lighting")) {
         await database.asynchQuery(insert_lighting, [station.Id, data.lighting, timestamp]);
     }
+
+    //Update Last Update station field
+    await database.asynchQuery(station_last_update, [timestamp, station.Id]);
 
     return true;
 }

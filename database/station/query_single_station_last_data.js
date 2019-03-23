@@ -24,6 +24,13 @@ module.exports.querySingleStationLastData = async function (station_id) {
     station = station[0];
 
     if (station == undefined) return undefined; //station id not existing
+  
+    if (last_update !== null) {
+        last_update = dateConvert.timestampToDate(station.LastUdate);
+    }
+    else {
+        last_update = 'N/A'
+    }
 
     /*------RETURN OBJECT INIT------*/
     let name = station.StationName;
@@ -109,11 +116,9 @@ module.exports.querySingleStationLastData = async function (station_id) {
     ]);
     if (rows[0] === undefined) {
         humidity = 'N/A';
-        last_update = 'Non disponibile'
     }
     else {
         humidity = rows[0].Val;
-        last_update = dateConvert.timestampToDate(rows[0].Stamp);
     }
 
     //Dew Point -- Humidex

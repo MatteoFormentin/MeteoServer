@@ -17,85 +17,89 @@ router.post('/', function (req, res, next) {
             console.log('unauthorized request');
         } else {
             var id = rows[0].Id;
-            switch (data.Table) {
-                //Inserimento temperatura
-                case 'Temperature':
-                    database.query('INSERT INTO  Temperature (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
-                        + timestamp + '\')',
-                        function (err, rows, fields) {
-                            if (err) {
-                                error.errorHandlerAPI(err, req, res);
-                            } else {
-                                res.send('ok');
-                            }
-                        });
-                    break;
+            let station_last_update = 'UPDATE Station SET LastUpdate=? WHERE Id=?';
 
-                //Inserimento pressione
-                case 'Pressure':
-                    database.query('INSERT INTO Pressure (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
-                        + timestamp + '\')',
-                        function (err, rows, fields) {
-                            if (err) {
-                                error.errorHandlerAPI(err, req, res);
-                            } else {
-                                res.send('ok');
-                            }
-                        });
-                    break;
+            database.asynchQuery(station_last_update, [timestamp, id]).then(() => {
+                switch (data.Table) {
+                    //Inserimento temperatura
+                    case 'Temperature':
+                        database.query('INSERT INTO  Temperature (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
+                            + timestamp + '\')',
+                            function (err, rows, fields) {
+                                if (err) {
+                                    error.errorHandlerAPI(err, req, res);
+                                } else {
+                                    res.send('ok');
+                                }
+                            });
+                        break;
 
-                case 'Humidity':
-                    database.query('INSERT INTO Humidity (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
-                        + timestamp + '\')',
-                        function (err, rows, fields) {
-                            if (err) {
-                                error.errorHandlerAPI(err, req, res);
-                            } else {
-                                res.send('ok');
-                            }
-                        });
-                    break;
+                    //Inserimento pressione
+                    case 'Pressure':
+                        database.query('INSERT INTO Pressure (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
+                            + timestamp + '\')',
+                            function (err, rows, fields) {
+                                if (err) {
+                                    error.errorHandlerAPI(err, req, res);
+                                } else {
+                                    res.send('ok');
+                                }
+                            });
+                        break;
 
-                case 'Rain':
-                    database.query('INSERT INTO Rain (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
-                        + timestamp + '\')',
-                        function (err, rows, fields) {
-                            if (err) {
-                                error.errorHandlerAPI(err, req, res);
-                            } else {
-                                res.send('ok');
-                            }
-                        });
-                    break;
+                    case 'Humidity':
+                        database.query('INSERT INTO Humidity (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
+                            + timestamp + '\')',
+                            function (err, rows, fields) {
+                                if (err) {
+                                    error.errorHandlerAPI(err, req, res);
+                                } else {
+                                    res.send('ok');
+                                }
+                            });
+                        break;
 
-                case 'Wind':
-                    database.query('INSERT INTO Wind (Id, Speed, Direction, Stamp) VALUES (\'' + id + '\', \'' + data.Speed +
-                        '\', \'' + data.Direction + '\', \'' + timestamp + '\')',
-                        function (err, rows, fields) {
-                            if (err) {
-                                error.errorHandlerAPI(err, req, res);
-                            } else {
-                                res.send('ok');
-                            }
-                        });
-                    break;
+                    case 'Rain':
+                        database.query('INSERT INTO Rain (Id, Val, Stamp) VALUES (\'' + id + '\', \'' + data.Val + '\', \''
+                            + timestamp + '\')',
+                            function (err, rows, fields) {
+                                if (err) {
+                                    error.errorHandlerAPI(err, req, res);
+                                } else {
+                                    res.send('ok');
+                                }
+                            });
+                        break;
 
-                case 'Lighting':
-                    database.query('INSERT INTO Lighting (Id, Distance, Stamp) VALUES (\'' + id + '\', \'' + data.Distance + '\', \''
-                        + timestamp + '\')',
-                        function (err, rows, fields) {
-                            if (err) {
-                                error.errorHandlerAPI(err, req, res);
-                            } else {
-                                res.send('ok');
-                            }
-                        });
-                    break;
+                    case 'Wind':
+                        database.query('INSERT INTO Wind (Id, Speed, Direction, Stamp) VALUES (\'' + id + '\', \'' + data.Speed +
+                            '\', \'' + data.Direction + '\', \'' + timestamp + '\')',
+                            function (err, rows, fields) {
+                                if (err) {
+                                    error.errorHandlerAPI(err, req, res);
+                                } else {
+                                    res.send('ok');
+                                }
+                            });
+                        break;
 
-                default:
-                    console.log('No Table');
-                    res.send('no');
-            }
+                    case 'Lighting':
+                        database.query('INSERT INTO Lighting (Id, Distance, Stamp) VALUES (\'' + id + '\', \'' + data.Distance + '\', \''
+                            + timestamp + '\')',
+                            function (err, rows, fields) {
+                                if (err) {
+                                    error.errorHandlerAPI(err, req, res);
+                                } else {
+                                    res.send('ok');
+                                }
+                            });
+                        break;
+
+                    default:
+                        console.log('No Table');
+                        res.send('no');
+                }
+            });
         }
     });
 });

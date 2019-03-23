@@ -26,6 +26,7 @@ module.exports = async function initTables() {
             '    Altitude Int NOT NULL,\n' +
             '    IP Varchar(255), \n' +
             '    Token Varchar(255), \n' +
+            '    LastUpdate DATETIME, \n' +
             '    PRIMARY KEY (Id) \n' +
             ');'
         );
