@@ -29,14 +29,14 @@ var rise_options = new Array(25, 25, 25, 24, 24, 19, 16, 12, 11, 9, 8, 6, 5, 2, 
 var steady_options = new Array(25, 25, 25, 25, 25, 25, 23, 23, 22, 18, 15, 13, 10, 4, 1, 1, 0, 0, 0, 0, 0, 0);
 var fall_options = new Array(25, 25, 25, 25, 25, 25, 25, 25, 23, 23, 21, 20, 17, 14, 7, 3, 1, 1, 1, 0, 0, 0);
 
-var z_test = {
-	zambretti_number: -1,
-	forecast_phrase: "",
-	forecast_phrase_it: ""
-}
-
 // ---- MAIN FUNCTION --------------------------------------------------
 function forecast(z_hpa, z_wind, z_trend, z_hemisphere, z_upper, z_lower) {
+	var z_test = {
+		zambretti_number: -1,
+		forecast_phrase: "",
+		forecast_phrase_it: ""
+	}
+
 	if (z_hemisphere) z_where = z_hemisphere;	// used by input form
 	if (z_upper) z_baro_top = z_upper;	// used by input form
 	if (z_lower) z_baro_bottom = z_lower; 	// used by input form
@@ -137,29 +137,34 @@ function forecast(z_hpa, z_wind, z_trend, z_hemisphere, z_upper, z_lower) {
 	if (z_hpa == z_baro_top) z_hpa = z_baro_top - 1;
 	z_option = Math.floor((z_hpa - z_baro_bottom) / z_constant);
 	z_output = "";
+	z_output_it = ""
 	if (z_option < 0) {
 		z_option = 0;
 		z_output = "Exceptional Weather, ";
+		z_output_it = "Tempo eccezionale, ";
 	}
 	if (z_option > 21) {
 		z_option = 21;
 		z_output = "Exceptional Weather, ";
+		z_output_it = "Tempo eccezionale, ";
 	}
 
 	if (z_trend == 1) { 	// rising
 		z_output += z_forecast[rise_options[z_option]];
+		z_output_it += z_forecast_italian[rise_options[z_option]]
 		z_test.zambretti_number = rise_options[z_option];
 	} else if (z_trend == 2) { 	// falling
 		z_output += z_forecast[fall_options[z_option]];
+		z_output_it += z_forecast_italian[fall_options[z_option]]
 		z_test.zambretti_number = fall_options[z_option];
 	} else { 	// must be 'steady'
 		z_output += z_forecast[steady_options[z_option]];
+		z_output_it += z_forecast_italian[steady_options[z_option]]
 		z_test.zambretti_number = steady_options[z_option];
 	}
 	//	return z_output ; 
 	z_test.forecast_phrase = z_output;
-	z_test.forecast_phrase_it = z_forecast_italian[z_test.zambretti_number];
-
+	z_test.forecast_phrase_it = z_output_it;
 	return z_test;
 }	// END function   		
 
