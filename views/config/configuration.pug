@@ -13,7 +13,7 @@ block content
         div.tab-content
 
             //Pannello stazioni
-            div.container.tab-pane.active(id='stat')
+            div.tab-pane.active(id='stat')
                 div.row.justify-content-md-center.little-margin-top
                     form.form-row.padding-bottom(method='POST' action='/config/station/new_station')
                         div.col-auto.form-group
@@ -48,6 +48,7 @@ block content
                             th Longitudine
                             th Altitudine
                             th Indirizzo
+                            th Ultimo Agg.
                             th Token
                             th Modifica
 
@@ -60,6 +61,7 @@ block content
                             td.align-middle#thLongitude=item.Longitude
                             td.align-middle#thAltitude=item.Altitude
                             td.align-middle#thIP=item.IP
+                            td.align-middle#thIP=dateConvert.dateFormatter(new Date(item.LastUpdate + 'Z'))
                             td.align-middle#thToken=item.Token
                             td
                                 div
@@ -114,7 +116,7 @@ block content
                                                 button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit' style="width: 100px;") Modifica
 
             //Pannello utenti
-            div.container.tab-pane(id='user')
+            div.tab-pane(id='user')
                 div.row.justify-content-md-center.little-margin-top
                     form.form-row.padding-bottom(method='POST' action='/user/new_user')
                         div.col-auto.form-group
