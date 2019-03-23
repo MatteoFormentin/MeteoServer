@@ -33,6 +33,7 @@ function humidex(temperature, humidity) {
 
 //Temperatura percepita a causa del vento
 function windchill(temperature, wind) {
+    if (temperature > 10) return "N/A";
     wind *= 3.6; //Km/h -> m/s
     if (temperature <= 10 || !(wind <= 25 && wind >= 1.78)) return temperature;
     let windchill = (0.45 * Math.pow(wind, 0.5) + 0.47 - wind)*(temperature - 33) + 33;

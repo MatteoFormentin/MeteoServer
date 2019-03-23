@@ -33,7 +33,7 @@ block content
                             tr
                                 th(colspan='2') Temperatura / Umidità
                             tr
-                                td(style="width: 50%")
+                                td(style="width: 25%")
                                     i.wi.wi-thermometer.d-inline
                                     p(style="padding-right: 5px;").d-inline Temperatura: #{item.temperature}°C
 
@@ -51,12 +51,12 @@ block content
                                         i.wi.wi-direction-up.text-danger
 
                                 if(item.humidity !== "N/A" && item.temperature > 10)
-                                    td(style="width: 50%")
+                                    td(style="width: 25%")
                                         i.wi.wi-thermometer.d-inline
                                         p.d-inline Percepita: #{item.humidex}°C
 
                                 else if (item.wind !== "N/A")
-                                    td(style="width: 50%")
+                                    td(style="width: 25%")
                                         i.wi.wi-thermometer.d-inline
                                         p.d-inline Percepita: #{item.windchill}°C
                             tr

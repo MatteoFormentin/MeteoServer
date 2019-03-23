@@ -99,7 +99,7 @@ module.exports.querySingleStationLastData = async function (station_id) {
     }
     else {
         pressure = Math.round(rows[0].Val) / 100;
-        pressure_trend = (rows[rows.length - 1].Val - rows[0].Val) / 100;
+        pressure_trend = Math.round(rows[rows.length - 1].Val - rows[0].Val) / 100;
         sea_level_pressure = meteoUtils.seaLevelPressure(rows[0].Val, altitude);
     }
 
@@ -133,7 +133,7 @@ module.exports.querySingleStationLastData = async function (station_id) {
         rain_last = 'N/A';
     }
     else {
-        rain_last = Math.round(rows[0].total * 100) / 100;
+        rain_last = Math.round(rows[0].Val * 100) / 100;
     }
 
     rows = await database.asynchQuery(rain_sum_query, [
