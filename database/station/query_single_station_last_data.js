@@ -24,13 +24,6 @@ module.exports.querySingleStationLastData = async function (station_id) {
     station = station[0];
 
     if (station == undefined) return undefined; //station id not existing
-  
-    if (last_update !== null) {
-        last_update = dateConvert.timestampToDate(station.LastUdate);
-    }
-    else {
-        last_update = 'N/A'
-    }
 
     /*------RETURN OBJECT INIT------*/
     let name = station.StationName;
@@ -62,6 +55,13 @@ module.exports.querySingleStationLastData = async function (station_id) {
         direction: 0,
         cardinal_direction: 0
     };
+
+    if (last_update !== null) {
+        last_update = dateConvert.timestampToDate(station.LastUpdate);
+    }
+    else {
+        last_update = 'N/A'
+    }
 
 
     //Temperature - related
