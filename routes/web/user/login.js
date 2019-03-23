@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.get("/", function (req, res) {
     if (req.isAuthenticated()) {
-        res.render('/')
+        res.redirect('/')
     }
     else {
         //req.flash('info',"welcome");
