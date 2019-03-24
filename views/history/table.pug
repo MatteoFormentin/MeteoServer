@@ -3,19 +3,18 @@ extends history
 block data
     //Aggiungere un li per ogni tabella
     ul.nav.nav-tabs(role='tablist')
-        if data.temperature !== 0
-            li.nav-item
-                a.nav-link(data-toggle='tab' href='#temp') TEMPERATURA
-            li.nav-item
-                a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
-            li.nav-item
-                a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
-            li.nav-item
-                a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
-            li.nav-item
-                a.nav-link(data-toggle='tab' href='#wind') VENTO
-            li.nav-item
-                a.nav-link(data-toggle='tab' href='#lighting') FULMINI
+        li.nav-item
+            a.nav-link(data-toggle='tab' href='#temp') TEMPERATURA
+        li.nav-item
+            a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
+        li.nav-item
+            a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
+        li.nav-item
+            a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
+        li.nav-item
+            a.nav-link(data-toggle='tab' href='#wind') VENTO
+        li.nav-item
+            a.nav-link(data-toggle='tab' href='#lighting') FULMINI
 
     div.tab-content
         //Temperatura
@@ -65,6 +64,7 @@ block data
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
+        
         //Pressione
         div.container.tab-pane.fade(id='pres')
             if data.pressure.length !== 0
