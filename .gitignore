@@ -28,3 +28,6 @@ benchmarks/graphs
 .idea/
 *.iml
 *.iws
+
+#VSCODE
+.vscode/

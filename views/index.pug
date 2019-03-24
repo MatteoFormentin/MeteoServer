@@ -51,12 +51,12 @@ block content
                                         i.wi.wi-direction-up.text-danger
 
                                 if(item.humidity !== "N/A" && item.temperature > 10)
-                                    td(style="width: 25%")
+                                    td(style="width: 50%")
                                         i.wi.wi-thermometer.d-inline
                                         p.d-inline Percepita: #{item.humidex}°C
 
                                 else if (item.wind !== "N/A")
-                                    td(style="width: 25%")
+                                    td(style="width: 50%")
                                         i.wi.wi-thermometer.d-inline
                                         p.d-inline Percepita: #{item.windchill}°C
                             tr
