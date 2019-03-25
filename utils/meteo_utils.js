@@ -50,13 +50,13 @@ function degToCardinal(direction) {
     if (direction < 157.5) return "SE";
     if (direction < 180) return "SSE";
     if (direction < 202.5) return "S";
-    if (direction < 225) return "SSO";
-    if (direction < 247.5) return "SO";
-    if (direction < 270) return "OSO";
-    if (direction < 292.5) return "O";
-    if (direction < 315) return "ONO";
-    if (direction < 337.5) return "NO";
-    if (direction < 360) return "NNO";
+    if (direction < 225) return "SSW";
+    if (direction < 247.5) return "SW";
+    if (direction < 270) return "WSW";
+    if (direction < 292.5) return "W";
+    if (direction < 315) return "WNW";
+    if (direction < 337.5) return "NW";
+    if (direction < 360) return "NNW";
 }
 
 function calcBarometerDifference(val) {
@@ -94,12 +94,12 @@ if (0 <= direction < 22.5) return "N";
     if (135 <= direction < 157.5) return "SE";
     if (157.5 <= direction < 180) return "SSE";
     if (180 <= direction < 202.5) return "S";
-    if (202.5 <= direction < 225) return "SSO";
-    if (225 <= direction < 247.5) return "SO";
-    if (247.5 <= direction < 270) return "OSO";
-    if (270 <= direction < 292.5) return "O";
-    if (292.5 <= direction < 315) return "ONO";
-    if (315 <= direction < 337.5) return "NO";
-    if (337.5 <= direction < 0) return "NNO";
+    if (202.5 <= direction < 225) return "SSW";
+    if (225 <= direction < 247.5) return "SW";
+    if (247.5 <= direction < 270) return "WSW";
+    if (270 <= direction < 292.5) return "W";
+    if (292.5 <= direction < 315) return "WNW";
+    if (315 <= direction < 337.5) return "NW";
+    if (337.5 <= direction < 0) return "NNW";
  */
 
