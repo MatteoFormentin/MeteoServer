@@ -9,14 +9,14 @@ module.exports.querySingleStationLastData = async function (station_id) {
 
     var pres_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ?';
 
-    var hum_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=? ORDER BY Stamp DESC LIMIT 1';
+    var hum_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
 
-    var rain_query = 'SELECT Station.Id, Val, Stamp FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=? ORDER BY Stamp DESC LIMIT 1';
+    var rain_query = 'SELECT Station.Id, Val, Stamp FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
     var rain_sum_query = 'SELECT SUM(Val) AS total FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ?';
     var rain_sum_query_hour = 'SELECT SUM(Val) AS total FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ?';
 
-    var lighting_query = 'SELECT Station.Id, Distance, Stamp FROM Lighting INNER JOIN Station ON Lighting.Id = Station.Id WHERE Station.Id=? ORDER BY Stamp DESC LIMIT 1';
-    var wind_query = 'SELECT Station.Id, StationName, Location, Altitude, Speed, Direction, Stamp FROM Wind INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=? ORDER BY Stamp DESC LIMIT 1';
+    var lighting_query = 'SELECT Station.Id, Distance, Stamp FROM Lighting INNER JOIN Station ON Lighting.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
+    var wind_query = 'SELECT Station.Id, StationName, Location, Altitude, Speed, Direction, Stamp FROM Wind INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
 
     let station = await database.asynchQuery('SELECT * FROM Station WHERE Id = ?', [
         station_id
@@ -113,6 +113,8 @@ module.exports.querySingleStationLastData = async function (station_id) {
     //Humidity - related
     rows = await database.asynchQuery(hum_query, [
         station_id,
+        dateConvert.midnightTimeStamp(),
+        dateConvert.dateToTimeStamp(new Date(), true)
     ]);
     if (rows[0] === undefined) {
         humidity = 'N/A';
@@ -133,6 +135,8 @@ module.exports.querySingleStationLastData = async function (station_id) {
     //Rain - related
     rows = await database.asynchQuery(rain_query, [
         station_id,
+        dateConvert.midnightTimeStamp(),
+        dateConvert.dateToTimeStamp(new Date(), true)
     ]);
     if (rows[0] === undefined) {
         rain_last = 'N/A';
@@ -171,6 +175,8 @@ module.exports.querySingleStationLastData = async function (station_id) {
     //Wind - related
     rows = await database.asynchQuery(wind_query, [
         station_id,
+        dateConvert.midnightTimeStamp(),
+        dateConvert.dateToTimeStamp(new Date(), true)
     ]);
     if (rows[0] === undefined) {
         wind = 'N/A';
@@ -191,6 +197,8 @@ module.exports.querySingleStationLastData = async function (station_id) {
     //Lighting - related
     rows = await database.asynchQuery(lighting_query, [
         station_id,
+        dateConvert.midnightTimeStamp(),
+        dateConvert.dateToTimeStamp(new Date(), true)
     ]);
     if (rows[0] === undefined) {
         lighting = 'N/A';

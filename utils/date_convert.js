@@ -107,11 +107,12 @@ function checkOnline(d) {
     var hour = time.split(':')[0];
     var minute = time.split(':')[1];
 
-    d = new Date(year, month, day, hour, minute);
+    d = new Date(year, month - 1, day, hour, minute);
 
     var difference_minute = 30;
     var difference_milliseconds = difference_minute * 60 * 1000;
     var now = new Date(Date.now());
+    
     return (now.getTime() - d.getTime()) < difference_milliseconds;
 }
 
