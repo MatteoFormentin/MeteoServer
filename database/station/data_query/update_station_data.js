@@ -15,6 +15,10 @@ module.exports.updateStationData = async function (data) {
                 "direction": 0
             },
             "lighting": 10
+            "air_quality": {
+                "PM25": 10,
+                "PM10": 10
+            }
         }
      */
 
@@ -34,6 +38,7 @@ module.exports.updateStationData = async function (data) {
     let insert_rain = 'INSERT INTO Rain (Id, Val, Stamp) VALUES (?, ?, ?)';
     let insert_wind = 'INSERT INTO Wind (Id, Speed, Direction, Stamp) VALUES (?, ?, ?, ?)';
     let insert_lighting = 'INSERT INTO Lighting (Id, Distance, Stamp) VALUES (?, ?, ?)';
+    let insert_air_quality = 'INSERT INTO AirQuality (Id, PM25, PM10, Stamp) VALUES (?, ?, ?, ?)';
 
     let station_last_update = 'UPDATE Station SET LastUpdate=? WHERE Id=?';
 
@@ -62,6 +67,10 @@ module.exports.updateStationData = async function (data) {
 
     if (data.hasOwnProperty("lighting")) {
         await database.asynchQuery(insert_lighting, [station.Id, data.lighting, timestamp]);
+    }
+
+    if (data.hasOwnProperty("air_quality")) {
+        await database.asynchQuery(insert_air_quality, [station.Id, data.air_quality.PM25, data.air_quality.PM10, timestamp]);
     }
 
     //Update Last Update station field

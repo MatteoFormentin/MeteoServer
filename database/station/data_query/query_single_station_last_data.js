@@ -18,6 +18,9 @@ module.exports.querySingleStationLastData = async function (station_id) {
     var lighting_query = 'SELECT Station.Id, Distance, Stamp FROM Lighting INNER JOIN Station ON Lighting.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
     var wind_query = 'SELECT Station.Id, StationName, Location, Altitude, Speed, Direction, Stamp FROM Wind INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
 
+    var air_quality_query = 'SELECT Station.Id, StationName, Location, Altitude, PM2.5, PM10, Direction, Stamp FROM AirQuality INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
+
+
     let station = await database.asynchQuery('SELECT * FROM Station WHERE Id = ?', [
         station_id
     ]);
@@ -55,6 +58,10 @@ module.exports.querySingleStationLastData = async function (station_id) {
         direction: 0,
         cardinal_direction: 0
     };
+    let air_quality = {
+        PM25: 0,
+        PM10: 0
+    }
 
     if (last_update !== null) {
         last_update = dateConvert.timestampToDate(station.LastUpdate);
@@ -208,7 +215,21 @@ module.exports.querySingleStationLastData = async function (station_id) {
         lighting.stamp = dateConvert.timestampToDate(rows[0].Stamp);
     }
 
+    //Air Quality - related
+    rows = await database.asynchQuery(air_quality_query, [
+        station_id,
+        dateConvert.midnightTimeStamp(),
+        dateConvert.dateToTimeStamp(new Date(), true)
+    ]);
+    if (rows[0] === undefined) {
+        air_quality = 'N/A';
+    }
+    else {
+        air_quality.PM25 = rows[0].PM25;
+        air_quality.PM10 = rows[0].PM10;
+    }
 
+    //Get forecast
     if (sea_level_pressure !== 'N/A') {
         let trend = 0;
         if (pressure_trend > 1) trend = 1;

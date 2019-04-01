@@ -105,6 +105,17 @@ module.exports = async function initTables() {
             '    ON DELETE CASCADE\n' +
             ');'
         );
+
+        await database.asynchQuery('CREATE TABLE IF NOT EXISTS AirQuality(\n' +
+            '    Id Int NOT NULL,\n' +
+            '    PM25 Float,\n' +
+            '    PM10 Float,\n' +
+            '    Stamp DATETIME, \n' +
+            '    FOREIGN KEY (Id) \n' +
+            '    REFERENCES Station (Id)\n' +
+            '    ON DELETE CASCADE\n' +
+            ');'
+        );
     } catch (err) {
         error.errorHandler(err);
     }
