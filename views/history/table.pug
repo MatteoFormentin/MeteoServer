@@ -1,165 +1,160 @@
 extends history
 
 block data
+    
     //Aggiungere un li per ogni tabella
     ul.nav.nav-tabs(role='tablist')
-        li.nav-item
+        li.nav-index
             a.nav-link(data-toggle='tab' href='#temp') TEMPERATURA
-        li.nav-item
+        li.nav-index
             a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
-        li.nav-item
+        li.nav-index
             a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
-        li.nav-item
+        li.nav-index
             a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
-        li.nav-item
+        li.nav-index
             a.nav-link(data-toggle='tab' href='#wind') VENTO
-        li.nav-item
+        li.nav-index
             a.nav-link(data-toggle='tab' href='#lighting') FULMINI
 
     div.tab-content
         //Temperatura
         div.container.tab-pane(id='temp')
-            if data.temperature.length !== 0
+            if data.temperature !== 'N/A'
                 table.table.table-bordered.margin-top
                     thead
                         tr.text-center
                             th Valore
                             th Data
-
                     tbody
-                        each item in data.temperature
+                        each t, index in data.temperature.val
                             tr.text-center
-                                td(style="width: 50%").align-middle=item.Val + ' °C'
-                                td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                if logged_user.Admin === 'true'
+                                td(style="width: 50%").align-middle=data.temperature.val[index] + ' °C'
+                                td(style="width: 50%").align-middle=data.temperature.stamp[index]
+                                if logged_user && logged_user.Admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Temperature')
-                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            input(id='Id' name='Id' type='hidden' value=`${data.id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${data.temperature.stamp[index]}`)
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
 
+
         //Umidità
         div.container.tab-pane.fade(id='hum')
-            if data.humidity.length !== 0
+            if data.humidity !== 'N/A'
                 table.table.table-bordered.margin-top
                     thead
                         tr.text-center
                             th Valore
                             th Data
-
                     tbody
-                        each item in data.humidity
+                        each t, index in data.humidity.val
                             tr.text-center
-                                td(style="width: 50%").align-middle=item.Val + ' %'
-                                td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                if logged_user.Admin === 'true'
+                                td(style="width: 50%").align-middle=data.humidity.val[index] + ' %'
+                                td(style="width: 50%").align-middle=data.humidity.stamp[index]
+                                if logged_user && logged_user.Admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Humidity')
-                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            input(id='Id' name='Id' type='hidden' value=`${data.Id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${data.humidity.stamp[index]}`)
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
         
         //Pressione
         div.container.tab-pane.fade(id='pres')
-            if data.pressure.length !== 0
-
+            if data.pressure !== 'N/A'
                 table.table.table-bordered.margin-top
                     thead
                         tr.text-center
                             th Valore
                             th Data
-
                     tbody
-                        each item in data.pressure
+                        each t, index in data.pressure.val
                             tr.text-center
-                                td(style="width: 50%").align-middle #{meteoUtils.seaLevelPressure(parseInt(item.Val), parseInt(selected_station.Altitude)) / 100} hPa
-                                td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                if logged_user.Admin === 'true'
+                                td(style="width: 50%").align-middle=data.pressure.val[index] + 'hPa'
+                                td(style="width: 50%").align-middle=data.pressure.stamp[index]
+                                if logged_user && logged_user.Admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Pressure')
-                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            input(id='Id' name='Id' type='hidden' value=`${data.Id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${data.pressure.stamp[index]}`)
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
 
         //Pioggia
         div.container.tab-pane.fade(id='rain')
-            if data.rain.length !== 0
+            if data.rain !== 'N/A'
                 table.table.table-bordered.margin-top
                     thead
                         tr.text-center
                             th Valore
                             th Data
-
                     tbody
-                        each item in data.rain
+                        each t, index in data.rain.val
                             tr.text-center
-                                td(style="width: 50%").align-middle=item.Val + ' mm'
-                                td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                if logged_user.Admin === 'true'
+                                td(style="width: 50%").align-middle=data.rain.val[index] + ' mm'
+                                td(style="width: 50%").align-middle=data.rain.stamp[index]
+                                if logged_user && logged_user.Admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Rain')
-                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            input(id='Id' name='Id' type='hidden' value=`${data.Id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${data.rain.stamp[index]}`)
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
 
         //Vento
         div.container.tab-pane.fade(id='wind')
-            if data.wind.length !== 0
+            if data.wind !== 'N/A'
                 table.table.table-bordered.margin-top
                     thead
                         tr.text-center
                             th Velocità
                             th Direzione
                             th Data
-
                     tbody
-                        each item in data.wind
+                        each t, index in data.wind.speed
                             tr.text-center
-                                td(style="width: 33%").align-middle=item.Speed + ' Km/h'
-                                td(style="width: 33%").align-middle=meteoUtils.degToCardinal(item.Direction)
-                                td(style="width: 33%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                if logged_user.Admin === 'true'
+                                td(style="width: 33%").align-middle=data.wind.speed[index] + ' Km/h'
+                                td(style="width: 33%").align-middle=data.wind.direction[index]
+                                td(style="width: 33%").align-middle=data.temperature.stamp[index]
+                                if logged_user && logged_user.Admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Wind')
-                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            input(id='Id' name='Id' type='hidden' value=`${data.Id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${data.wind.stamp[index]}`)
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
 
         //Fulmini
         div.container.tab-pane.fade(id='lighting')
-            if data.wind.length !== 0
+            if data.lighting !== 'N/A'
                 table.table.table-bordered.margin-top
                     thead
                         tr.text-center
                             th Distanza
                             th Data
-
                     tbody
-                        each item in data.lighting
+                        each t, index in data.lighting.val
                             tr.text-center
-                                td(style="width: 50%").align-middle=item.Distance + ' Km'
-                                td(style="width: 50%").align-middle #{dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))}
-                                if logged_user.Admin === 'true'
+                                td(style="width: 50%").align-middle=data.lighting.val[index] + ' Km'
+                                td(style="width: 50%").align-middle=data.lighting.stamp[index]
+                                if logged_user && logged_user.Admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Lighting')
-                                            input(id='Id' name='Id' type='hidden' value=`${selected_station.Id}`)
-                                            input(id='Stamp' name='Stamp' type='hidden' value=`${item.Stamp}`)
+                                            input(id='Id' name='Id' type='hidden' value=`${data.id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${data.lighting.stamp[index]}`)
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile

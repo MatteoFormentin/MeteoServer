@@ -40,7 +40,7 @@ module.exports.updateStationData = async function (data) {
 
     let timestamp = dateConvert.dateToTimeStampSecond(new Date());
 
-    if (data.hasOwnProperty("pressure")) {
+    if (data.hasOwnProperty("temperature")) {
         await database.asynchQuery(insert_temperature, [station.Id, data.temperature, timestamp]);
     }
 

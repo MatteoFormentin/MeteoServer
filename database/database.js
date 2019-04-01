@@ -1,9 +1,14 @@
 var express = require('express');
 
-var queryLastDataFromAllStation = require('./station/query_last_data_from_all_station');
-var querySingleStationLastData = require('./station/query_single_station_last_data');
-var listStation = require('./station/list_station');
-var updateStationData = require('./station/update_station_data');
+
+//STATION DATA
+var queryLastDataFromAllStation = require('./station/data_query/query_last_data_from_all_station');
+var querySingleStationLastData = require('./station/data_query/query_single_station_last_data');
+var listStation = require('./station/data_query/list_station');
+var updateStationData = require('./station/data_query/update_station_data');
+var queryHistoryStationData = require('./station/data_query/query_history_station_data');
+
+//USER
 var deleteUser = require('./user/delete_user')
 var loginUser = require('./user/login_user')
 var getUserById = require('./user/get_user_by_id')
@@ -18,6 +23,7 @@ module.exports = Object.assign({},
     querySingleStationLastData,
     listStation,
     updateStationData,
+    queryHistoryStationData,
     loginUser,
     getUserById,
     deleteUser,

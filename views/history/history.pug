@@ -5,14 +5,15 @@ block content
 
     div.padding-base
         form.form-inline.little-padding-bottom(method='GET' action='/history')
-            label(for='station') Stazione:
-            select.form-control.form-margin(id='station' name='station')
-                option(value=0) Seleziona...
-                each item in data.station
-                    if item.StationName === selected_station.StationName
-                        option(value=item.Id selected) #{item.StationName} - #{item.Location}
+            label(for='station_id') Stazione:
+            select.form-control.form-margin(id='station_id' name='station_id')
+                if !data 
+                    option(value=0) Seleziona...
+                each item in station
+                    if data && item.name === data.name
+                        option(value=item.id selected) #{item.name} - #{item.location}
                     else
-                        option(value=item.Id) #{item.StationName} - #{item.Location}
+                        option(value=item.id) #{item.name} - #{item.location}
 
             label(for='date_start') Inizio:
             input.form-control.form-margin(id='date_start' name='date_start' type='text' value=date_start)

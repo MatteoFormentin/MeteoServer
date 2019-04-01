@@ -248,6 +248,4 @@ module.exports.querySingleStationLastData = async function (station_id) {
         windchill: windchill,
         forecast: forecast
     };
-
-
 }

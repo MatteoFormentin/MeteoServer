@@ -11,127 +11,128 @@ block data
 
     div.row
         //TEMPERATURE
-        canvas.col-6(id="TemperatureChart")
-        script.
-            var ctx = document.getElementById("TemperatureChart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: !{JSON.stringify(data_chart.temperature.stamp)},
-                    datasets: [{
-                        label: 'Valore (°C)',
-                        data: [#{data_chart.temperature.val}],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255,99,132,1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        fontColor: 'black',
-                        fontSize: 18,
-                        text: 'TEMPERATURA'
-                    },
-                    legend: {
-                        display: true,
-                        labels: {
-                            fontColor: 'grey'
-                        }
-                    },
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                fontColor: 'grey'
-                            },
-                            scaleLabel: {
-                                display: true,
-                                fontColor: 'grey',
-                                labelString: '°C'
-                            }
-                        }],
-                        xAxes: [{
-                            ticks: {
-                                fontColor: 'grey'
-                            }
+        if(data.temperature !== 'N/A')
+            canvas.col-6(id="TemperatureChart")
+            script.
+                var ctx = document.getElementById("TemperatureChart").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: !{JSON.stringify(data.temperature.stamp)},
+                        datasets: [{
+                            label: 'Valore (°C)',
+                            data: [#{data.temperature.val}],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)'
+                            ],
+                            borderWidth: 1
                         }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            fontColor: 'black',
+                            fontSize: 18,
+                            text: 'TEMPERATURA'
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                fontColor: 'grey'
+                            }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    fontColor: 'grey'
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    fontColor: 'grey',
+                                    labelString: '°C'
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontColor: 'grey'
+                                }
+                            }]
+                        }
                     }
-                }
-            });
-
-
-
+                });
+        
         //HUMIDITY
-        canvas.col-6(id="HumidityChart")
-        script.
-            var ctx = document.getElementById("HumidityChart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: !{JSON.stringify(data_chart.humidity.stamp)},
-                    datasets: [{
-                        label: 'Relativa (%)',
-                        data: [#{data_chart.humidity.val}],
-                        backgroundColor: [
-                            'rgba(255, 206, 86, 0.2)' //Giallo
-                        ],
-                        borderColor: [
-                            'rgba(255, 206, 86, 1)' //Giallo
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        fontColor: 'black',
-                        fontSize: 18,
-                        text: 'UMIDITA\''
-                    },
-                    legend: {
-                        display: true,
-                        labels: {
-                            fontColor: 'grey'
-                        }
-                    },
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                fontColor: 'grey'
-                            },
-                            scaleLabel: {
-                                display: true,
-                                fontColor: 'grey',
-                                labelString: '%'
-                            }
-                        }],
-                        xAxes: [{
-                            ticks: {
-                                fontColor: 'grey'
-                            }
-
+        if(data.humidity !== 'N/A')
+            canvas.col-6(id="HumidityChart")
+            script.
+                var ctx = document.getElementById("HumidityChart").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: !{JSON.stringify(data.humidity.stamp)},
+                        datasets: [{
+                            label: 'Relativa (%)',
+                            data: [#{data.humidity.val}],
+                            backgroundColor: [
+                                'rgba(255, 206, 86, 0.2)' //Giallo
+                            ],
+                            borderColor: [
+                                'rgba(255, 206, 86, 1)' //Giallo
+                            ],
+                            borderWidth: 1
                         }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            fontColor: 'black',
+                            fontSize: 18,
+                            text: 'UMIDITA\''
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                fontColor: 'grey'
+                            }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontColor: 'grey'
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    fontColor: 'grey',
+                                    labelString: '%'
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontColor: 'grey'
+                                }
+
+                            }]
+                        }
                     }
-                }
-            });
+                });
 
     div.row
         //PRESSURE
-        canvas.col-6(id="PressureChart")
+        if(data.pressure !== 'N/A')
+            canvas.col-6(id="PressureChart")
             script.
                 var ctx = document.getElementById("PressureChart").getContext('2d');
                 var myChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: !{JSON.stringify(data_chart.pressure.stamp)},
+                        labels: !{JSON.stringify(data.pressure.stamp)},
                         datasets: [{
                             label: ' Sea Level (hPa / mbar)',
-                            data: [#{data_chart.pressure.val}],
+                            data: [#{data.pressure.val}],
                             backgroundColor: [
                                 'rgba(75, 192, 192, 0.2)'
                             ],
@@ -176,196 +177,199 @@ block data
                 });
 
         //RAIN
-        canvas.col-6(id = "RainChart")
-        script.
-            var ctx = document.getElementById("RainChart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: !{JSON.stringify(data_chart.rain.stamp)},
-                    datasets: [{
-                        label: 'Pioggia (mm)',
-                        data: [#{data_chart.rain.val}],
-                        backgroundColor: [
-                            'rgba(54, 162, 235, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(54, 162, 235, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        fontColor: 'black',
-                        fontSize: 18,
-                        text: 'PIOGGIA Tot Periodo: #{rain_amount} mm'
-                    },
-                    legend: {
-                        display: true,
-                        labels: {
-                            fontColor: 'grey'
-                        }
-                    },
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                fontColor: 'grey'
-                            },
-                            scaleLabel: {
-                                display: true,
-                                fontColor: 'grey',
-                                labelString: 'mm'
-                            }
-                        }],
-                        xAxes: [{
-                            ticks: {
-                                fontColor: 'grey'
-                            }
-
+        if(data.rain !== 'N/A')
+            canvas.col-6(id = "RainChart")
+            script.
+                var ctx = document.getElementById("RainChart").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: !{JSON.stringify(data.rain.stamp)},
+                        datasets: [{
+                            label: 'Pioggia (mm)',
+                            data: [#{data.rain.val}],
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)'
+                            ],
+                            borderWidth: 1
                         }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            fontColor: 'black',
+                            fontSize: 18,
+                            text: 'PIOGGIA Tot Periodo: #{data.rain.total_rainfall} mm'
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                fontColor: 'grey'
+                            }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontColor: 'grey'
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    fontColor: 'grey',
+                                    labelString: 'mm'
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontColor: 'grey'
+                                }
+
+                            }]
+                        }
                     }
-                }
-            });
+                });
 
     div.row
         //WIND
-        canvas.col-6(id = "WindChart")
-        script.
-            var ctx = document.getElementById("WindChart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: !{JSON.stringify(data_chart.wind.stamp)},
-                    datasets: [{
-                        label: 'Velocità (Km/h)',
-                        data: [#{data_chart.wind.speed}],
-                        backgroundColor: [
-                            'rgba(153, 102, 255, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(153, 102, 255, 1)'
-                        ],
-                        borderWidth: 1,
-                        yAxisID: 'y-axis-1'
-                    },
-                        {
-                            label: 'Direzione (N°)',
-                            data: [#{data_chart.wind.direction}],
+        if(data.wind !== 'N/A')
+            canvas.col-6(id = "WindChart")
+            script.
+                var ctx = document.getElementById("WindChart").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: !{JSON.stringify(data.wind.stamp)},
+                        datasets: [{
+                            label: 'Velocità (Km/h)',
+                            data: [#{data.wind.speed}],
                             backgroundColor: [
-                                'rgba(54, 102, 255, 0.2)'
+                                'rgba(153, 102, 255, 0.2)'
                             ],
                             borderColor: [
-                                'rgba(54, 102, 255, 1)'
+                                'rgba(153, 102, 255, 1)'
                             ],
                             borderWidth: 1,
-                            yAxisID: 'y-axis-2',
-                            showLine: false
-                        }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        fontColor: 'black',
-                        fontSize: 18,
-                        text: 'VENTO'
+                            yAxisID: 'y-axis-1'
+                        },
+                            {
+                                label: 'Direzione (N°)',
+                                data: [#{data.wind.direction}],
+                                backgroundColor: [
+                                    'rgba(54, 102, 255, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(54, 102, 255, 1)'
+                                ],
+                                borderWidth: 1,
+                                yAxisID: 'y-axis-2',
+                                showLine: false
+                            }]
                     },
-                    legend: {
-                        display: true,
-                        labels: {
-                            fontColor: 'grey'
-                        }
-                    },
-                    scales: {
-                        yAxes: [{
-                            type: 'linear',
+                    options: {
+                        title: {
                             display: true,
-                            position: 'left',
-                            id: 'y-axis-1',
-                            scaleLabel: {
-                                display: true,
-                                fontColor: 'grey',
-                                labelString: 'Km/h'
-                            }
-                        }, {
-                            type: 'linear',
+                            fontColor: 'black',
+                            fontSize: 18,
+                            text: 'VENTO'
+                        },
+                        legend: {
                             display: true,
-                            position: 'right',
-                            id: 'y-axis-2',
-                            scaleLabel: {
-                                display: true,
-                                fontColor: 'grey',
-                                labelString: 'N°'
-                            },
-                            gridLines: {
-                                drawOnChartArea: false
-                            }
-                        }],
-                        xAxes: [{
-                            ticks: {
+                            labels: {
                                 fontColor: 'grey'
                             }
+                        },
+                        scales: {
+                            yAxes: [{
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                id: 'y-axis-1',
+                                scaleLabel: {
+                                    display: true,
+                                    fontColor: 'grey',
+                                    labelString: 'Km/h'
+                                }
+                            }, {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                id: 'y-axis-2',
+                                scaleLabel: {
+                                    display: true,
+                                    fontColor: 'grey',
+                                    labelString: 'N°'
+                                },
+                                gridLines: {
+                                    drawOnChartArea: false
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontColor: 'grey'
+                                }
 
-                        }]
+                            }]
+                        }
                     }
-                }
-            });
+                });
 
         //Fulmini
-        canvas.col-6(id = "LightingChart")
-        script.
-            var ctx = document.getElementById("LightingChart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: !{JSON.stringify(data_chart.lighting.stamp)},
-                    datasets: [{
-                        label: 'Distanza (Km)',
-                        data: [#{data_chart.lighting.distance}],
-                        backgroundColor: [
-                            'rgba(249, 129, 54, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(249, 129, 54, 1)'
-                        ],
-                        borderWidth: 1,
-                        showLine: false
-                    }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        fontColor: 'black',
-                        fontSize: 18,
-                        text: 'FULMINI'
-                    },
-                    legend: {
-                        display: true,
-                        labels: {
-                            fontColor: 'grey'
-                        }
-                    },
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                fontColor: 'grey'
-                            },
-                            scaleLabel: {
-                                display: true,
-                                fontColor: 'grey',
-                                labelString: 'Km'
-                            }
-                        }],
-                        xAxes: [{
-                            ticks: {
-                                fontColor: 'grey'
-                            }
-
+        if(data.lighting !== 'N/A')
+            canvas.col-6(id = "LightingChart")
+            script.
+                var ctx = document.getElementById("LightingChart").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: !{JSON.stringify(data.lighting.stamp)},
+                        datasets: [{
+                            label: 'Distanza (Km)',
+                            data: [#{data.lighting.distance}],
+                            backgroundColor: [
+                                'rgba(249, 129, 54, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(249, 129, 54, 1)'
+                            ],
+                            borderWidth: 1,
+                            showLine: false
                         }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            fontColor: 'black',
+                            fontSize: 18,
+                            text: 'FULMINI'
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                fontColor: 'grey'
+                            }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontColor: 'grey'
+                                },
+                                scaleLabel: {
+                                    display: true,
+                                    fontColor: 'grey',
+                                    labelString: 'Km'
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    fontColor: 'grey'
+                                }
+
+                            }]
+                        }
                     }
-                }
-            });
+                });
 
