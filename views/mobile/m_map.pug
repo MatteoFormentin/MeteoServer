@@ -34,7 +34,7 @@ block content
                     if (station.humidity !== "N/A") html += "<span class='wi wi-humidity'></span> " + station.humidity + " % <br>";
                     if (station.sea_level_pressure !== "N/A") html += "<span class='wi wi-barometer'></span> " + station.sea_level_pressure + " hPa <br>";
                     if (station.rain_day !== "N/A") html += "<span class='wi wi-showers'></span> " + station.rain_day + " mm <br>";
-                    if (station.wind !== "N/A") html += "<span class='wi wi-strong-wind'></span> " + station.wind.speed + " Km/h " + station.wind.direction + " °N <br>";
+                    if (station.wind !== "N/A") html += "<span class='wi wi-strong-wind'></span> " + station.wind.speed + " Km/h " + station.wind.cardinal_direction + "<br>";
                     if (station.lighting !== "N/A") html += "<span class='wi wi-lightning'></span> " + station.lighting.distance + " Km " + station.lighting.stamp + "<br>";
                     html += "</p>";
 
