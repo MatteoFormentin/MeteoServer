@@ -20,13 +20,12 @@ router.post('/', isAuthenticated, isAdmin, [
 
     let timestamp = dateConvert.dateToTimeStampSecond(new Date());
 
-    var insert_station_query = 'INSERT INTO Station (StationName, Location, Latitude, Longitude, Altitude, IP, Token, LastUpdate) VALUES (\'' +
+    var insert_station_query = 'INSERT INTO Station (StationName, Location, Latitude, Longitude, Altitude, Token, LastUpdate) VALUES (\'' +
         req.body.StationName + '\', \'' +
         req.body.Location + '\', \'' +
         req.body.Latitude + '\', \'' +
         req.body.Longitude + '\', \'' +
         req.body.Altitude + '\', \'' +
-        req.body.IP + '\', \'' +
         uuidv4() + '\', \'' +
         timestamp + '\')';
 

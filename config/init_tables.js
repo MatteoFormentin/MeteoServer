@@ -24,7 +24,6 @@ module.exports = async function initTables() {
             '    Latitude Float NOT NULL,\n' +
             '    Longitude Float NOT NULL,\n' +
             '    Altitude Int NOT NULL,\n' +
-            '    IP Varchar(255), \n' +
             '    Token Varchar(255), \n' +
             '    LastUpdate DATETIME, \n' +
             '    PRIMARY KEY (Id) \n' +
@@ -35,11 +34,13 @@ module.exports = async function initTables() {
         await database.asynchQuery('SELECT * FROM User').then((rows) => {
             if (rows[0] === undefined) {
                 let hash = crypto.createHash('sha256');
-                database.query('INSERT INTO User(Email, Name, Password, Admin) VALUES (' +
-                    '\'admin@meteoserver.com\', ' +
-                    '\'admin\', \'' +
-                    hash.update('password').digest('hex') +
-                    '\', \'true\');'
+                database.query('INSERT INTO User(Email, Name, Password, Admin) VALUES (?, ?, ?, ?)',
+                    [
+                        'admin@meteoserver.com',
+                        'admin',
+                        hash.update('password').digest('hex'),
+                        true
+                    ]
                 );
             }
         });

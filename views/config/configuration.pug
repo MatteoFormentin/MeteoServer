@@ -18,22 +18,19 @@ block content
                     form.form-row.padding-bottom(method='POST' action='/config/station/new_station')
                         div.col-auto.form-group
                             label(for='StationName') Nome:
-                            input.form-control(id='StationName' name='StationName' type='text' placeholder= 'Inserisci Nome' style="width: 150px;")
+                            input.form-control(id='StationName' name='StationName' type='text' placeholder= 'Inserisci Nome' style="width: 200px;")
                         div.col-auto.form-group
                             label(for='Location') Luogo:
-                            input.form-control(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo' style="width: 150px;")
+                            input.form-control(id='Location' name='Location' type='text' placeholder= 'Inserisci Luogo' style="width: 200px;")
                         div.col-auto.form-group
                             label(for='Latitude') Latitudine:
-                            input.form-control(id='Latitude' name='Latitude' type='text' placeholder= 'Inserisci Lat.' style="width: 150px;")
+                            input.form-control(id='Latitude' name='Latitude' type='text' placeholder= 'Inserisci Lat.' style="width: 200px;")
                         div.col-auto.form-group
                             label(for='Longitude') Longitudine:
-                            input.form-control(id='Longitude' name='Longitude' type='text' placeholder= 'Inserisci Long.' style="width: 150px;")
+                            input.form-control(id='Longitude' name='Longitude' type='text' placeholder= 'Inserisci Long.' style="width: 200px;")
                         div.col-auto.form-group
                             label(for='Altitude') Altitudine:
-                            input.form-control(id='Altitude' name='Altitude' type='text' placeholder= 'Inserisci Altitudine' style="width: 150px;")
-                        div.col-auto.form-group
-                            label(for='IP') Indirizzo IP:
-                            input.form-control(id='IP' name='IP' type='text' placeholder= 'Inserisci IP' style="width: 150px;")
+                            input.form-control(id='Altitude' name='Altitude' type='text' placeholder= 'Inserisci Altitudine' style="width: 200px;")
                         div.col-auto.form-group
                             button.btn.btn-m.btn-primary(type='submit' style='margin-top: 32px;') CREA
 
@@ -44,10 +41,9 @@ block content
                             th ID
                             th Nome
                             th Luogo
-                            th Latitudine
-                            th Longitudine
+                            th.d-none Latitudine
+                            th.d-none Longitudine
                             th Altitudine
-                            th Indirizzo
                             th Ultimo Agg.
                             th Token
                             th Modifica
@@ -57,10 +53,9 @@ block content
                             td.align-middle#thId=item.Id
                             td.align-middle#thName=item.StationName
                             td.align-middle#thLocation=item.Location
-                            td.align-middle#thLatitude=item.Latitude
-                            td.align-middle#thLongitude=item.Longitude
+                            td.align-middle#thLatitude.d-none=item.Latitude
+                            td.align-middle#thLongitude.d-none=item.Longitude
                             td.align-middle#thAltitude=item.Altitude
-                            td.align-middle#thIP=item.IP
                             td.align-middle#thIP=dateConvert.dateFormatter(new Date(item.LastUpdate + 'Z'))
                             td.align-middle#thToken=item.Token
                             td
@@ -68,7 +63,7 @@ block content
                                     button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton(style="width: 100px;") MODIFICA
                                     form.form-inline.d-inline(method='POST' action='/config/station/delete_station')
                                         input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id )
-                                        button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="margin-top: 5px; width: 100px;") ELIMINA
+                                        button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="width: 100px;") ELIMINA
 
                         div.modal.fade(id="modifyModal" role="dialog")
                             script.
@@ -81,7 +76,6 @@ block content
                                     $("#ModifyLatitude").val($(event.target).closest('tr').find("#thLatitude").text());
                                     $("#ModifyLongitude").val($(event.target).closest('tr').find("#thLongitude").text());
                                     $("#ModifyAltitude").val($(event.target).closest('tr').find("#thAltitude").text());
-                                    $("#ModifyIP").val($(event.target).closest('tr').find("#thIP").text());
                                 })
 
                             div.modal-dialog
@@ -109,9 +103,6 @@ block content
 
                                                 label(for='ModifyAltitude').little-margin-top Altitudine:
                                                 input.form-control.form-margin(id='ModifyAltitude' name='ModifyAltitude' type='text')
-
-                                                label(for='ModifyIP').little-margin-top Indirizzo IP:
-                                                input.form-control.form-margin(id='ModifyIP' name='ModifyIP' type='text')
 
                                                 button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit' style="width: 100px;") Modifica
 
