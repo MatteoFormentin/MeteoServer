@@ -26,7 +26,12 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
         humidity: { val: [], stamp: [] },
         rain: { val: [], stamp: [], total_rainfall: 0 },
         lighting: { distance: [], stamp: [] },
-        wind: { speed: [], direction: [], cardinal_direction: [], stamp: [] }
+        wind: { speed: [], direction: [], cardinal_direction: [], stamp: [] },
+        air_quality: {
+            PM25: [],
+            PM10: [],
+            stamp: []
+        }
     };
 
 
@@ -146,6 +151,22 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
         }
     } else {
         data.wind = "N/A"
+    }
+
+    //AIR QUALITY
+    rows = await database.asynchQuery(air_quality_query, [
+        station_id,
+        timestamp_start,
+        timestamp_end
+    ]);
+    if (rows[0] !== undefined) {
+        for (item of rows) {
+            data.air_quality.PM25.push(item.PM25);
+            data.air_quality.PM10.push(item.PM10);
+            data.air_quality.stamp.push(dateConvert.timestampToDate(item.Stamp));
+        }
+    } else {
+        data.air_quality = "N/A"
     }
 
     return data;
