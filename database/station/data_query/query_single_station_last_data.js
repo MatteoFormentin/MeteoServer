@@ -16,9 +16,10 @@ module.exports.querySingleStationLastData = async function (station_id) {
     var rain_sum_query_hour = 'SELECT SUM(Val) AS total FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ?';
 
     var lighting_query = 'SELECT Station.Id, Distance, Stamp FROM Lighting INNER JOIN Station ON Lighting.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
+  
     var wind_query = 'SELECT Station.Id, StationName, Location, Altitude, Speed, Direction, Stamp FROM Wind INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
 
-    var air_quality_query = 'SELECT Station.Id, StationName, Location, Altitude, PM2.5, PM10, Direction, Stamp FROM AirQuality INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
+    var air_quality_query = 'SELECT Station.Id, StationName, Location, Altitude, PM25, PM10, Stamp FROM AirQuality INNER JOIN Station ON AirQuality.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
 
 
     let station = await database.asynchQuery('SELECT * FROM Station WHERE Id = ?', [

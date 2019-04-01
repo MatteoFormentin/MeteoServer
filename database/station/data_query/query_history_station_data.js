@@ -8,6 +8,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
     var rain_query = 'SELECT * FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp ASC';
     var wind_query = 'SELECT * FROM Wind INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp ASC';
     var lighting_query = 'SELECT * FROM Lighting INNER JOIN Station ON Lighting.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp ASC';
+    var air_quality_query = 'SELECT * FROM AirQuality INNER JOIN Station ON AirQuality.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp ASC';
 
     //DATA OBJECT
     // Data that belong to the same table are placed in differnt array. Search a pair using the same index.
