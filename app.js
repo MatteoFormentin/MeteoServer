@@ -131,12 +131,13 @@ var api_list_station = require('./routes/api/list');
 
 var firmw_updater = require('./routes/api/firmware_update');
 
+//Data posting
 app.use('/api/update', update);
 app.use('/post_data', postData); //Retro-compatibility
 
 app.use('/api/station/list', api_list_station);
 app.use('/api/station', api_station);
-app.use('/api/update', firmw_updater);
+app.use('/api/firmware_update', firmw_updater);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

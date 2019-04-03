@@ -5,10 +5,12 @@ var router = express.Router();
 router.get('/', isAuthenticated, isAdmin, function (req, res, next) {
     var station;
     var user;
+    var update;
 
     async function query() {
         station = await database.asynchQuery('SELECT * FROM Station');
         user = await database.asynchQuery('SELECT * FROM User');
+        update = await database.asynchQuery('SELECT * FROM FirmwareUpdate');
     }
 
     query().then(() => {
@@ -17,7 +19,8 @@ router.get('/', isAuthenticated, isAdmin, function (req, res, next) {
             logged_user: req.user,
             message: req.flash(),
             station: station,
-            user: user
+            user: user,
+            update: update
         });
     }).catch((err) => error.errorHandler(err, req, res));
 });

@@ -15,8 +15,10 @@ var getUserById = require('./user/get_user_by_id')
 var createUser = require('./user/create_user')
 var modifyUser = require('./user/modify_user')
 
-
-
+//FIRMWARE UPDATE
+var queryUpdateAvailable = require('./firmware_update/query_update_available')
+var createFirmwareUpdate = require('./firmware_update/create_firmware_update')
+var deleteFirmwareUpdate = require('./firmware_update/delete_firmware_update')
 
 module.exports = Object.assign({},
     queryLastDataFromAllStation,
@@ -28,7 +30,10 @@ module.exports = Object.assign({},
     getUserById,
     deleteUser,
     createUser,
-    modifyUser
+    modifyUser,
+    queryUpdateAvailable,
+    createFirmwareUpdate,
+    deleteFirmwareUpdate
 );
 
 
