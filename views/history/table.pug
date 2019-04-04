@@ -158,3 +158,28 @@ block data
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
+
+        //AIR QUALITY
+        div.container.tab-pane.fade(id='wind')
+            if data.air_quality !== 'N/A'
+                table.table.table-bordered.margin-top
+                    thead
+                        tr.text-center
+                            th PM 2.5
+                            th PM 10
+                            th Data
+                    tbody
+                        each t, index in data.air_quality.PM25
+                            tr.text-center
+                                td(style="width: 33%").align-middle=data.air_quality.PM25[index] + ' Km/h'
+                                td(style="width: 33%").align-middle=data.air_quality.PM10[index]
+                                td(style="width: 33%").align-middle=data.temperature.stamp[index]
+                                if logged_user && logged_user.Admin === 'true'
+                                    td
+                                        form(method='POST' action='/config/delete_data')
+                                            input(id='Type' name='Type' type='hidden' value='AirQuality')
+                                            input(id='Id' name='Id' type='hidden' value=`${data.Id}`)
+                                            input(id='Stamp' name='Stamp' type='hidden' value=`${data.air_quality.stamp[index]}`)
+                                            button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
+            else
+                p.margin-top nessun dato disponibile

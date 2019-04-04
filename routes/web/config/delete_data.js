@@ -29,6 +29,10 @@ router.post('/', isAuthenticated, isAdmin, function (req, res, next) {
             case "Lighting":
                 delete_data_query += "Lighting ";
                 break;
+           
+            case "AirQuality":
+                delete_data_query += "AirQuality ";
+                break;
 
         }
 
