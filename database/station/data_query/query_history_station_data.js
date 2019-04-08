@@ -15,6 +15,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
 
     var data = {
         name: "",
+        id:0,
         location: 0,
         latitude: 0,
         longitude: 0,

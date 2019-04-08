@@ -4,18 +4,33 @@ block data
     
     //Aggiungere un li per ogni tabella
     ul.nav.nav-tabs(role='tablist')
-        li.nav-index
-            a.nav-link(data-toggle='tab' href='#temp') TEMPERATURA
-        li.nav-index
-            a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
-        li.nav-index
-            a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
-        li.nav-index
-            a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
-        li.nav-index
-            a.nav-link(data-toggle='tab' href='#wind') VENTO
-        li.nav-index
-            a.nav-link(data-toggle='tab' href='#lighting') FULMINI
+        if data.temperature !== 'N/A'
+            li.nav-index
+                a.nav-link(data-toggle='tab' href='#temp') TEMPERATURA
+       
+        if data.humidity !== 'N/A'
+            li.nav-index
+                a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
+        
+        if data.pressure !== 'N/A'
+            li.nav-index
+                a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
+        
+        if data.rain !== 'N/A'
+            li.nav-index
+                a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
+
+        if data.wind !== 'N/A'
+            li.nav-index
+                a.nav-link(data-toggle='tab' href='#wind') VENTO
+
+        if data.lighting !== 'N/A'
+            li.nav-index
+                a.nav-link(data-toggle='tab' href='#lighting') FULMINI
+
+        if data.air_quality !== 'N/A'
+            li.nav-index
+                a.nav-link(data-toggle='tab' href='#air_quality') AIR QUALITY
 
     div.tab-content
         //Temperatura
@@ -59,7 +74,7 @@ block data
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Humidity')
-                                            input(id='Id' name='Id' type='hidden' value=`${data.Id}`)
+                                            input(id='Id' name='Id' type='hidden' value=`${data.id}`)
                                             input(id='Stamp' name='Stamp' type='hidden' value=`${data.humidity.stamp[index]}`)
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
@@ -82,7 +97,7 @@ block data
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Pressure')
-                                            input(id='Id' name='Id' type='hidden' value=`${data.Id}`)
+                                            input(id='Id' name='Id' type='hidden' value=`${data.id}`)
                                             input(id='Stamp' name='Stamp' type='hidden' value=`${data.pressure.stamp[index]}`)
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
@@ -105,7 +120,7 @@ block data
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Rain')
-                                            input(id='Id' name='Id' type='hidden' value=`${data.Id}`)
+                                            input(id='Id' name='Id' type='hidden' value=`${data.id}`)
                                             input(id='Stamp' name='Stamp' type='hidden' value=`${data.rain.stamp[index]}`)
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
@@ -130,7 +145,7 @@ block data
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Wind')
-                                            input(id='Id' name='Id' type='hidden' value=`${data.Id}`)
+                                            input(id='Id' name='Id' type='hidden' value=`${data.id}`)
                                             input(id='Stamp' name='Stamp' type='hidden' value=`${data.wind.stamp[index]}`)
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
@@ -160,7 +175,7 @@ block data
                 p.margin-top nessun dato disponibile
 
         //AIR QUALITY
-        div.container.tab-pane.fade(id='wind')
+        div.container.tab-pane.fade(id='air_quality')
             if data.air_quality !== 'N/A'
                 table.table.table-bordered.margin-top
                     thead
@@ -171,14 +186,14 @@ block data
                     tbody
                         each t, index in data.air_quality.PM25
                             tr.text-center
-                                td(style="width: 33%").align-middle=data.air_quality.PM25[index] + ' Km/h'
+                                td(style="width: 33%").align-middle=data.air_quality.PM25[index]
                                 td(style="width: 33%").align-middle=data.air_quality.PM10[index]
-                                td(style="width: 33%").align-middle=data.temperature.stamp[index]
+                                td(style="width: 33%").align-middle=data.air_quality.stamp[index]
                                 if logged_user && logged_user.Admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='AirQuality')
-                                            input(id='Id' name='Id' type='hidden' value=`${data.Id}`)
+                                            input(id='Id' name='Id' type='hidden' value=`${data.id}`)
                                             input(id='Stamp' name='Stamp' type='hidden' value=`${data.air_quality.stamp[index]}`)
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else

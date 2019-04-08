@@ -7,7 +7,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
     //Check for empty date - limit result to current day
     let date_start;
     if (req.query.date_start) {
-        date_start = req.query.date_end;
+        date_start = req.query.date_start;
     } else {
         date_start = dateConvert.midnightTimeStamp(false);
     }
