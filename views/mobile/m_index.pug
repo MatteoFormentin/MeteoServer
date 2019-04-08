@@ -162,3 +162,13 @@ block content
                                 i.wi.wi-lightning.d-inline
                                 p.d-inline Distance: #{item.lighting.distance} Km
 
+                    if(item.air_quality !== "N/A")
+                            tr
+                                th(colspan='2') Qualità dell'Aria
+                            tr
+                                td(style="width: 50%")
+                                    i.wi.wi-smog.d-inline
+                                    p.d-inline PM 2.5: #{item.air_quality.PM25}
+                                td(style="width: 50%")
+                                    i.wi.wi-smog.d-inline
+                                    p.d-inline PM 10: #{item.air_quality.PM10}
