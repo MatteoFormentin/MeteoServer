@@ -222,7 +222,6 @@ module.exports.querySingleStationLastData = async function (station_id) {
         dateConvert.midnightTimeStamp(),
         dateConvert.dateToTimeStamp(new Date(), true)
     ]);
-    console.log(rows)
     if (rows[0] === undefined) {
         air_quality = 'N/A';
     }

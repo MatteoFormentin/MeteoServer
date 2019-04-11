@@ -1,21 +1,21 @@
 var express = require('express');
 
-module.exports.queryUpdateAvailable = async function (model) {
-    var query = 'SELECT Id, Model, Version, FileName, Stamp FROM FirmwareUpdate WHERE Model=? ORDER BY Stamp DESC';
+module.exports.queryUpdateById = async function (update_id) {
+    var query = 'SELECT Id, Model, Version, FileName, Stamp FROM FirmwareUpdate WHERE Id=?';
 
     let rows = await database.asynchQuery(query, [
-        model
+        update_id
     ]);
 
     if (rows[0]) {
-        var station_update_available =
+        var update =
         {
             id: rows[0].Id,
             model: rows[0].Model,
             version: rows[0].Version,
             file_name: rows[0].FileName
         };
-        return station_update_available;
+        return update;
     }
     return false;
 }

@@ -9,16 +9,17 @@ var updateStationData = require('./station/data_query/update_station_data');
 var queryHistoryStationData = require('./station/data_query/query_history_station_data');
 
 //USER
-var deleteUser = require('./user/delete_user')
-var loginUser = require('./user/login_user')
-var getUserById = require('./user/get_user_by_id')
-var createUser = require('./user/create_user')
-var modifyUser = require('./user/modify_user')
+var deleteUser = require('./user/delete_user');
+var loginUser = require('./user/login_user');
+var getUserById = require('./user/get_user_by_id');
+var createUser = require('./user/create_user');
+var modifyUser = require('./user/modify_user');
 
 //FIRMWARE UPDATE
-var queryUpdateAvailable = require('./firmware_update/query_update_available')
-var createFirmwareUpdate = require('./firmware_update/create_firmware_update')
-var deleteFirmwareUpdate = require('./firmware_update/delete_firmware_update')
+var queryUpdateAvailable = require('./firmware_update/query_update_available');
+var createFirmwareUpdate = require('./firmware_update/create_firmware_update');
+var deleteFirmwareUpdate = require('./firmware_update/delete_firmware_update');
+var queryUpdateById = require('./firmware_update/query_update_by_id');
 
 module.exports = Object.assign({},
     queryLastDataFromAllStation,
@@ -32,6 +33,7 @@ module.exports = Object.assign({},
     createUser,
     modifyUser,
     queryUpdateAvailable,
+    queryUpdateById,
     createFirmwareUpdate,
     deleteFirmwareUpdate
 );

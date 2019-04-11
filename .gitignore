@@ -31,3 +31,5 @@ benchmarks/graphs
 
 #VSCODE
 .vscode/
+
+/firmware_update

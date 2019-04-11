@@ -8,10 +8,11 @@ block content
                 a.nav-link.active(data-toggle='tab' href='#stat') Stazioni
             li.nav-item
                 a.nav-link(data-toggle='tab' href='#user') Utenti
-
+                
+            li.nav-item
+                a.nav-link(data-toggle='tab' href='#firmware_update') Aggiornamenti Firmware
 
         div.tab-content
-
             //Pannello stazioni
             div.tab-pane.active(id='stat')
                 div.row.justify-content-md-center.little-margin-top
@@ -56,7 +57,7 @@ block content
                             td.align-middle#thLatitude.d-none=item.Latitude
                             td.align-middle#thLongitude.d-none=item.Longitude
                             td.align-middle#thAltitude=item.Altitude
-                            td.align-middle#thIP=dateConvert.dateFormatter(new Date(item.LastUpdate + 'Z'))
+                            td.align-middle=dateConvert.dateFormatter(new Date(item.LastUpdate + 'Z'))
                             td.align-middle#thToken=item.Token
                             td
                                 div
@@ -189,3 +190,43 @@ block content
                                                 input.form-control.form-margin(id='ModifyUserPasswordConfirm' name='ModifyUserPasswordConfirm' type='password')
 
                                                 button.btn.btn-m.btn-primary.form-control.form-margin.little-margin-top(type='submit' style="width: 100px;") Modifica
+
+            //Pannello Aggiornamenti
+            div.tab-pane(id='firmware_update')
+                div.row.justify-content-md-center.little-margin-top
+                    form.form-row.padding-bottom(method='POST' action='/config/firmware_update/new_update' enctype="multipart/form-data")
+                        div.col-auto.form-group
+                            label(for='Model') Modello:
+                            input.form-control(id='Model' name='Model' type='text' placeholder= 'Inserisci Modello')
+                        div.col-auto.form-group
+                            label(for='Version') Versione:
+                            input.form-control(id='Version' name='Version' type='text' placeholder= 'Inserisci Versione')
+                        div.col-auto.form-group
+                            label(for='File') File:
+                            input.form-control(id='File' name='File' type='file')
+                        
+                        div.col-auto.form-group
+                            button.btn.btn-m.btn-primary(type='submit' style='margin-top: 32px;') CREA
+
+                table.table.table-bordered
+                    thead
+                        tr.text-center
+                            th.d-none Id
+                            th Modello
+                            th Versione
+                            th.d-none Percorso
+                            th Data
+                            th Modifica
+
+                    each item in update
+                        tr.text-center
+                            td.align-middle.d-none=item.Id
+                            td.align-middle=item.Model
+                            td.align-middle=item.Version
+                            td.align-middle.d-none=item.FileName
+                            td.align-middle=dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))
+                            td
+                                div
+                                    form.form-inline.d-inline(method='POST' action='/config/firmware_update/delete_update')
+                                        input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id )
+                                        button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="width: 100px;") ELIMINA

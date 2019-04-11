@@ -30,8 +30,6 @@ router.post('/', isAuthenticated, isAdmin, [
         if (err) error.errorHandler(err, req, res);
         res.redirect('/config/configuration');
     });
-}
-)
-    ;
+});
 
 module.exports = router;

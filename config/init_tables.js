@@ -120,8 +120,8 @@ module.exports = async function initTables() {
         await database.asynchQuery('CREATE TABLE IF NOT EXISTS FirmwareUpdate(\n' +
             '    Id Int NOT NULL AUTO_INCREMENT, \n' +
             '    Model Varchar(255) NOT NULL, \n' +
-            '    Version Varchar(4) NOT NULL, \n' +
-            '    Path Varchar(255) NOT NULL, \n' +
+            '    Version Varchar(5) NOT NULL, \n' +
+            '    FileName Varchar(255) NOT NULL, \n' +
             '    Stamp DATETIME  NOT NULL, \n' +
             '    PRIMARY KEY (Id)\n' +
             ');'
