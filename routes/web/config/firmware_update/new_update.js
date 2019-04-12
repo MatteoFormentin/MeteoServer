@@ -10,7 +10,7 @@ var file_name;
 var multer = require('multer');
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        return cb(null, 'firmware_update');
+        return cb(null, './firmware_update');
     },
     filename: (req, file, cb) => {
         file_name = req.body.Model + '_' + Date.now() + '.bin';
@@ -21,7 +21,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 /* POST new update. */
-router.post('/', upload.single('File'),/* isAuthenticated, isAdmin,*/[
+router.post('/', upload.single('File'), isAuthenticated, isAdmin, [
     check('Model').exists().withMessage('Inserisci un Modello'),
     check('Version').exists().isLength({ min: 5, max: 5 })/*.matches('/([0-1]\.[0-1]\.[0-1])/')*/.withMessage('Inserisci una Versione'),
 ],
