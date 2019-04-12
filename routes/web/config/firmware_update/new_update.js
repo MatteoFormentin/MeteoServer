@@ -21,7 +21,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 /* POST new update. */
-router.post('/', upload.single('File'), isAuthenticated, isAdmin, [
+router.post('/', isAuthenticated, isAdmin, upload.single('File'), [
     check('Model').exists().withMessage('Inserisci un Modello'),
     check('Version').exists().isLength({ min: 5, max: 5 })/*.matches('/([0-1]\.[0-1]\.[0-1])/')*/.withMessage('Inserisci una Versione'),
 ],
@@ -29,6 +29,11 @@ router.post('/', upload.single('File'), isAuthenticated, isAdmin, [
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             req.flash('info', errors.array()[0].msg);
+            try {
+                fs.unlinkSync(path.join(WORKING_DIR, 'firmware_update', file_name));
+            } catch (err) {
+                console.log(err);
+            }
             return res.redirect('/config/configuration');
         }
 
