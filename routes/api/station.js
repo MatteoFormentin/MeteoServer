@@ -23,7 +23,7 @@ router.get('/:station_id', function (req, res, next) {
                     res.json(getNotFound());
                 }
             }).catch((err) => {
-                error.errorHandler(err, req, res)
+                error.errorHandlerAPI(err, req, res)
             });
         }
     }

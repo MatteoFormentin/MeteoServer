@@ -15,9 +15,9 @@ router.post('/', function (req, res, next) {
                 }
             }
         );
-    }    
+    }
 
-    db.updateStationData(data).then((result)=>{
+    db.updateStationData(data).then((result) => {
         if (result) {
             res.send('ok');
         } else {
@@ -31,7 +31,9 @@ router.post('/', function (req, res, next) {
                 }
             );
         }
-    })
+    }).catch((err) => {
+        error.errorHandlerAPI(err, req, res)
+    });
 
 });
 

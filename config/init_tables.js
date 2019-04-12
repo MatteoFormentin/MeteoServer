@@ -24,6 +24,8 @@ module.exports = async function initTables() {
             '    Latitude Float NOT NULL,\n' +
             '    Longitude Float NOT NULL,\n' +
             '    Altitude Int NOT NULL,\n' +
+            '    Model Varchar(255),\n' +
+            '    FirmwareVersion Varchar(5),\n' +
             '    Token Varchar(255), \n' +
             '    LastUpdate DATETIME, \n' +
             '    PRIMARY KEY (Id) \n' +

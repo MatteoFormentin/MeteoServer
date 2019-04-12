@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
             );
         }
     }).catch((err) => {
-        error.errorHandler(err, req, res)
+        error.errorHandlerAPI(err, req, res)
     });
 });
 

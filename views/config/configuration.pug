@@ -45,6 +45,8 @@ block content
                             th.d-none Latitudine
                             th.d-none Longitudine
                             th Altitudine
+                            th Modello
+                            th Vers. F.
                             th Ultimo Agg.
                             th Token
                             th Modifica
@@ -57,6 +59,8 @@ block content
                             td.align-middle#thLatitude.d-none=item.Latitude
                             td.align-middle#thLongitude.d-none=item.Longitude
                             td.align-middle#thAltitude=item.Altitude
+                            td.align-middle#thAltitude=item.Model
+                            td.align-middle#thAltitude=item.FirmwareVersion
                             td.align-middle=dateConvert.dateFormatter(new Date(item.LastUpdate + 'Z'))
                             td.align-middle#thToken=item.Token
                             td
@@ -64,7 +68,7 @@ block content
                                     button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton(style="width: 100px;") MODIFICA
                                     form.form-inline.d-inline(method='POST' action='/config/station/delete_station')
                                         input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id )
-                                        button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="width: 100px;") ELIMINA
+                                        button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="width: 100px; margin-top: 4px;") ELIMINA
 
                         div.modal.fade(id="modifyModal" role="dialog")
                             script.

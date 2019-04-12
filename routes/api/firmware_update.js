@@ -32,7 +32,9 @@ router.get('/:station_model', function (req, res, next) {
                 res.status(500);
                 res.send('500 No update available');
             }
-        }).catch((err) => error.errorHandler(err, req, res));
+        }).catch((err) => {
+            error.errorHandlerAPI(err, req, res)
+        });
     }
     //If not an ESP8266 Unauthorized
     else {

@@ -6,7 +6,9 @@ module.exports.updateStationData = async function (data) {
         DATA OBJECT STRUCTURE
         {
             "token": "uuid",
-            "temperature": "Val",
+            "model": "esp_station",
+            "firmware_version": "1.0.1",
+            "temperature": 10,
             "pressure": 10,
             "humidity": 10,
             "rain": 10,
@@ -14,7 +16,7 @@ module.exports.updateStationData = async function (data) {
                 "speed": 10,
                 "direction": 0
             },
-            "lighting": 10
+            "lighting": 10,
             "air_quality": {
                 "PM25": 10,
                 "PM10": 10
@@ -41,6 +43,7 @@ module.exports.updateStationData = async function (data) {
     let insert_air_quality = 'INSERT INTO AirQuality (Id, PM25, PM10, Stamp) VALUES (?, ?, ?, ?)';
 
     let station_last_update = 'UPDATE Station SET LastUpdate=? WHERE Id=?';
+    let station_ota = 'UPDATE Station SET FirmwareVersion=?, Model=? WHERE Id=?';
 
 
     let timestamp = dateConvert.dateToTimeStampSecond(new Date());
@@ -60,7 +63,7 @@ module.exports.updateStationData = async function (data) {
     if (data.hasOwnProperty("rain")) {
         await database.asynchQuery(insert_rain, [station.Id, data.rain, timestamp]);
     }
-    
+
     if (data.hasOwnProperty("wind")) {
         await database.asynchQuery(insert_wind, [station.Id, data.wind.speed, data.wind.direction, timestamp]);
     }
@@ -75,6 +78,14 @@ module.exports.updateStationData = async function (data) {
 
     //Update Last Update station field
     await database.asynchQuery(station_last_update, [timestamp, station.Id]);
+
+    if (data.hasOwnProperty("model") && data.hasOwnProperty("firmware_version")) {
+        await database.asynchQuery(station_ota, [
+            data.firmware_version,
+            data.model,
+            station.Id
+        ]);
+    }
 
     return true;
 }
