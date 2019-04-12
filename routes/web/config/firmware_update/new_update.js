@@ -13,7 +13,7 @@ var storage = multer.diskStorage({
         return cb(null, 'firmware_update');
     },
     filename: (req, file, cb) => {
-        file_name = req.body.Model + '-' + Date.now() + '.bin';
+        file_name = req.body.Model + '_' + Date.now() + '.bin';
         return cb(null, file_name);
     }
 });
