@@ -10,7 +10,7 @@ var file_name;
 var multer = require('multer');
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        return cb(null, './firmware_update');
+        return cb(null, path.join(WORKING_DIR, 'firmware_update'));
     },
     filename: (req, file, cb) => {
         file_name = req.body.Model + '_' + Date.now() + '.bin';
