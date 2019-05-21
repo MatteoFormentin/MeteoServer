@@ -5,7 +5,7 @@ var z_where = 1;  // Northern = 1 or Southern = 2 hemisphere
 var z_baro_top = 1050;	// upper limits of your local 'weather window' (1050.0 hPa for UK)
 var z_baro_bottom = 950;	// lower limits of your local 'weather window' (950.0 hPa for UK)
 let z_month = new Date().getMonth()
-// usage:   forecast = betel_cast( z_hpa, z_month, z_wind, z_trend [, z_where] [, z_baro_top] [, z_baro_bottom])[0];
+// usage:   forecast = forecast( z_hpa, z_month, z_wind, z_trend [, z_where] [, z_baro_top] [, z_baro_bottom])[0];
 
 // z_hpa is Sea Level Adjusted (Relative) barometer in hPa or mB
 // z_month is current month as a number between 1 to 12
@@ -16,12 +16,12 @@ let z_month = new Date().getMonth()
 // z_baro_top - OPTIONAL for posting with form
 // z_baro_bottom - OPTIONAL for posting with form
 // [0] a short forecast text is returned
-// [1] zambretti severity number (0 - 25) is returned ie. betel_cast() returns a two deep array
+// [1] zambretti severity number (0 - 25) is returned ie. forecast() returns a two deep array
 
 
 //Settled = stabile (sole) Unsettled = instabile (piogge)
 var z_forecast = new Array("Settled fine", "Fine weather", "Becoming fine", "Fine, becoming less settled", "Fine, possible showers", "Fairly fine, improving", "Fairly fine, possible showers early", "Fairly fine, showery later", "Showery early, improving", "Changeable, mending", "Fairly fine, showers likely", "Rather unsettled clearing later", "Unsettled, probably improving", "Showery, bright intervals", "Showery, becoming less settled", "Changeable, some rain", "Unsettled, short fine intervals", "Unsettled, rain later", "Unsettled, some rain", "Mostly very unsettled", "Occasional rain, worsening", "Rain at times, very unsettled", "Rain at frequent intervals", "Rain, very unsettled", "Stormy, may improve", "Stormy, much rain");
-var z_forecast_italian = new Array("Bel tempo stabile", "Bel tempo", "Bel tempo in arrivo", "Bel tempo, instabile", "Bel tempo, possibili piogge", "Abbastanza bello, in miglioramento", "Abbastanza bello, possibili piogge a breve", "Abbastanza bello, possibili piogge più tardi", "Piogge a breve, poi miglioramento", "Instabile", "Abbastanza bello, possibili piogge", "Piuttosto instabile, schiarite più tardi", "Instabile, possibile miglioramento", "Pioggia alternatata a schiarite", "Piogge, instabile", "Variabile, possibili piogge", "Instabile, brevi periodi di bel tempo", "Instabile, pioggia più tardi", "Instabile, possibili piogge", "Instabile", "Pioggia a tratti, in peggioramento", "Pioggia a tratti, molto instabile", "Pioggia a ntervalli ravvicinati", "Pioggia, molto instabile", "Temporale, possibile miglioramento", "Temporale intenso");
+var z_forecast_italian = new Array("Bel tempo stabile", "Bel tempo", "Bel tempo in arrivo", "Bel tempo, instabile", "Bel tempo, possibili piogge", "Abbastanza bello, in miglioramento", "Abbastanza bello, possibili piogge a breve", "Abbastanza bello, possibili piogge più tardi", "Piogge a breve, poi miglioramento", "Instabile", "Abbastanza bello, possibili piogge", "Piuttosto instabile, schiarite più tardi", "Instabile, possibile miglioramento", "Pioggia alternatata a schiarite", "Piogge, instabile", "Variabile, possibili piogge", "Instabile, brevi periodi di bel tempo", "Instabile, pioggia più tardi", "Instabile, possibili piogge", "Instabile", "Pioggia a tratti, in peggioramento", "Pioggia a tratti, molto instabile", "Pioggia a intervalli ravvicinati", "Pioggia, molto instabile", "Temporale, possibile miglioramento", "Temporale intenso");
 
 
 // equivalents of Zambretti 'dial window' letters A - Z
