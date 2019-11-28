@@ -13,6 +13,13 @@ var util = require("util");
 
 error = require("./utils/error_handler");
 
+/*
+READ ENV FROM FILE
+Local development only: on container ENV are directly provided on start by docker.
+*/
+const dotenv = require('dotenv'); 
+dotenv.config();
+
 uuidv4 = require("uuid/v4");
 crypto = require("crypto");
 
@@ -24,17 +31,17 @@ WORKING_DIR = __dirname;
 
 /*DATABASE MySQL*/
 var mysql = require("mysql");
-var db_config = require("./config/db_config.json");
 database = mysql.createConnection({
-  host: db_config.host,
-  database: db_config.database,
-  user: db_config.user,
-  password: db_config.password
+  host: process.env.HOST,
+  database: process.env.DB_NAME,
+  user: process.env.USER,
+  password: process.env.PASS
 });
 
 database.connect(function(err) {
   if (err) {
     console.error("Can't connect to database. Check configuration.");
+    console.error(err);
     process.exit();
   }
 });

@@ -5,9 +5,10 @@
   "author": "Matteo Formentin <matteo.formentin@icloud.com>",
   "private": true,
   "scripts": {
-    "start": "node ./bin/MeteoServer"
+    "start": "node ./src/bin/MeteoServer"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "async": "^2.6.0",
     "bluebird": "^3.5.2",
     "body-parser": "^1.18.2",
