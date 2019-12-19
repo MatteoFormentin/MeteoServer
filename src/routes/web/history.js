@@ -68,8 +68,8 @@ router.get('/', isAuthenticated, function (req, res, next) {
                     logged_user: req.user,
                     message: req.flash(),
                     station: station,
-                    date_start: '',
-                    date_end: ''
+                    date_start: date_start,
+                    date_end: date_end
                 });
             } else {
                 res.render('history/history', {
@@ -77,8 +77,8 @@ router.get('/', isAuthenticated, function (req, res, next) {
                     logged_user: req.user,
                     message: req.flash(),
                     station: station,
-                    date_start: '',
-                    date_end: ''
+                    date_start: date_start,
+                    date_end: date_end
                 });
             }
         }

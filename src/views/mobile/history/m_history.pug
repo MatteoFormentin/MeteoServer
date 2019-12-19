@@ -44,8 +44,8 @@ block content
         div.collapse.jumbotron.jumbotron-fluid(id="collapseOne" role="tabpanel" aria-labelledby="headingOne" style="padding-top: 20px; padding-bottom: 20px;")
             div.card-block.col-10.offset-1
                 form(method='GET' action='/history')
-                    label(for='station') Stazione:
-                    select.form-control.form-margin(id='station' name='station')
+                    label(for='station_id') Stazione:
+                    select.form-control.form-margin(id='station_id' name='station_id')
                         if !data 
                             option(value=0) Seleziona...
                         each item in station
@@ -70,5 +70,5 @@ block content
                             option(value=0 selected) Grafici
                             option(value=1) Tabelle
                     button.btn.btn-m.btn-primary.form-margin.little-margin-top(type='submit' style="width: 100px;") OK
-
+                    
         block data
