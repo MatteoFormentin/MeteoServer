@@ -29,14 +29,13 @@ meteoUtils = require("./utils/meteo_utils");
 
 WORKING_DIR = __dirname;
 
-
 /*DATABASE MySQL*/
 var mysql = require("mysql");
 database = mysql.createConnection({
   host: process.env.HOST,
   database: process.env.DB,
-  user: process.env.USER,
-  password: process.env.PASS
+  user: process.env.USER_DB,
+  password: process.env.PASS_DB
 });
 
 
