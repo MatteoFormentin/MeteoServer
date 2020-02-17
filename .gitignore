@@ -34,3 +34,4 @@ benchmarks/graphs
 .vscode/
 
 /firmware_update
+*.env
