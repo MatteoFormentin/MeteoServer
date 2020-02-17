@@ -32,8 +32,8 @@ WORKING_DIR = __dirname;
 /*DATABASE MySQL*/
 var mysql = require("mysql");
 database = mysql.createConnection({
-  host: process.env.HOST,
-  database: process.env.DB,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
   user: process.env.USER_DB,
   password: process.env.PASS_DB
 });
