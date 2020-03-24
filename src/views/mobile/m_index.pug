@@ -168,10 +168,10 @@ block content
                             tr
                                 td(style="width: 50%")
                                     i.wi.wi-smog.d-inline
-                                    p.d-inline PM 2.5: #{item.air_quality.PM25} ug/m^3 (Limite: 50 ug/m^3)
+                                    p.d-inline PM 2.5: #{item.air_quality.PM25} ug/m^3 (Limite: 25 ug/m^3)
                                 td(style="width: 50%")
                                     i.wi.wi-smog.d-inline
-                                    p.d-inline PM 10: #{item.air_quality.PM10} ug/m^3 (Limite: 25 ug/m^3)
+                                    p.d-inline PM 10: #{item.air_quality.PM10} ug/m^3 (Limite: 50 ug/m^3)
                             tr
                                 - var iqa = item.air_quality.iqa
                                 if(iqa == 0)
