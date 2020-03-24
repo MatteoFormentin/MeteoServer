@@ -18,7 +18,7 @@ READ ENV FROM FILE
 Local development only: on container ENV are directly provided on start by docker.
 */
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 uuidv4 = require("uuid/v4");
 crypto = require("crypto");
