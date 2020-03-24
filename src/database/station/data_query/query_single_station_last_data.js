@@ -232,7 +232,7 @@ module.exports.querySingleStationLastData = async function (station_id) {
     else {
         air_quality.PM25 = rows[0].PM25;
         air_quality.PM10 = rows[0].PM10;
-        air_quality.iqa = meteoUtils.iqa(item.air_quality.PM25, item.air_quality.PM10)
+        air_quality.iqa = meteoUtils.iqa(rows[0].PM25, rows[0].PM10)
     }
 
     //Get forecast
