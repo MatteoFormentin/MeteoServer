@@ -54,8 +54,9 @@ function midnightTimeStamp(utc = true) {
     let date = new Date();
     date.setHours(0);
     date.setMinutes(0);
-    if (utc) return dateToTimeStamp(date);
-    else return dateToTimeStamp(date, false)
+    //if (utc) return dateToTimeStamp(date);
+    //else 
+    return dateToTimeStamp(date, false)
 }
 
 function hourAgoTimeStamp(ago, utc = true) {
@@ -97,23 +98,12 @@ function checkOnline(d) {
 }*/
 
 function checkOnline(d) {
-    var date = d.split(' ')[0];
-    var time = d.split(' ')[1];
+    now = moment.utc()
+    last_update = moment.utc(d, "D/M/Y H:mm")
+    console.log(d)
 
-    var day = date.split('/')[0];
-    var month = date.split('/')[1];
-    var year = date.split('/')[2];
-
-    var hour = time.split(':')[0];
-    var minute = time.split(':')[1];
-
-    d = new Date(year, month - 1, day, hour, minute);
-
-    var difference_minute = 30;
-    var difference_milliseconds = difference_minute * 60 * 1000;
-    var now = new Date(Date.now());
-    
-    return (now.getTime() - d.getTime()) < difference_milliseconds;
+    online = now.diff(last_update) <= 60 * 1000 * 60 * 2
+    return online;
 }
 
 module.exports.dateToTimeStamp = dateToTimeStamp;

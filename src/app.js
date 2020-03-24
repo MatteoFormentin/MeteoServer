@@ -17,7 +17,7 @@ error = require("./utils/error_handler");
 READ ENV FROM FILE
 Local development only: on container ENV are directly provided on start by docker.
 */
-const dotenv = require('dotenv'); 
+const dotenv = require('dotenv');
 dotenv.config();
 
 uuidv4 = require("uuid/v4");
@@ -27,6 +27,8 @@ async = require("async");
 dateConvert = require("./utils/date_convert");
 meteoUtils = require("./utils/meteo_utils");
 
+moment = require('moment')
+
 WORKING_DIR = __dirname;
 
 /*DATABASE MySQL*/
@@ -35,11 +37,12 @@ database = mysql.createConnection({
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   user: process.env.USER_DB,
-  password: process.env.PASS_DB
+  password: process.env.PASS_DB,
+  timezone: 'utc'
 });
 
 
-database.connect(function(err) {
+database.connect(function (err) {
   if (err) {
     console.error("Can't connect to database. Check configuration.");
     console.error(err);
@@ -96,7 +99,6 @@ app.use(device.capture());
 
 /*Web Routing*/
 var indexRouter = require("./routes/web/index");
-var kioskRouter = require("./routes/web/kiosk");
 var history = require("./routes/web/history");
 var station = require("./routes/web/station");
 
@@ -115,7 +117,6 @@ var configuration_new_update = require("./routes/web/config/firmware_update/new_
 var configuration_delete_update = require("./routes/web/config/firmware_update/delete_update");
 
 app.use("/", indexRouter);
-app.use("/kiosk", kioskRouter);
 app.use("/history", history);
 app.use("/station", station);
 app.use("/map", map);
@@ -153,12 +154,12 @@ app.use("/api/station", api_station);
 app.use("/api/firmware_update", firmw_updater);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};

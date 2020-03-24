@@ -7,16 +7,16 @@ router.get('/', isAuthenticated, function (req, res, next) {
     //Check for empty date - limit result to current day
     let date_start;
     if (req.query.date_start) {
-        date_start = req.query.date_start;
+        date_start = moment.utc(req.query.date_start).format("Y-M-D H:mm");
     } else {
-        date_start = dateConvert.midnightTimeStamp(false);
+        date_start = moment.utc().startOf('day').format("Y-M-D H:mm");
     }
 
     let date_end;
     if (req.query.date_end) {
-        date_end = req.query.date_end;
+        date_end = moment.utc(req.query.date_end).format("Y-M-D H:mm");
     } else {
-        date_end = dateConvert.dateToTimeStamp(new Date(), false);
+        date_end = moment.utc().format("Y-M-D H:mm");
     }
 
     //Elenco stazioni per menu selezione
@@ -25,7 +25,7 @@ router.get('/', isAuthenticated, function (req, res, next) {
 
         //A station is selected
         if (req.query.station_id && !(req.query.station_id === '0')) {
-            db.queryHistoryStationData(req.query.station_id, req.query.date_start, req.query.date_end).then((data) => {
+            db.queryHistoryStationData(req.query.station_id, date_start, date_end).then((data) => {
                 if (req.device.type === "phone") {
                     res.render('mobile/history/m_chart', {
                         title: 'Meteo Server',

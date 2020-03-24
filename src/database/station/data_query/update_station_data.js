@@ -46,7 +46,7 @@ module.exports.updateStationData = async function (data) {
     let station_ota = 'UPDATE Station SET FirmwareVersion=?, Model=? WHERE Id=?';
 
 
-    let timestamp = dateConvert.dateToTimeStampSecond(new Date());
+    let timestamp = moment.utc().format("Y-M-D H:mm");
 
     if (data.hasOwnProperty("temperature")) {
         await database.asynchQuery(insert_temperature, [station.Id, data.temperature, timestamp]);

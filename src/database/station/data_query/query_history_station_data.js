@@ -15,7 +15,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
 
     var data = {
         name: "",
-        id:0,
+        id: 0,
         location: 0,
         latitude: 0,
         longitude: 0,
@@ -37,13 +37,13 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
 
 
     if (!timestamp_start) {
-        timestamp_start = dateConvert.midnightTimeStamp(false);
+        timestamp_start = moment.utc().startOf('day').format("Y-M-D H:mm");
     }
 
     if (!timestamp_end) {
-        timestamp_end = dateConvert.dateToTimeStamp(new Date(), false);
+        timestamp_end = moment.utc().format("Y-M-D H:mm");
     }
-
+    
     //Cerco la stazione attualmente selezionata
     rows = await database.asynchQuery(station_query, [station_id]);
     let selected_station = rows[0];
@@ -58,6 +58,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
     data.altitude = selected_station.Altitude;
     data.last_update = selected_station.LastUpdate;
 
+
     //TEMPERATURE
     rows = await database.asynchQuery(temp_query, [
         station_id,
@@ -67,7 +68,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
     if (rows[0] !== undefined) {
         for (item of rows) {
             data.temperature.val.push(item.Val);
-            data.temperature.stamp.push(dateConvert.timestampToDate(item.Stamp));
+            data.temperature.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
         }
     } else {
         data.temperature = "N/A"
@@ -82,7 +83,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
     if (rows[0] !== undefined) {
         for (item of rows) {
             data.pressure.val.push(meteoUtils.seaLevelPressure(item.Val, selected_station.Altitude));
-            data.pressure.stamp.push(dateConvert.timestampToDate(item.Stamp));
+            data.pressure.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
         }
     } else {
         data.pressure = "N/A"
@@ -97,7 +98,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
     if (rows[0] !== undefined) {
         for (item of rows) {
             data.humidity.val.push(item.Val);
-            data.humidity.stamp.push(dateConvert.timestampToDate(item.Stamp));
+            data.humidity.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
         }
     } else {
         data.humidity = "N/A"
@@ -112,7 +113,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
     if (rows[0] !== undefined) {
         for (item of rows) {
             data.rain.val.push(item.Val);
-            data.rain.stamp.push(dateConvert.timestampToDate(item.Stamp));
+            data.rain.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
         }
 
         for (item of rows) {
@@ -131,7 +132,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
     if (rows[0] !== undefined) {
         for (item of rows) {
             data.lighting.distance.push(item.Distance);
-            data.lighting.stamp.push(dateConvert.timestampToDate(item.Stamp));
+            data.lighting.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
         }
     } else {
         data.lighting = "N/A"
@@ -148,7 +149,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
             data.wind.speed.push(item.Speed);
             data.wind.direction.push(item.Direction);
             data.wind.cardinal_direction.push(meteoUtils.degToCardinal(item.Direction));
-            data.wind.stamp.push(dateConvert.timestampToDate(item.Stamp));
+            data.wind.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
         }
     } else {
         data.wind = "N/A"
@@ -164,11 +165,10 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
         for (item of rows) {
             data.air_quality.PM25.push(item.PM25);
             data.air_quality.PM10.push(item.PM10);
-            data.air_quality.stamp.push(dateConvert.timestampToDate(item.Stamp));
+            data.air_quality.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
         }
     } else {
         data.air_quality = "N/A"
     }
-
     return data;
 }
