@@ -7,14 +7,14 @@ router.get('/', isAuthenticated, function (req, res, next) {
     //Check for empty date - limit result to current day
     let date_start;
     if (req.query.date_start) {
-        date_start = moment.utc(req.query.date_start).format("Y-M-D H:mm");
+        date_start = req.query.date_start;
     } else {
         date_start = moment.utc().startOf('day').format("Y-M-D H:mm");
     }
 
     let date_end;
     if (req.query.date_end) {
-        date_end = moment.utc(req.query.date_end).format("Y-M-D H:mm");
+        date_end = req.query.date_end;
     } else {
         date_end = moment.utc().format("Y-M-D H:mm");
     }
