@@ -1,13 +1,13 @@
 express = require('express');
 forecast = require('./forecast');
 
-module.exports = Object.assign({}, 
-    seaLevelPressure, 
+module.exports = Object.assign({},
+    seaLevelPressure,
     dewPoint,
     humidex,
     windchill,
     degToCardinal,
-    calcBarometerDifference, 
+    calcBarometerDifference,
     forecast);
 
 
@@ -36,7 +36,7 @@ function windchill(temperature, wind) {
     if (temperature > 10) return "N/A";
     wind *= 3.6; //Km/h -> m/s
     if (temperature <= 10 || !(wind <= 25 && wind >= 1.78)) return temperature;
-    let windchill = (0.45 * Math.pow(wind, 0.5) + 0.47 - wind)*(temperature - 33) + 33;
+    let windchill = (0.45 * Math.pow(wind, 0.5) + 0.47 - wind) * (temperature - 33) + 33;
     return Math.round(windchill * 10) / 10;
 }
 
@@ -75,6 +75,44 @@ function calcBarometerDifference(val) {
     return difference;
 }
 
+function iqa(pm25, pm10) {
+    var iqa_pm25 = 0;
+    var iqa_pm10 = 0;
+
+    if (pm25 >= 0 && pm25 < 10) {
+        iqa_pm25 = 4;
+    }
+    if (pm25 >= 10 && pm25 < 20) {
+        iqa_pm25 = 3;
+    }
+    if (pm25 >= 20 && pm25 < 25) {
+        iqa_pm25 = 2;
+    }
+    if (pm25 >= 25 && pm25 < 30) {
+        iqa_pm25 = 1;
+    }
+    if (pm25 >= 30) {
+        iqa_pm25 = 0;
+    }
+
+    if (pm10 >= 0 && pm10 < 20) {
+        iqa_pm10 = 4; pm10
+    }
+    if (pm10 >= 20 && pm10 < 35) {
+        iqa_pm10 = 3;
+    }
+    if (pm10 >= 35 && pm10 < 50) {
+        iqa_pm10 = 2;
+    }
+    if (pm10 >= 50 && pm10 < 100) {
+        iqa_pm10 = 1;
+    }
+    if (pm10 >= 100) {
+        iqa_pm10 = 0;
+    }
+
+    return Math.min(iqa_pm10, iqa_pm25);
+}
 
 module.exports.seaLevelPressure = seaLevelPressure;
 module.exports.dewPoint = dewPoint;
@@ -82,6 +120,7 @@ module.exports.humidex = humidex;
 module.exports.windchill = windchill;
 module.exports.degToCardinal = degToCardinal;
 module.exports.calcBarometerDifference = calcBarometerDifference;
+module.exports.iqa = iqa;
 
 
 /*

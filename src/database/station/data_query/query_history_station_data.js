@@ -31,6 +31,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
         air_quality: {
             PM25: [],
             PM10: [],
+            iqa: [],
             stamp: []
         }
     };
@@ -43,7 +44,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
     if (!timestamp_end) {
         timestamp_end = moment.utc().format("Y-M-D H:mm");
     }
-    
+
     //Cerco la stazione attualmente selezionata
     rows = await database.asynchQuery(station_query, [station_id]);
     let selected_station = rows[0];
@@ -165,6 +166,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
         for (item of rows) {
             data.air_quality.PM25.push(item.PM25);
             data.air_quality.PM10.push(item.PM10);
+            data.air_quality.iqa.push(meteoUtils.iqa(item.PM25, item.PM10));
             data.air_quality.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
         }
     } else {

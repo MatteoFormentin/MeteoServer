@@ -16,7 +16,7 @@ module.exports.querySingleStationLastData = async function (station_id) {
     var rain_sum_query_hour = 'SELECT SUM(Val) AS total FROM Rain INNER JOIN Station ON Rain.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ?';
 
     var lighting_query = 'SELECT Station.Id, Distance, Stamp FROM Lighting INNER JOIN Station ON Lighting.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
-  
+
     var wind_query = 'SELECT Station.Id, StationName, Location, Altitude, Speed, Direction, Stamp FROM Wind INNER JOIN Station ON Wind.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
 
     var air_quality_query = 'SELECT Station.Id, StationName, Location, Altitude, Round(AVG(PM25),1) AS PM25, Round(AVG(PM10),1) AS PM10, cast(AirQuality.Stamp as date) AS Stamp FROM AirQuality INNER JOIN Station ON AirQuality.Id = Station.Id WHERE Station.Id=? AND AirQuality.Stamp BETWEEN ? AND ? GROUP BY cast(AirQuality.Stamp as date) ORDER BY cast(AirQuality.Stamp as date) DESC LIMIT 1';
@@ -60,7 +60,8 @@ module.exports.querySingleStationLastData = async function (station_id) {
     };
     let air_quality = {
         PM25: 0,
-        PM10: 0
+        PM10: 0,
+        iqa: 0
     }
 
     if (last_update !== null) {
@@ -231,6 +232,7 @@ module.exports.querySingleStationLastData = async function (station_id) {
     else {
         air_quality.PM25 = rows[0].PM25;
         air_quality.PM10 = rows[0].PM10;
+        air_quality.iqa = meteoUtils.iqa(item.air_quality.PM25, item.air_quality.PM10)
     }
 
     //Get forecast

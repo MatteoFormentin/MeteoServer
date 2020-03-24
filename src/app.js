@@ -14,8 +14,8 @@ var util = require("util");
 error = require("./utils/error_handler");
 
 /*
-READ ENV FROM FILE
-Local development only: on container ENV are directly provided on start by docker.
+  READ ENV FROM FILE
+  Local development only: on container ENV are directly provided on start by docker.
 */
 const dotenv = require('dotenv');
 dotenv.config({ path: path.join(__dirname, '.env') });
@@ -53,11 +53,6 @@ database.asynchQuery = util.promisify(database.query);
 var initTables = require("./config/init_tables.js"); //Modulo che crea le tabelle
 initTables();
 db = require("./database/database.js");
-
-/*REDIS CACHING DB
-redis = require('redis');
-redis_client = redis.createClient();
-redis_client.hgetallAsynch = util.promisify(redis_client.hgetall);*/
 
 /*PASSPORT*/
 passport = require("passport");
