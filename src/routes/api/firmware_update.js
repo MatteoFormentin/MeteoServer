@@ -9,7 +9,6 @@ var fs = require('fs');
 router.get('/:station_model', function (req, res, next) {
     //Check if request come from an ESP8266
     //TODO: PLACE ON THE FOLLOWING IF TOKEN CHECK
-    console.log(req.params.station_model)
     if (req.get('User-Agent') === 'ESP8266-http-Update') {
         db.queryUpdateAvailable(req.params.station_model).then((station_update_available) => {
             //Check if update available and if version is greater than onboard

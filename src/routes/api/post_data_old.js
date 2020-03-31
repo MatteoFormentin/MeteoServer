@@ -7,7 +7,7 @@ router.post('/', function (req, res, next) {
 
     let data = req.body;
 
-    let timestamp = dateConvert.dateToTimeStampSecond(new Date());
+    let timestamp = moment.utc().format("Y-M-D H:mm");
     console.log(timestamp);
 
     database.query('SELECT * FROM Station WHERE Token= \'' + data.Token + '\'', function (err, rows) {
@@ -27,7 +27,9 @@ router.post('/', function (req, res, next) {
                             + timestamp + '\')',
                             function (err, rows, fields) {
                                 if (err) {
+                                    console.log("Temperature error");
                                     error.errorHandlerAPI(err, req, res);
+                                    
                                 } else {
                                     res.send('ok');
                                 }
@@ -40,7 +42,9 @@ router.post('/', function (req, res, next) {
                             + timestamp + '\')',
                             function (err, rows, fields) {
                                 if (err) {
+                                    console.log("Pressure error");
                                     error.errorHandlerAPI(err, req, res);
+                                    
                                 } else {
                                     res.send('ok');
                                 }
@@ -52,7 +56,9 @@ router.post('/', function (req, res, next) {
                             + timestamp + '\')',
                             function (err, rows, fields) {
                                 if (err) {
+                                    console.log("Humidity error");
                                     error.errorHandlerAPI(err, req, res);
+                                    
                                 } else {
                                     res.send('ok');
                                 }
@@ -64,6 +70,7 @@ router.post('/', function (req, res, next) {
                             + timestamp + '\')',
                             function (err, rows, fields) {
                                 if (err) {
+                                    console.log("Rain error");
                                     error.errorHandlerAPI(err, req, res);
                                 } else {
                                     res.send('ok');
@@ -76,6 +83,7 @@ router.post('/', function (req, res, next) {
                             '\', \'' + data.Direction + '\', \'' + timestamp + '\')',
                             function (err, rows, fields) {
                                 if (err) {
+                                    console.log("Wind error");
                                     error.errorHandlerAPI(err, req, res);
                                 } else {
                                     res.send('ok');
@@ -88,6 +96,7 @@ router.post('/', function (req, res, next) {
                             + timestamp + '\')',
                             function (err, rows, fields) {
                                 if (err) {
+                                    console.log("Lighting error");
                                     error.errorHandlerAPI(err, req, res);
                                 } else {
                                     res.send('ok');
