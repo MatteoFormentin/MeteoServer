@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* GET history page. */
-router.get('/'/*, isAuthenticated*/, function (req, res, next) {
+router.get('/', isAuthenticated, function (req, res, next) {
 
     //Check for empty date - limit result to current day
     let date_start;
