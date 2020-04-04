@@ -14,7 +14,8 @@ router.get('/:station_id', function (req, res, next) {
             });
             else res.redirect("/");
         }).catch((err) => {
-            error.errorHandler(err, req, res)
+            req.flash('info', 'Errore');
+            res.redirect('/');
         });
     } else {
         res.redirect("/");

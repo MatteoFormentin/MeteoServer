@@ -20,7 +20,10 @@ router.get('/', isAuthenticated, function (req, res, next) {
                 message: req.flash(),
             });
         }
-    }).catch((err) => error.errorHandler(err, req, res));
+    }).catch((err) => {
+        req.flash('info', 'Errore');
+        res.redirect('/');
+    });
 });
 
 module.exports = router;

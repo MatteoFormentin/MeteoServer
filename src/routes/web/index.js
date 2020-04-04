@@ -22,7 +22,8 @@ router.get('/', function (req, res, next) {
             });
         }
     }).catch((err) => {
-        error.errorHandler(err, req, res)
+        req.flash('info', 'Errore');
+        res.redirect('/');
     });
 });
 

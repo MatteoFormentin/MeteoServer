@@ -58,7 +58,8 @@ router.get('/', isAuthenticated, function (req, res, next) {
                     });
                 }
             }).catch((err) => {
-                error.errorHandler(err, req, res)
+                req.flash('info', 'Errore');
+                res.redirect('/');
             });
 
         } else { //Se non è selezionata una stazione non visualizzare niente

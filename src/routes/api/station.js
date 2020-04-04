@@ -14,7 +14,8 @@ router.get('/:station_id', function (req, res, next) {
                     res.json(getNotFound());
                 }
             }).catch((err) => {
-                error.errorHandler(err, req, res)
+                logger.error('API: Error processing get station history data\nstation id: ' + req.params.station_id + '\nRemote IP: ' + ip);
+                res.json(getServerError());
             });
         } else { //GET LAST DATA
             db.querySingleStationLastData(req.params.station_id).then((data) => {
