@@ -1,6 +1,5 @@
 var express = require('express');
 
-
 /*
 * First startup database init
 */

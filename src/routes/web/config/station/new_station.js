@@ -18,22 +18,13 @@ router.post('/', isAuthenticated, isAdmin, [
         return res.redirect('/config/configuration');
     }
 
-    let timestamp = dateConvert.dateToTimeStampSecond(new Date());
-
-    var insert_station_query = 'INSERT INTO Station (StationName, Location, Latitude, Longitude, Altitude, Token, LastUpdate) VALUES (\'' +
-        req.body.StationName + '\', \'' +
-        req.body.Location + '\', \'' +
-        req.body.Latitude + '\', \'' +
-        req.body.Longitude + '\', \'' +
-        req.body.Altitude + '\', \'' +
-        uuidv4() + '\', \'' +
-        timestamp + '\')';
-
-    database.query(insert_station_query, function (err, rows) {
-        if (err) error.errorHandler(err, req, res);
+    db.createStation(req.body.StationName, req.body.Location, req.body.Latitude, req.body.Longitude, req.body.Altitude).then((res) => {
         req.flash('info', 'Stazione creata');
+        res.redirect('/config/configuration');
+    }).catch((err) => {
+        req.flash('info', 'Errore');
         res.redirect('/config/configuration');
     });
 });
 
-module.exports = router;
+module.exports = router;  

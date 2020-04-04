@@ -24,9 +24,21 @@ router.get('/:station_id', function (req, res, next) {
                 }
             }).catch((err) => {
                 error.errorHandlerAPI(err, req, res)
+                res.json(getServerError());
             });
         }
     }
+}).get('/', function (req, res, next) {
+    db.listStation().then((data) => {
+        if (data != undefined) {
+            res.json(data);
+        } else {
+            res.json(getNotFound());
+        }
+    }).catch((err) => {
+        error.errorHandlerAPI(err, req, res)
+        res.json(getServerError());
+    });
 });
 
 
@@ -36,6 +48,16 @@ function getNotFound() {
             //errors: [],
             code: "404",
             message: "Station not found"
+        }
+    }
+}
+
+function getServerError() {
+    return {
+        error: {
+            //errors: [],
+            code: "500",
+            message: "Iternal Server Error"
         }
     }
 }

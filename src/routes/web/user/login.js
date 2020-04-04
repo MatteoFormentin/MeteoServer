@@ -6,7 +6,6 @@ router.get("/", function (req, res) {
         res.redirect('/')
     }
     else {
-        //req.flash('info',"welcome");
         if (req.device.type === "phone") {
             res.render('mobile/m_login', {
                 title: 'Meteo Server',

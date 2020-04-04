@@ -17,7 +17,10 @@ router.post('/', isAuthenticated, isAdmin, function (req, res, next) {
     }).then(db.deleteFirmwareUpdate(req.body.Id)).then(() => {
         req.flash('info', 'Aggiornamento cancellato');
         res.redirect('/config/configuration');
-    }).catch((err) => error.errorHandler(err, req, res));
+    }).catch((err) => {
+        req.flash('info', 'Errore');
+        res.redirect('/config/configuration');
+    });
 });
 
 module.exports = router;

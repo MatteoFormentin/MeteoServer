@@ -1,5 +1,6 @@
 var express = require('express');
 
+
 module.exports.updateStationData = async function (data) {
 
     /*
@@ -31,6 +32,7 @@ module.exports.updateStationData = async function (data) {
 
     //Unauthorized request
     if (station === undefined) {
+        //Log 
         return false;
     }
 
@@ -49,42 +51,88 @@ module.exports.updateStationData = async function (data) {
     let timestamp = moment.utc().format("Y-M-D H:mm");
 
     if (data.hasOwnProperty("temperature")) {
-        await database.asynchQuery(insert_temperature, [station.Id, data.temperature, timestamp]);
+        try {
+            await database.asynchQuery(insert_temperature, [station.Id, data.temperature, timestamp]);
+        } catch (err) {
+            //Log
+            throw err;
+        }
     }
 
     if (data.hasOwnProperty("pressure")) {
-        await database.asynchQuery(insert_pressure, [station.Id, data.pressure, timestamp]);
+        try {
+            await database.asynchQuery(insert_pressure, [station.Id, data.pressure, timestamp]);
+        } catch (err) {
+            //Log
+            throw err;
+        }
     }
 
     if (data.hasOwnProperty("humidity")) {
-        await database.asynchQuery(insert_humidity, [station.Id, data.humidity, timestamp]);
+        try {
+            await database.asynchQuery(insert_humidity, [station.Id, data.humidity, timestamp]);
+        } catch (err) {
+            //Log
+            throw err;
+        }
     }
 
     if (data.hasOwnProperty("rain")) {
-        await database.asynchQuery(insert_rain, [station.Id, data.rain, timestamp]);
+        try {
+            await database.asynchQuery(insert_rain, [station.Id, data.rain, timestamp]);
+        } catch (err) {
+            //Log
+            throw err;
+        }
     }
 
     if (data.hasOwnProperty("wind")) {
-        await database.asynchQuery(insert_wind, [station.Id, data.wind.speed, data.wind.direction, timestamp]);
+        try {
+            await database.asynchQuery(insert_wind, [station.Id, data.wind.speed, data.wind.direction, timestamp]);
+        } catch (err) {
+            //Log
+            throw err;
+        }
     }
 
     if (data.hasOwnProperty("lighting")) {
-        await database.asynchQuery(insert_lighting, [station.Id, data.lighting, timestamp]);
+        try {
+            await database.asynchQuery(insert_lighting, [station.Id, data.lighting, timestamp]);
+        } catch (err) {
+            //Log
+            throw err;
+        }
     }
 
     if (data.hasOwnProperty("air_quality")) {
-        await database.asynchQuery(insert_air_quality, [station.Id, data.air_quality.PM25, data.air_quality.PM10, timestamp]);
+        try {
+            await database.asynchQuery(insert_air_quality, [station.Id, data.air_quality.PM25, data.air_quality.PM10, timestamp]);
+        } catch (err) {
+            //Log
+            throw err;
+        }
     }
 
     //Update Last Update station field
-    await database.asynchQuery(station_last_update, [timestamp, station.Id]);
+    try {
+        await database.asynchQuery(station_last_update, [timestamp, station.Id]);
+    } catch (err) {
+        //Log
+        throw err;
+    }
 
+    //Upate model and firmware version
     if (data.hasOwnProperty("model") && data.hasOwnProperty("firmware_version")) {
-        await database.asynchQuery(station_ota, [
-            data.firmware_version,
-            data.model,
-            station.Id
-        ]);
+        try {
+            await database.asynchQuery(station_ota, [
+                data.firmware_version,
+                data.model,
+                station.Id
+            ]);
+        } catch (err) {
+            //Log
+            throw err;
+        }
     }
 
     return true;

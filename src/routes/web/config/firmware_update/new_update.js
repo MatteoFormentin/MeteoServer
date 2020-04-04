@@ -32,14 +32,16 @@ router.post('/', isAuthenticated, isAdmin, upload.single('File'), [
             try {
                 fs.unlinkSync(path.join(WORKING_DIR, 'firmware_update', file_name));
             } catch (err) {
-                console.log(err);
+                logger.error("Error saving file to server");
             }
             return res.redirect('/config/configuration');
         }
 
-        console.log(req);
         db.createFirmwareUpdate(req.body.Model, req.body.Version, file_name).then(() => {
             req.flash('info', 'Aggiornamento creato');
+            res.redirect('/config/configuration');
+        }).catch((err) => {
+            req.flash('info', 'errore creato');
             res.redirect('/config/configuration');
         })
     });

@@ -1,5 +1,6 @@
 var express = require('express');
 
+
 module.exports.queryHistoryStationData = async function (station_id, timestamp_start, timestamp_end) {
     var station_query = 'SELECT * FROM Station WHERE Id=?';
     var temp_query = 'SELECT * FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp ASC';

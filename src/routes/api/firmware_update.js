@@ -33,6 +33,15 @@ router.get('/:station_model', function (req, res, next) {
             }
         }).catch((err) => {
             error.errorHandlerAPI(err, req, res)
+            res.json(
+                {
+                    error: {
+                        //errors: [],
+                        code: "500",
+                        message: "Iternal Server Error"
+                    }
+                }
+            );
         });
     }
     //If not an ESP8266 Unauthorized

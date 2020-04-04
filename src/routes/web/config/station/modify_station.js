@@ -18,16 +18,11 @@ router.post('/', isAuthenticated, isAdmin, [
         return res.redirect('/config/configuration');
     }
 
-    var update_station_query = 'UPDATE Station SET StationName=\'' +
-        req.body.ModifyStationName + '\', Location=\'' +
-        req.body.ModifyLocation + '\', Latitude=\'' +
-        req.body.ModifyLatitude + '\', Longitude=\'' +
-        req.body.ModifyLongitude + '\', Altitude=\'' +
-        req.body.ModifyAltitude + '\' WHERE Id=\'' +
-        req.body.ModifyId + '\'';
-
-    database.query(update_station_query, function (err, rows) {
-        if (err) error.errorHandler(err, req, res);
+    db.modifyStation(req.body.StationName, req.body.Location, req.body.Latitude, req.body.Longitude, req.body.Altitude, req.body.ModifyId).then((res) => {
+        req.flash('info', 'Stazione modificata');
+        res.redirect('/config/configuration');
+    }).catch((err) => {
+        req.flash('info', 'Errore');
         res.redirect('/config/configuration');
     });
 });

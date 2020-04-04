@@ -8,13 +8,11 @@ router.post('/', function (req, res, next) {
     let data = req.body;
 
     let timestamp = moment.utc().format("Y-M-D H:mm");
-    console.log(timestamp);
 
     database.query('SELECT * FROM Station WHERE Token= \'' + data.Token + '\'', function (err, rows) {
         if (err) error.errorHandlerAPI(err, req, res);
         if (rows[0] === undefined) {
             res.send('unauthorized');
-            console.log('unauthorized request');
         } else {
             var id = rows[0].Id;
             let station_last_update = 'UPDATE Station SET LastUpdate=? WHERE Id=?';

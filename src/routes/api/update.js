@@ -4,6 +4,7 @@ var router = express.Router();
 /* POST new data from sensor. */
 router.post('/', function (req, res, next) {
     let data = req.body;
+    
 
     if (!data) {
         res.json(
@@ -25,7 +26,7 @@ router.post('/', function (req, res, next) {
                 {
                     error: {
                         //errors: [],
-                        code: "403",
+                        code: "401",
                         message: "Unhauthorized"
                     }
                 }
@@ -33,6 +34,15 @@ router.post('/', function (req, res, next) {
         }
     }).catch((err) => {
         error.errorHandlerAPI(err, req, res)
+        res.json(
+            {
+                error: {
+                    //errors: [],
+                    code: "500",
+                    message: "Iternal Server Error"
+                }
+            }
+        );
     });
 
 });

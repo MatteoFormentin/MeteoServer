@@ -140,7 +140,7 @@ block data
                             tr.text-center
                                 td(style="width: 33%").align-middle=data.wind.speed[index] + ' Km/h'
                                 td(style="width: 33%").align-middle=data.wind.direction[index]
-                                td(style="width: 33%").align-middle=data.temperature.stamp[index]
+                                td(style="width: 33%").align-middle=data.wind.stamp[index]
                                 if logged_user && logged_user.Admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')

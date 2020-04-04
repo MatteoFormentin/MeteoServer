@@ -1,5 +1,6 @@
 var express = require('express');
 
+
 module.exports.querySingleStationLastData = async function (station_id) {
 
     var temp_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=?  AND Stamp BETWEEN  ?  AND ? ORDER BY Stamp DESC';

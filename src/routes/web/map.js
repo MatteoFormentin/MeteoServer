@@ -5,7 +5,6 @@ var router = express.Router();
 
 router.get('/', isAuthenticated, function (req, res, next) {
     db.queryLastDataFromAllStation().then((data) => {
-        console.log(JSON.stringify(data));
         if (req.device.type === "phone") {
             res.render('mobile/m_map', {
                 title: 'Meteo Server',

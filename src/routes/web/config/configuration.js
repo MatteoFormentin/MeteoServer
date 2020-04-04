@@ -3,26 +3,37 @@ var router = express.Router();
 
 /* GET configuration page. */
 router.get('/', isAuthenticated, isAdmin, function (req, res, next) {
+
     var station;
     var user;
     var update;
 
-    async function query() {
-        station = await database.asynchQuery('SELECT * FROM Station');
-        user = await database.asynchQuery('SELECT * FROM User');
-        update = await database.asynchQuery('SELECT * FROM FirmwareUpdate');
+    async function getData() {
+        station = await db.getAllStations();
+        user = await db.getAllUsers()
+        update = await db.getAllFirmwareUpdates()
     }
 
-    query().then(() => {
-        res.render('./config/configuration', {
-            title: 'Meteo Server',
-            logged_user: req.user,
-            message: req.flash(),
-            station: station,
-            user: user,
-            update: update
-        });
-    }).catch((err) => error.errorHandler(err, req, res));
+    getData().then(
+        (data) => {
+            res.render('./config/configuration', {
+                title: 'Meteo Server',
+                logged_user: req.user,
+                message: req.flash(),
+                station: station,
+                user: user,
+                update: update
+            });
+        }).catch(
+            (err) => {
+                req.flash('info', 'Errore');
+                res.redirect('/');
+            }
+        );
 });
 
+
+
 module.exports = router;
+
+

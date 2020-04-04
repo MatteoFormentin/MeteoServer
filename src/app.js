@@ -2,16 +2,21 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
-var logger = require("morgan");
 var compression = require("compression");
 var cookieParser = require("cookie-parser");
 var flash = require("connect-flash");
 var helmet = require("helmet");
 var session = require("express-session");
 var device = require("express-device");
-var util = require("util");
+moment = require('moment')
+uuidv4 = require("uuid/v4");
+crypto = require("crypto");
+async = require("async");
+WORKING_DIR = __dirname;
+
 
 error = require("./utils/error_handler");
+logger = require("./utils/logger");
 
 /*
   READ ENV FROM FILE
@@ -20,39 +25,17 @@ error = require("./utils/error_handler");
 const dotenv = require('dotenv');
 dotenv.config({ path: path.join(__dirname, '.env') });
 
-uuidv4 = require("uuid/v4");
-crypto = require("crypto");
 
-async = require("async");
+
 dateConvert = require("./utils/date_convert");
 meteoUtils = require("./utils/meteo_utils");
 
-moment = require('moment')
 
-WORKING_DIR = __dirname;
 
 /*DATABASE MySQL*/
-var mysql = require("mysql");
-database = mysql.createConnection({
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  user: process.env.USER_DB,
-  password: process.env.PASS_DB,
-  timezone: 'utc'
-});
 
 
-database.connect(function (err) {
-  if (err) {
-    console.error("Can't connect to database. Check configuration.");
-    console.error(err);
-    process.exit();
-  }
-});
-database.asynchQuery = util.promisify(database.query);
-var initTables = require("./config/init_tables.js"); //Modulo che crea le tabelle
-initTables();
-db = require("./database/database.js");
+db = require("./database/database");
 
 /*PASSPORT*/
 passport = require("passport");
@@ -71,7 +54,7 @@ app.set("view engine", "pug");
 app.use(helmet());
 app.use(compression());
 
-app.use(logger("dev"));
+//app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -136,15 +119,12 @@ app.use("/config/delete_data", configuration_delete_data);
 var postData = require("./routes/api/post_data_old");
 var update = require("./routes/api/update");
 var api_station = require("./routes/api/station");
-var api_list_station = require("./routes/api/list");
-
 var firmw_updater = require("./routes/api/firmware_update");
 
 //Data posting
 app.use("/api/update", update);
 app.use("/post_data", postData); //Retro-compatibility
 
-app.use("/api/station/list", api_list_station);
 app.use("/api/station", api_station);
 app.use("/api/firmware_update", firmw_updater);
 
