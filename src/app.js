@@ -15,7 +15,6 @@ async = require("async");
 WORKING_DIR = __dirname;
 
 
-error = require("./utils/error_handler");
 logger = require("./utils/logger");
 
 /*
@@ -39,9 +38,9 @@ db = require("./database/database");
 
 /*PASSPORT*/
 passport = require("passport");
-var initPassport = require("./config/init_passport");
-isAuthenticated = require("./routes/web/user/is_auth");
-isAdmin = require("./routes/web/user/is_admin");
+var initPassport = require("./passport/init_passport");
+isAuthenticated = require("./passport/is_auth");
+isAdmin = require("./passport/is_admin");
 initPassport();
 
 /*Express*/
@@ -116,15 +115,12 @@ app.use("/config/firmware_update/delete_update", configuration_delete_update);
 app.use("/config/delete_data", configuration_delete_data);
 
 /*API Routing*/
-var postData = require("./routes/api/post_data_old");
 var update = require("./routes/api/update");
 var api_station = require("./routes/api/station");
 var firmw_updater = require("./routes/api/firmware_update");
 
 //Data posting
 app.use("/api/update", update);
-app.use("/post_data", postData); //Retro-compatibility
-
 app.use("/api/station", api_station);
 app.use("/api/firmware_update", firmw_updater);
 

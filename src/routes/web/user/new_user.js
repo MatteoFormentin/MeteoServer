@@ -24,11 +24,14 @@ router.post('/', isAuthenticated, [
         }
 
         let hash = crypto.createHash('sha256');
-        db.createUser(req.body.Email, req.body.Name, hash.update(req.body.Password).digest('hex'), admin_on)
-        req.flash('info', 'Utente creato');
-        res.redirect('/config/configuration');
-    }
-    else {
+        db.createUser(req.body.Email, req.body.Name, hash.update(req.body.Password).digest('hex'), admin_on).then((result) => {
+            req.flash('info', 'Utente creato');
+            res.redirect('/config/configuration');
+        }).catch((err) => {
+            req.flash('info', 'Errore');
+            res.redirect('/config/configuration');
+        })
+    } else {
         req.flash('info', 'Le password non corrispondono');
         res.redirect('/config/configuration');
     }

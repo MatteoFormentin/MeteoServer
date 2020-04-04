@@ -128,7 +128,7 @@ module.exports = async function initTables() {
             ');'
         );
     } catch (err) {
-        error.errorHandler(err);
+        throw err;
     }
 };
 

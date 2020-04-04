@@ -16,7 +16,6 @@ router.post('/', isAuthenticated, [
         return res.redirect('/config/configuration');
     }
 
-    var update_user_query;
     var admin_on = 'false';
     if (req.body.ModifyUserAdmin === 'on') {
         admin_on = 'true';
@@ -25,17 +24,26 @@ router.post('/', isAuthenticated, [
     if (req.body.ModifyUserPassword !== "") {
         if (req.body.ModifyUserPassword === req.body.ModifyUserPasswordConfirm) {
             let hash = crypto.createHash('sha256');
-            db.modifyUser(req.body.ModifyUserEmail, req.body.ModifyUserName, hash.update(req.body.ModifyUserPassword).digest('hex'), admin_on, req.body.ModifyUserId);
-        }
-        else {
+            db.modifyUserPassword(req.body.ModifyUserEmail, req.body.ModifyUserName, admin_on, req.body.ModifyUserId, hash.update(req.body.ModifyUserPassword).digest('hex')).then((result) => {
+                req.flash('info', 'Password Modificata');
+                res.redirect('/config/configuration');
+            }).catch((err) => {
+                req.flash('info', 'Errore');
+                res.redirect('/config/configuration');
+            })
+        } else {
             req.flash('info', 'Le password non corrispondono');
             res.redirect('/config/configuration');
         }
+    } else {
+        db.modifyUser(req.body.ModifyUserEmail, req.body.ModifyUserName, admin_on, req.body.ModifyUserId).then((res) => {
+            req.flash('info', 'Utente Modificato');
+            res.redirect('/config/configuration');
+        }).catch((err) => {
+            req.flash('info', 'Errore');
+            res.redirect('/config/configuration');
+        })
     }
-    else {
-        db.modifyUser(req.body.ModifyUserEmail, req.body.ModifyUserName, admin_on, req.body.ModifyUserId);
-    }
-    res.redirect('/config/configuration');
 });
 
 module.exports = router;

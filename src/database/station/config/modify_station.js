@@ -1,7 +1,7 @@
 var express = require('express');
 
 
-module.exports.modifyStation = async function (station_name, location, latitude, longitude, altitude) {
+module.exports.modifyStation = async function (station_name, location, latitude, longitude, altitude, id) {
     var query = 'UPDATE Station SET StationName=?, Location=?, Latitude=?, Longitude=?, Altitude=? WHERE Id=?';
     let res;
     try {
@@ -14,7 +14,7 @@ module.exports.modifyStation = async function (station_name, location, latitude,
             id
         ]);
     } catch (err) {
-        logger.error("Error Updating User: " + email);
+        logger.error("DATABASE: Error Updating Station: " + station_name);
         throw err
     }
     return res

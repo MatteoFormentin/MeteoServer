@@ -40,16 +40,16 @@ html
                 div.bg-success.p-4
                     if logged_user
                         a.nav-link.text-center(href='#' style="")
-                            if logged_user.Admin === 'true'
-                                h7.text-white=logged_user.Name + " - Amministratore"
+                            if logged_user.admin === 'true'
+                                h7.text-white=logged_user.name + " - Amministratore"
                             else
-                                h7.text-white=logged_user.Name + " - Utente Standard"
+                                h7.text-white=logged_user.name + " - Utente Standard"
                             div.dropdown-divider
                         a.nav-link(href='/history')
                             h5.text-white Dati
                         a.nav-link(href='/map')
                             h5.text-white Mappa
-                        if logged_user.Admin === 'true'
+                        if logged_user.admin === 'true'
                             a.nav-link(href='/config/configuration')
                                 h5.text-white Configurazione
                         a.nav-link(href='/logout')

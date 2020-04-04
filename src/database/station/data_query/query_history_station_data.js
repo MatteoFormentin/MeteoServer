@@ -46,132 +46,138 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
         timestamp_end = moment.utc().format("Y-M-D H:mm");
     }
 
-    //Cerco la stazione attualmente selezionata
-    rows = await database.asynchQuery(station_query, [station_id]);
-    let selected_station = rows[0];
+    try {
 
-    if (selected_station == undefined) return undefined; //station id not existing
+        //Cerco la stazione attualmente selezionata
+        rows = await database.asynchQuery(station_query, [station_id]);
+        let selected_station = rows[0];
 
-    data.name = selected_station.StationName;
-    data.id = selected_station.Id;
-    data.location = selected_station.Location;
-    data.latitude = selected_station.Latitude;
-    data.longitude = selected_station.Longitude;
-    data.altitude = selected_station.Altitude;
-    data.last_update = selected_station.LastUpdate;
+        if (selected_station == undefined) return undefined; //station id not existing
+
+        data.name = selected_station.StationName;
+        data.id = selected_station.Id;
+        data.location = selected_station.Location;
+        data.latitude = selected_station.Latitude;
+        data.longitude = selected_station.Longitude;
+        data.altitude = selected_station.Altitude;
+        data.last_update = selected_station.LastUpdate;
 
 
-    //TEMPERATURE
-    rows = await database.asynchQuery(temp_query, [
-        station_id,
-        timestamp_start,
-        timestamp_end
-    ]);
-    if (rows[0] !== undefined) {
-        for (item of rows) {
-            data.temperature.val.push(item.Val);
-            data.temperature.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
-        }
-    } else {
-        data.temperature = "N/A"
-    }
-
-    //PRESSURE
-    rows = await database.asynchQuery(pres_query, [
-        station_id,
-        timestamp_start,
-        timestamp_end
-    ]);
-    if (rows[0] !== undefined) {
-        for (item of rows) {
-            data.pressure.val.push(meteoUtils.seaLevelPressure(item.Val, selected_station.Altitude));
-            data.pressure.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
-        }
-    } else {
-        data.pressure = "N/A"
-    }
-
-    //HUMIDITY
-    rows = await database.asynchQuery(hum_query, [
-        station_id,
-        timestamp_start,
-        timestamp_end
-    ]);
-    if (rows[0] !== undefined) {
-        for (item of rows) {
-            data.humidity.val.push(item.Val);
-            data.humidity.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
-        }
-    } else {
-        data.humidity = "N/A"
-    }
-
-    //RAIN
-    rows = await database.asynchQuery(rain_query, [
-        station_id,
-        timestamp_start,
-        timestamp_end
-    ]);
-    if (rows[0] !== undefined) {
-        for (item of rows) {
-            data.rain.val.push(item.Val);
-            data.rain.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
+        //TEMPERATURE
+        rows = await database.asynchQuery(temp_query, [
+            station_id,
+            timestamp_start,
+            timestamp_end
+        ]);
+        if (rows[0] !== undefined) {
+            for (item of rows) {
+                data.temperature.val.push(item.Val);
+                data.temperature.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
+            }
+        } else {
+            data.temperature = "N/A"
         }
 
-        for (item of rows) {
-            data.rain.total_rainfall += item.Val;
+        //PRESSURE
+        rows = await database.asynchQuery(pres_query, [
+            station_id,
+            timestamp_start,
+            timestamp_end
+        ]);
+        if (rows[0] !== undefined) {
+            for (item of rows) {
+                data.pressure.val.push(meteoUtils.seaLevelPressure(item.Val, selected_station.Altitude));
+                data.pressure.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
+            }
+        } else {
+            data.pressure = "N/A"
         }
-    } else {
-        data.rain = "N/A"
-    }
 
-    //LIGHTING
-    rows = await database.asynchQuery(lighting_query, [
-        station_id,
-        timestamp_start,
-        timestamp_end
-    ]);
-    if (rows[0] !== undefined) {
-        for (item of rows) {
-            data.lighting.distance.push(item.Distance);
-            data.lighting.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
+        //HUMIDITY
+        rows = await database.asynchQuery(hum_query, [
+            station_id,
+            timestamp_start,
+            timestamp_end
+        ]);
+        if (rows[0] !== undefined) {
+            for (item of rows) {
+                data.humidity.val.push(item.Val);
+                data.humidity.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
+            }
+        } else {
+            data.humidity = "N/A"
         }
-    } else {
-        data.lighting = "N/A"
-    }
 
-    //WIND
-    rows = await database.asynchQuery(wind_query, [
-        station_id,
-        timestamp_start,
-        timestamp_end
-    ]);
-    if (rows[0] !== undefined) {
-        for (item of rows) {
-            data.wind.speed.push(item.Speed);
-            data.wind.direction.push(item.Direction);
-            data.wind.cardinal_direction.push(meteoUtils.degToCardinal(item.Direction));
-            data.wind.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
-        }
-    } else {
-        data.wind = "N/A"
-    }
+        //RAIN
+        rows = await database.asynchQuery(rain_query, [
+            station_id,
+            timestamp_start,
+            timestamp_end
+        ]);
+        if (rows[0] !== undefined) {
+            for (item of rows) {
+                data.rain.val.push(item.Val);
+                data.rain.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
+            }
 
-    //AIR QUALITY
-    rows = await database.asynchQuery(air_quality_query, [
-        station_id,
-        timestamp_start,
-        timestamp_end
-    ]);
-    if (rows[0] !== undefined) {
-        for (item of rows) {
-            data.air_quality.PM25.push(item.PM25);
-            data.air_quality.PM10.push(item.PM10);
-            data.air_quality.iqa.push(meteoUtils.iqa(item.PM25, item.PM10));
-            data.air_quality.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
+            for (item of rows) {
+                data.rain.total_rainfall += item.Val;
+            }
+        } else {
+            data.rain = "N/A"
         }
-    } else {
-        data.air_quality = "N/A"
+
+        //LIGHTING
+        rows = await database.asynchQuery(lighting_query, [
+            station_id,
+            timestamp_start,
+            timestamp_end
+        ]);
+        if (rows[0] !== undefined) {
+            for (item of rows) {
+                data.lighting.distance.push(item.Distance);
+                data.lighting.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
+            }
+        } else {
+            data.lighting = "N/A"
+        }
+
+        //WIND
+        rows = await database.asynchQuery(wind_query, [
+            station_id,
+            timestamp_start,
+            timestamp_end
+        ]);
+        if (rows[0] !== undefined) {
+            for (item of rows) {
+                data.wind.speed.push(item.Speed);
+                data.wind.direction.push(item.Direction);
+                data.wind.cardinal_direction.push(meteoUtils.degToCardinal(item.Direction));
+                data.wind.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
+            }
+        } else {
+            data.wind = "N/A"
+        }
+
+        //AIR QUALITY
+        rows = await database.asynchQuery(air_quality_query, [
+            station_id,
+            timestamp_start,
+            timestamp_end
+        ]);
+        if (rows[0] !== undefined) {
+            for (item of rows) {
+                data.air_quality.PM25.push(item.PM25);
+                data.air_quality.PM10.push(item.PM10);
+                data.air_quality.iqa.push(meteoUtils.iqa(item.PM25, item.PM10));
+                data.air_quality.stamp.push(moment.utc(item.Stamp).format("D/M/Y H:mm"));
+            }
+        } else {
+            data.air_quality = "N/A"
+        }
+    } catch (err) {
+        logger.error("DATABASE: Error getting history station data");
+        throw err;
     }
     return data;
 }

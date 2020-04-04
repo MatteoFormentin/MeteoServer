@@ -8,7 +8,7 @@ module.exports.deleteUser = async function (user_id) {
             user_id
         ]);
     }catch(err){
-        logger.error("Error deleting user id: " + id);
+        logger.error("DATABASE: Error deleting user id: " + id);
         throw err
     };
 }

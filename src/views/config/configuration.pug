@@ -53,21 +53,21 @@ block content
 
                     each item in station
                         tr.text-center
-                            td.align-middle#thId=item.Id
-                            td.align-middle#thName=item.StationName
-                            td.align-middle#thLocation=item.Location
-                            td.align-middle#thLatitude.d-none=item.Latitude
-                            td.align-middle#thLongitude.d-none=item.Longitude
-                            td.align-middle#thAltitude=item.Altitude
-                            td.align-middle#thAltitude=item.Model
-                            td.align-middle#thAltitude=item.FirmwareVersion
-                            td.align-middle=dateConvert.dateFormatter(new Date(item.LastUpdate + 'Z'))
-                            td.align-middle#thToken=item.Token
+                            td.align-middle#thId=item.id
+                            td.align-middle#thName=item.name
+                            td.align-middle#thLocation=item.location
+                            td.align-middle#thLatitude.d-none=item.latitude
+                            td.align-middle#thLongitude.d-none=item.longitude
+                            td.align-middle#thAltitude=item.altitude
+                            td.align-middle#thAltitude=item.model
+                            td.align-middle#thAltitude=item.firmware_version
+                            td.align-middle=moment.utc(item.last_update).format("D/M/Y H:mm")
+                            td.align-middle#thToken=item.token
                             td
                                 div
                                     button.btn.btn-sm.btn-info.form-margin.d-inline.modifyButton.deleteButton(style="width: 100px;") MODIFICA
                                     form.form-inline.d-inline(method='POST' action='/config/station/delete_station')
-                                        input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id )
+                                        input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.id )
                                         button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="width: 100px; margin-top: 4px;") ELIMINA
 
                         div.modal.fade(id="modifyModal" role="dialog")
@@ -84,12 +84,10 @@ block content
                                 })
 
                             div.modal-dialog
-
                                 div.modal-content
                                     div.modal-header
                                         h4.modal-title Modifica Stazione
                                         button.close(data-dismiss="modal") X
-
                                     div.modal-body
                                         div.container.tab-pane.active(id='stat')
                                             form.form-inline(method='POST' action='/config/station/modify_station')
@@ -144,15 +142,15 @@ block content
 
                     each item in user
                         tr.text-center
-                            td.align-middle#thUserId=item.Id
-                            td.align-middle#thUserEmail=item.Email
-                            td.align-middle#thUserName=item.Name
-                            td.align-middle#thUserAdmin=item.Admin
+                            td.align-middle#thUserId=item.id
+                            td.align-middle#thUserEmail=item.email
+                            td.align-middle#thUserName=item.name
+                            td.align-middle#thUserAdmin=item.admin
                             td
                                 div
                                     button.btn.btn-sm.btn-info.form-margin.d-inline.modifyUserButton.deleteButton(style="width: 100px;") MODIFICA
                                     form.form-inline.d-inline(method='POST' action='/user/delete_user')
-                                        input.form-control.form-margin.d-inline(name='UserId' type='hidden' value=item.Id)
+                                        input.form-control.form-margin.d-inline(name='UserId' type='hidden' value=item.id)
                                         button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="width: 100px;") ELIMINA
 
                         div.modal.fade(id="userModal" role="dialog")
@@ -168,16 +166,14 @@ block content
                                     $("#ModifyUserEmail").val($(event.target).closest('tr').find("#thUserEmail").text());
                                 })
                             div.modal-dialog
-
                                 div.modal-content
                                     div.modal-header
                                         h4.modal-title Modifica
                                         button.close(data-dismiss="modal") X
-
                                     div.modal-body
                                         div.container.tab-pane.active(id='stat')
                                             form.form-inline(method='POST' action='/user/modify_user')
-                                                input.form-control.form-margin.d-inline(id='ModifyUserId' name='ModifyUserId' type='hidden')
+                                                input.form-control.form-margin.d-inline(id='ModifyUserId' name='ModifyUserId' type='text')
                                                 label(for='ModifyUserName') Nome:
                                                 input.form-control.form-margin(id='ModifyUserName' name='ModifyUserName' type='text')
 
@@ -224,13 +220,13 @@ block content
 
                     each item in update
                         tr.text-center
-                            td.align-middle.d-none=item.Id
-                            td.align-middle=item.Model
-                            td.align-middle=item.Version
-                            td.align-middle.d-none=item.FileName
-                            td.align-middle=dateConvert.dateFormatter(new Date(item.Stamp + 'Z'))
+                            td.align-middle.d-none=item.id
+                            td.align-middle=item.model
+                            td.align-middle=item.version
+                            td.align-middle.d-none=item.file_name
+                            td.align-middle=moment.utc(item.stamp).format("D/M/Y H:mm")
                             td
                                 div
                                     form.form-inline.d-inline(method='POST' action='/config/firmware_update/delete_update')
-                                        input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.Id )
+                                        input.form-control.form-margin.d-inline(name='Id' type='hidden' value=item.id )
                                         button.btn.btn-sm.btn-danger.form-margin.d-inline(type='submit' style="width: 100px;") ELIMINA

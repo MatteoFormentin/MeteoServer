@@ -2,20 +2,26 @@ var express = require('express');
 
 module.exports.queryUpdateById = async function (update_id) {
     var query = 'SELECT Id, Model, Version, FileName, Stamp FROM FirmwareUpdate WHERE Id=?';
+    let update;
+    try {
+        let res = await database.asynchQuery(query, [
+            update_id
+        ]);
 
-    let rows = await database.asynchQuery(query, [
-        update_id
-    ]);
-
-    if (rows[0]) {
-        var update =
-        {
-            id: rows[0].Id,
-            model: rows[0].Model,
-            version: rows[0].Version,
-            file_name: rows[0].FileName
-        };
-        return update;
+        if (res == undefined) {
+            update = undefined;
+        } else {
+            update = {
+                id: res[0].Id,
+                model: res[0].Model,
+                version: res[0].Version,
+                file_name: res[0].FileName
+            };
+        }
     }
-    return false;
+    catch (err) {
+        logger.error("DATABASE: Error quering firmware update available by id: " + id);
+        throw err;
+    }
+    return update;
 }

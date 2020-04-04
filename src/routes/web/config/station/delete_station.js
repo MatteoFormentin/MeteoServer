@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* POST delete station. */
 router.post('/', isAuthenticated, isAdmin, function (req, res, next) {
-    db.deleteStation(req.body.Id).then((res) => {
+    db.deleteStation(req.body.Id).then((result) => {
         req.flash('info', 'Stazione eliminata');
         res.redirect('/config/configuration');
     }).catch((err) => {

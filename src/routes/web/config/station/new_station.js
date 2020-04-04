@@ -18,7 +18,7 @@ router.post('/', isAuthenticated, isAdmin, [
         return res.redirect('/config/configuration');
     }
 
-    db.createStation(req.body.StationName, req.body.Location, req.body.Latitude, req.body.Longitude, req.body.Altitude).then((res) => {
+        db.createStation(req.body.StationName, req.body.Location, req.body.Latitude, req.body.Longitude, req.body.Altitude).then((result) => {
         req.flash('info', 'Stazione creata');
         res.redirect('/config/configuration');
     }).catch((err) => {

@@ -3,13 +3,22 @@ var express = require('express');
 module.exports.getAllFirmwareUpdates = async function () {
 
     var query = 'SELECT * FROM FirmwareUpdate'
-    let res;
+    let f_u = [];
     try {
-        res = await database.asynchQuery(query);
+        let res = await database.asynchQuery(query);
+        for(item of res) {
+            f_u.push({
+                id: item.Id,
+                model: item.Model,
+                version: item.Version,
+                file_name: item.FileName,
+                stamp: item.Stamp
+            });
+        }
     } catch (err) {
-        logger.error("Error getting all firmware updates");
+        logger.error("DATABASE: Error getting all firmware updates");
         throw err;
     }
-    return res;
+    return f_u;
 }
 

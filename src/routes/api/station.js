@@ -3,6 +3,7 @@ var router = express.Router();
 
 /* GET single or all station. */
 router.get('/:station_id', function (req, res, next) {
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     if (req.params.station_id) {
         //GET HISTORY DATA
         if (req.query.date_start && req.query.date_end) {
@@ -23,7 +24,7 @@ router.get('/:station_id', function (req, res, next) {
                     res.json(getNotFound());
                 }
             }).catch((err) => {
-                error.errorHandlerAPI(err, req, res)
+                logger.error('API: Error processing get station last data\nstation id: ' + req.params.station_id + '\nRemote IP: ' + ip);
                 res.json(getServerError());
             });
         }
@@ -36,7 +37,7 @@ router.get('/:station_id', function (req, res, next) {
             res.json(getNotFound());
         }
     }).catch((err) => {
-        error.errorHandlerAPI(err, req, res)
+        logger.error('API: Error processing list all station'+ '\nRemote IP: ' + ip);
         res.json(getServerError());
     });
 });

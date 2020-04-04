@@ -16,7 +16,7 @@ module.exports.createStation = async function (station_name, location, latitude,
             timestamp
         ]);
     } catch (err) {
-        logger.error("Error creating station");
+        logger.error("DATABASE: Error creating station");
         throw err;
     }
     return res;

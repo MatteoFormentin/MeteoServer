@@ -12,9 +12,9 @@ router.post('/', isAuthenticated, isAdmin, function (req, res, next) {
         try {
             fs.unlinkSync(file_path);
         } catch (err) {
-            console.log(err);
+            logger.error("Error delting firmware update file from server");
         }
-    }).then(db.deleteFirmwareUpdate(req.body.Id)).then(() => {
+    }).then(db.deleteFirmwareUpdate(req.body.Id)).then((result) => {
         req.flash('info', 'Aggiornamento cancellato');
         res.redirect('/config/configuration');
     }).catch((err) => {

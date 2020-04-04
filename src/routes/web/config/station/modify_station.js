@@ -18,7 +18,7 @@ router.post('/', isAuthenticated, isAdmin, [
         return res.redirect('/config/configuration');
     }
 
-    db.modifyStation(req.body.StationName, req.body.Location, req.body.Latitude, req.body.Longitude, req.body.Altitude, req.body.ModifyId).then((res) => {
+    db.modifyStation(req.body.ModifyStationName, req.body.ModifyLocation, req.body.ModifyLatitude, req.body.ModifyLongitude, req.body.ModifyAltitude, req.body.ModifyId).then((result) => {
         req.flash('info', 'Stazione modificata');
         res.redirect('/config/configuration');
     }).catch((err) => {

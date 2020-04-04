@@ -44,19 +44,19 @@ database = mysql.createConnection({
 
 database.connect(function (err) {
     if (err) {
-        logger.error("Can't connect to database. Check configuration.");
+        logger.error("DATABASE: Can't connect to database. Check configuration.");
         logger.error(err);
         process.exit();
     }
 });
 
-logger.info("Connected to SQL database " + process.env.DB_NAME + "at " + process.env.DB_HOST);
+logger.info("DATABASE: Connected to SQL database " + process.env.DB_NAME + " at " + process.env.DB_HOST);
 
 database.asynchQuery = util.promisify(database.query);
 
 var initTables = require("./init_tables");
 initTables().catch((err) => {
-    logger.error("Error initializing tables")
+    logger.error("DATABASE: Error initializing tables")
     process.exit();
 })
 

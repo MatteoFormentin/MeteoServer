@@ -4,7 +4,7 @@ var passport = require('passport')
 module.exports = function initPassport() {
     //Ritorna un id da un oggetto user
     passport.serializeUser(function (user, done) {
-        done(null, user.Id);
+        done(null, user.id);
     });
 
     //ritorna un user da un id

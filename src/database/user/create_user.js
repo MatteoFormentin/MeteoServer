@@ -11,7 +11,7 @@ module.exports.createUser = async function (email, name, password, admin) {
             admin
         ]);
     } catch (err) {
-        logger.error("Error creating user email: " + email);
+        logger.error("DATABASE: Error creating user email: " + email);
         throw err
     };
 
