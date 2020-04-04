@@ -36,7 +36,7 @@ block content
                     if (station.rain_day !== "N/A") html += "<span class='wi wi-showers'></span> " + station.rain_day + " mm <br>";
                     if (station.wind !== "N/A") html += "<span class='wi wi-strong-wind'></span> " + station.wind.speed + " Km/h " + station.wind.cardinal_direction + "<br>";
                     if (station.lighting !== "N/A") html += "<span class='wi wi-lightning'></span> " + station.lighting.distance + " Km " + station.lighting.stamp + "<br>";
-                    if (station.air_quality !== "N/A") html += "<span class='wi wi-smog'></span> " + station.air_quality.PM25 + " ug/m^3 " + station.air_quality.PM10 +" ug/m^3 " + "<br>";
+                    if (station.air_quality !== "N/A") html += "<span class='wi wi-smog'></span> PM2.5:" + station.air_quality.PM25 + " ug/m^3 PM10" + station.air_quality.PM10 +" ug/m^3 " + "<br>";
 
                     html += "</p>";
 
