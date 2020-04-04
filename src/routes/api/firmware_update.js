@@ -36,7 +36,6 @@ router.get('/:station_model', function (req, res, next) {
                 res.send('500 No update available');
             }
         }).catch((err) => {
-            console.log(err)
             logger.error("API: Error processing firmware update for station\nmodel: " + req.params.station_model + '\nStation IP: ' + ip)
             res.json(
                 {

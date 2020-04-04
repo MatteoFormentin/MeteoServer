@@ -112,7 +112,6 @@ module.exports.querySingleStationLastData = async function (station_id) {
             moment.utc().hour(moment.utc().hour() - 3).format("Y-M-D H:mm"),
             now_time_stamp
         ]);
-        console.log(rows)
         if (rows[0] === undefined) {
             pressure = 'N/A';
             sea_level_pressure = 'N/A';
