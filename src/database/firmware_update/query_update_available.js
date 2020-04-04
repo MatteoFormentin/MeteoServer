@@ -8,8 +8,10 @@ module.exports.queryUpdateAvailable = async function (model) {
             model
         ]);
 
-        if (res == undefined) {
-            station_update_available = undefined;
+        console.log(res)
+
+        if (res.length == 0) {
+            station_update_available = [];
         } else {
             station_update_available = {
                 id: res[0].Id,

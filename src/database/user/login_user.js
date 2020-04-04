@@ -9,7 +9,7 @@ module.exports.loginUser = async function (user_email, user_password) {
             user_password
         ]);
 
-        if (res == undefined) {
+        if (res.length == 0) {
             user = undefined;
         } else {
             user = {
@@ -20,7 +20,7 @@ module.exports.loginUser = async function (user_email, user_password) {
             }
         }
     } catch (err) {
-        logger.error("DATABASE: Error logging users id: " + id);
+        logger.error("DATABASE: Error logging user email: " + user_email);
         throw err;
     }
 

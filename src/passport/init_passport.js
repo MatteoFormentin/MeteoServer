@@ -19,7 +19,7 @@ module.exports = function initPassport() {
         function (username, password, done) {
             let hash = crypto.createHash('sha256');
             db.loginUser(username, hash.update(password).digest('hex')).then((user) => {
-                if (user === undefined) {
+                if (user == undefined) {
                     return done(null, false, { message: 'Username non Presente o password errata.' });
                 }
                 return done(null, user);

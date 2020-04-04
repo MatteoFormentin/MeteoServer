@@ -5,7 +5,7 @@ module.exports.getUserById = async function (id) {
     let user;
     try {
         let res = await database.asynchQuery(query, [id]);
-        if (res == undefined) {
+        if (res.length == 0) {
             user = undefined;
         } else {
             user = {

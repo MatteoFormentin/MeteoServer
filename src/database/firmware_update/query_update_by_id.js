@@ -8,7 +8,7 @@ module.exports.queryUpdateById = async function (update_id) {
             update_id
         ]);
 
-        if (res == undefined) {
+        if (res.length == 0) {
             update = undefined;
         } else {
             update = {

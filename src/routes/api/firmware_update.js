@@ -14,7 +14,7 @@ router.get('/:station_model', function (req, res, next) {
 
         db.queryUpdateAvailable(req.params.station_model).then((station_update_available) => {
             //Check if update available and if version is greater than onboard
-            if (station_update_available != undefined && station_update_available.version > req.get('x-esp8266-version')) {
+            if (station_update_available != [] && station_update_available.version > req.get('x-esp8266-version')) {
                 let file_path;
                 file_path = path.join(WORKING_DIR, 'firmware_update', station_update_available.file_name); //Working dir is declared in app.js
 
@@ -36,6 +36,7 @@ router.get('/:station_model', function (req, res, next) {
                 res.send('500 No update available');
             }
         }).catch((err) => {
+            console.log(err)
             logger.error("API: Error processing firmware update for station\nmodel: " + req.params.station_model + '\nStation IP: ' + ip)
             res.json(
                 {
