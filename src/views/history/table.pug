@@ -46,7 +46,7 @@ block data
                             tr.text-center
                                 td(style="width: 50%").align-middle=data.temperature.val[index] + ' °C'
                                 td(style="width: 50%").align-middle=data.temperature.stamp[index]
-                                if logged_user && logged_user.Admin === 'true'
+                                if logged_user && logged_user.admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Temperature')
@@ -70,7 +70,7 @@ block data
                             tr.text-center
                                 td(style="width: 50%").align-middle=data.humidity.val[index] + ' %'
                                 td(style="width: 50%").align-middle=data.humidity.stamp[index]
-                                if logged_user && logged_user.Admin === 'true'
+                                if logged_user && logged_user.admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Humidity')
@@ -93,7 +93,7 @@ block data
                             tr.text-center
                                 td(style="width: 50%").align-middle=data.pressure.val[index] + 'hPa'
                                 td(style="width: 50%").align-middle=data.pressure.stamp[index]
-                                if logged_user && logged_user.Admin === 'true'
+                                if logged_user && logged_user.admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Pressure')
@@ -116,7 +116,7 @@ block data
                             tr.text-center
                                 td(style="width: 50%").align-middle=data.rain.val[index] + ' mm'
                                 td(style="width: 50%").align-middle=data.rain.stamp[index]
-                                if logged_user && logged_user.Admin === 'true'
+                                if logged_user && logged_user.admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Rain')
@@ -141,7 +141,7 @@ block data
                                 td(style="width: 33%").align-middle=data.wind.speed[index] + ' Km/h'
                                 td(style="width: 33%").align-middle=data.wind.direction[index]
                                 td(style="width: 33%").align-middle=data.wind.stamp[index]
-                                if logged_user && logged_user.Admin === 'true'
+                                if logged_user && logged_user.admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Wind')
@@ -160,11 +160,11 @@ block data
                             th Distanza
                             th Data
                     tbody
-                        each t, index in data.lighting.val
+                        each t, index in data.lighting.distance
                             tr.text-center
-                                td(style="width: 50%").align-middle=data.lighting.val[index] + ' Km'
+                                td(style="width: 50%").align-middle=data.lighting.distance[index] + ' Km'
                                 td(style="width: 50%").align-middle=data.lighting.stamp[index]
-                                if logged_user && logged_user.Admin === 'true'
+                                if logged_user && logged_user.admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='Lighting')
@@ -189,7 +189,7 @@ block data
                                 td(style="width: 33%").align-middle=data.air_quality.PM25[index]
                                 td(style="width: 33%").align-middle=data.air_quality.PM10[index]
                                 td(style="width: 33%").align-middle=data.air_quality.stamp[index]
-                                if logged_user && logged_user.Admin === 'true'
+                                if logged_user && logged_user.admin === 'true'
                                     td
                                         form(method='POST' action='/config/delete_data')
                                             input(id='Type' name='Type' type='hidden' value='AirQuality')
