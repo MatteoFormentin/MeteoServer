@@ -7,9 +7,6 @@ module.exports.queryUpdateAvailable = async function (model) {
         let res = await database.asynchQuery(query, [
             model
         ]);
-
-        console.log(res)
-
         if (res.length == 0) {
             station_update_available = [];
         } else {

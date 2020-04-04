@@ -28,12 +28,12 @@ module.exports.updateStationData = async function (data) {
 
     let station = await database.asynchQuery('SELECT * FROM Station WHERE Token=?', [data.token]);
 
-    station = station[0];
-
     //Unauthorized request
-    if (station === undefined) {
+    if (station.length == 0) {
         return false;
     }
+
+    station = station[0];
 
     let insert_temperature = 'INSERT INTO Temperature (Id, Val, Stamp) VALUES (?, ?, ?)';
     let insert_pressure = 'INSERT INTO Pressure (Id, Val, Stamp) VALUES (?, ?, ?)';

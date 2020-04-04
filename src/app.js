@@ -17,6 +17,7 @@ WORKING_DIR = __dirname;
 
 logger = require("./utils/logger");
 
+
 /*
   READ ENV FROM FILE
   Local development only: on container ENV are directly provided on start by docker.
@@ -25,15 +26,7 @@ const dotenv = require('dotenv');
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 
-
-dateConvert = require("./utils/date_convert");
-meteoUtils = require("./utils/meteo_utils");
-
-
-
 /*DATABASE MySQL*/
-
-
 db = require("./database/database");
 
 /*PASSPORT*/
