@@ -2,12 +2,12 @@ var express = require('express');
 
 
 module.exports.querySingleStationLastData = async function (station_id) {
-    var temp_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=?  AND Stamp BETWEEN  ?  AND ? ORDER BY Stamp DESC';
+    var temp_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN  ?  AND ? ORDER BY Stamp DESC';
 
     var max_temp_query = 'SELECT MAX(Val) AS Max FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=?  AND Stamp BETWEEN  ?  AND ?';
     var min_temp_query = 'SELECT MIN(Val) AS Min FROM Temperature INNER JOIN Station ON Temperature.Id = Station.Id WHERE Station.Id=?  AND Stamp BETWEEN  ?  AND ?';
 
-    var pres_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ?';
+    var pres_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Pressure INNER JOIN Station ON Pressure.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC';
 
     var hum_query = 'SELECT Station.Id, StationName, Location, Altitude, Val, Stamp FROM Humidity INNER JOIN Station ON Humidity.Id = Station.Id WHERE Station.Id=? AND Stamp BETWEEN ? AND ? ORDER BY Stamp DESC LIMIT 1';
 
@@ -112,6 +112,7 @@ module.exports.querySingleStationLastData = async function (station_id) {
             moment.utc().hour(moment.utc().hour() - 3).format("Y-M-D H:mm"),
             now_time_stamp
         ]);
+        console.log(rows)
         if (rows[0] === undefined) {
             pressure = 'N/A';
             sea_level_pressure = 'N/A';

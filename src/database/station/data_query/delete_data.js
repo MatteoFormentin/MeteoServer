@@ -26,7 +26,7 @@ module.exports.deleteSingleHumidity = async function (id, stamp) {
 module.exports.deleteSinglePressure = async function (id, stamp) {
     let res;
     try {
-        res = await database.asynchQuery('DELETE FROM Pressure WHERE Id = ? AND Stamp = ?');
+        res = await database.asynchQuery('DELETE FROM Pressure WHERE Id = ? AND Stamp = ?', [id, stamp]);
     } catch (err) {
         logger.error("DATABASE: Error deleting from Pressure item: " + id + ',' + stamp);
         throw err
