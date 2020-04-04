@@ -25,7 +25,7 @@ router.post('/', function (req, res, next) {
             res.status(200);
             res.send('ok');
         } else {
-            logger.info('API: Unathorized data update\nData: %o\nStation IP: ' + ip, data);
+            logger.info("API: Unathorized data update\nData: " + JSON.stringify(data) + '\nStation IP: ' + ip);
             res.status(401);
             res.json(
                 {
@@ -38,7 +38,7 @@ router.post('/', function (req, res, next) {
             );
         }
     }).catch((err) => {
-        logger.error('API: Error processing station update\nData: %o\nStation IP: ' + ip, data);
+        logger.error("API: Error processing station update\nData: " + JSON.stringify(data) + '\nStation IP: ' + ip);
         res.json(
             {
                 error: {
