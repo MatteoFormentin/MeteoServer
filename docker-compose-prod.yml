@@ -1,0 +1,37 @@
+# Define .env file as in .env.example 
+# than source it before launching compose
+version: "3.9"
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      #db creation only first run (if volumes attached)
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: ${USER_DB}
+      MYSQL_PASSWORD: ${PASS_DB}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes: 
+      - meteoserver-sql-data:/var/lib/mysql
+
+  app:
+    image: meteoserver:latest
+    ports: 
+      - 3000:3000
+    depends_on: #used to get ip address
+      - db
+    restart: always
+    environment:
+      DB_HOST: db #docker auto pass db container ip
+      DB_NAME: ${DB_NAME}
+      USER_DB: ${USER_DB}
+      PASS_DB: ${PASS_DB}
+      NODE_ENV: production
+
+volumes: 
+  meteoserver-sql-data:
+    driver: glusterfs
+  
+
+   

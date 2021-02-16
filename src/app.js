@@ -17,15 +17,6 @@ WORKING_DIR = __dirname;
 
 logger = require("./utils/logger");
 meteoUtils = require('./utils/meteo_utils')
-dateConvert = require('./utils/date_convert')
-
-/*
-  READ ENV FROM FILE
-  Local development only: on container ENV are directly provided on start by docker.
-*/
-const dotenv = require('dotenv');
-dotenv.config({ path: path.join(__dirname, '.env') });
-
 
 /*DATABASE MySQL*/
 db = require("./database/database");
@@ -134,4 +125,4 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-module.exports = app;
+app.listen(3000);

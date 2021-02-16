@@ -1,21 +1,21 @@
 extends history
 
 block data
-    
+
     //Aggiungere un li per ogni tabella
     ul.nav.nav-tabs(role='tablist')
         if data.temperature !== 'N/A'
             li.nav-index
                 a.nav-link(data-toggle='tab' href='#temp') TEMPERATURA
-       
+
         if data.humidity !== 'N/A'
             li.nav-index
                 a.nav-link(data-toggle='tab' href='#hum') UMIDITA'
-        
+
         if data.pressure !== 'N/A'
             li.nav-index
                 a.nav-link(data-toggle='tab' href='#pres') PRESSIONE
-        
+
         if data.rain !== 'N/A'
             li.nav-index
                 a.nav-link(data-toggle='tab' href='#rain') PIOGGIA
@@ -79,7 +79,7 @@ block data
                                             button.btn.btn-m.btn-danger(type='submit' style="width: 100px;") ELIMINA
             else
                 p.margin-top nessun dato disponibile
-        
+
         //Pressione
         div.container.tab-pane.fade(id='pres')
             if data.pressure !== 'N/A'

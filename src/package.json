@@ -5,7 +5,7 @@
   "author": "Matteo Formentin <matteo.formentin@icloud.com>",
   "private": true,
   "scripts": {
-    "start": "node ./src/bin/MeteoServer"
+    "start": "node ./app.js"
   },
   "dependencies": {
     "async": "^2.6.0",
