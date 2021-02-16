@@ -34,6 +34,12 @@ var getAllFirmwareUpdates = require('./firmware_update/get_all_firmware_updates'
 var mysql = require("mysql");
 var util = require("util");
 
+if (process.env.DB_HOST == "" || process.env.DB_NAME == "" || process.env.USER_DB == "" || process.env.PASS_DB == "") {
+    logger.error("ENV: Missing some enviroment variables.");
+    process.exit();
+}
+
+
 database = mysql.createConnection({
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
@@ -41,6 +47,7 @@ database = mysql.createConnection({
     password: process.env.PASS_DB,
     timezone: 'utc'
 });
+
 
 database.connect(function (err) {
     if (err) {

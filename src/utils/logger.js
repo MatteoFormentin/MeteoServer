@@ -14,16 +14,12 @@ logger = winston.createLogger({
     ]
 });
 
-//
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-// 
-if (process.env.NODE_ENV !== 'production') {
-    logger.add(new winston.transports.Console({
-        format: winston.format.simple(),
-        timestamp: true,
-        colorized: true
-    }));
-}
+//For container useful to log on console
+logger.add(new winston.transports.Console({
+    format: winston.format.simple(),
+    timestamp: true,
+    colorized: true
+}));
+
 
 module.exports = logger
