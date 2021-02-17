@@ -17,6 +17,7 @@ WORKING_DIR = __dirname;
 
 logger = require("./utils/logger");
 meteoUtils = require('./utils/meteo_utils')
+dateConvert = require('./utils/date_convert')
 
 /*DATABASE MySQL*/
 db = require("./database/database");
@@ -125,4 +126,8 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
+logger.info("APP: Starting completed. MeteoServer Ready.");
+
 app.listen(3000);
+
+

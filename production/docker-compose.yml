@@ -5,11 +5,9 @@ services:
   db:
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
-    env_file: 
-      - .env
     environment:
       #db creation only first run (if volumes attached)
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: ${USER_DB}
       MYSQL_PASSWORD: ${PASS_DB}
       MYSQL_DATABASE: ${DB_NAME}
@@ -20,16 +18,21 @@ services:
     image: docker.pkg.github.com/matteoformentin/meteoserver/meteoserver:1.0
     ports: 
       - 3000:3000
-    restart: always
-    env_file: 
-      - .env
     environment:
       DB_HOST: db #docker auto pass db container ip
       DB_NAME: ${DB_NAME}
       USER_DB: ${USER_DB}
       PASS_DB: ${PASS_DB}
       NODE_ENV: dev
-  
+
+  adminer:
+    image: adminer:latest
+    ports: 
+      - 8080:8080
+    environment: 
+        ADMINER_DEFAULT_SERVER: db
+        ADMINER_DESIGN: galkaev
+    
 networks:
   main:
     driver: overlay
