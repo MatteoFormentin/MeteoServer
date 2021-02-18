@@ -15,31 +15,6 @@ Node.js and MySQL based weather station data logger and analyzer.
 
 Please note that text language is italian.
 
-## SETUP
-
-Create a new db (MySQL) and modify db_config.json file:
-
-```json
-{
-  "host": "server ip",
-  "database": "db name",
-  "user": "username",
-  "password": "password"
-}
-```
-
-Then run
-
-```bash
-npm install
-```
-
-and
-
-```bash
-npm start
-```
-
 ## DOCUMENTATION
 
 Check the Wiki for doc and API description.  
