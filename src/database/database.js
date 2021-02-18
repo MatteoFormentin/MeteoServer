@@ -68,6 +68,7 @@ initTables().catch((err) => {
 })
 
 module.exports = Object.assign({},
+    database,
     queryLastDataFromAllStation,
     querySingleStationLastData,
     listStation,

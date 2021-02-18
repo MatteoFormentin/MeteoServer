@@ -8,6 +8,8 @@ var flash = require("connect-flash");
 var helmet = require("helmet");
 var session = require("express-session");
 var device = require("express-device");
+var MySQLStore = require('express-mysql-session')(session);
+
 moment = require('moment')
 uuidv4 = require("uuid/v4");
 crypto = require("crypto");
@@ -45,16 +47,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+
+var sessionStore = new MySQLStore({}, database);
+
 app.use(
   session({
     secret: "keyboard cat",
     resave: true,
     saveUninitialized: true,
+    store: sessionStore,
     cookie: {
       maxAge: 24 * 3600000 //One hour login max (in millisecond)
     }
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());

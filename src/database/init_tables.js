@@ -16,6 +16,15 @@ module.exports = async function initTables() {
             ');'
         );
 
+        await database.asynchQuery('CREATE TABLE IF NOT EXISTS sessions(\n' +
+            'session_id varchar(128) COLLATE utf8mb4_bin NOT NULL,\n' +
+            'expires int(11) unsigned NOT NULL,\n' +
+            'data mediumtext COLLATE utf8mb4_bin,\n' +
+            'PRIMARY KEY(session_id)\n' +
+            ');'
+        );
+
+
         await database.asynchQuery('CREATE TABLE IF NOT EXISTS Station(\n' +
             '    Id Int NOT NULL AUTO_INCREMENT,\n' +
             '    StationName Varchar(255) NOT NULL,\n' +
