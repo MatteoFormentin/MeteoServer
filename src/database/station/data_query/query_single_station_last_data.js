@@ -251,7 +251,7 @@ module.exports.querySingleStationLastData = async function (station_id) {
             forecast = 'N/A';
         }
     } catch (err) {
-        logger.error("DATABASE: Error getting single station last data");
+        logger.error("DATABASE: Error getting single station last data, message: " + err.message);
         throw err;
     }
 

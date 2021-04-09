@@ -21,5 +21,4 @@ logger.add(new winston.transports.Console({
     colorized: true
 }));
 
-
 module.exports = logger

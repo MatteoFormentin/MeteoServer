@@ -21,7 +21,7 @@ module.exports.getAllStations = async function () {
             });
         }
     } catch (err) {
-        logger.error("DATABASE: Error getting all station");
+        logger.error("DATABASE: Error getting all station , message: " + err.message);
         throw err;
     }
     return station;

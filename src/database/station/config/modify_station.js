@@ -14,7 +14,7 @@ module.exports.modifyStation = async function (station_name, location, latitude,
             id
         ]);
     } catch (err) {
-        logger.error("DATABASE: Error Updating Station: " + station_name);
+        logger.error("DATABASE: Error Updating Station: " + station_name + ", message: " + err.message);
         throw err
     }
     return res

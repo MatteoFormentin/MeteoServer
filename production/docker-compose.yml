@@ -15,7 +15,7 @@ services:
       - /mnt/meteoserver-sql-data:/var/lib/mysql
 
   app:
-    image: docker.pkg.github.com/matteoformentin/meteoserver/meteoserver:1.0
+    image: docker.pkg.github.com/matteoformentin/meteoserver/meteoserver:latest
     ports: 
       - 3000:3000
     environment:
@@ -23,7 +23,7 @@ services:
       DB_NAME: ${DB_NAME}
       USER_DB: ${USER_DB}
       PASS_DB: ${PASS_DB}
-      NODE_ENV: dev
+      NODE_ENV: Production
 
   adminer:
     image: adminer:latest

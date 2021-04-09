@@ -11,7 +11,7 @@ var device = require("express-device");
 var MySQLStore = require('express-mysql-session')(session);
 
 moment = require('moment')
-uuidv4 = require("uuid/v4");
+const { v4: uuidv4 } = require('uuid');
 crypto = require("crypto");
 async = require("async");
 WORKING_DIR = __dirname;
@@ -46,7 +46,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
 
 var sessionStore = new MySQLStore({}, database);
 
@@ -125,16 +124,11 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
+  logger.error("GENERIC ERROR: " + err.message)
   res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+  process.exit(-1)
 });
 
 logger.info("APP: Starting completed. MeteoServer Ready.");
 
 app.listen(3000);
-
-

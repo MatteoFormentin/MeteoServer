@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+//TODO: Validate dates params
+
 /* GET single or all station. */
 router.get('/:station_id', function (req, res, next) {
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -9,24 +11,25 @@ router.get('/:station_id', function (req, res, next) {
         if (req.query.date_start && req.query.date_end) {
             db.queryHistoryStationData(req.params.station_id, req.query.date_start, req.query.date_end).then((data) => {
                 if (data) {
-                    res.json(data);
+                    res.status(200).json(data);
                 } else {
-                    res.json(getNotFound());
+                    res.status(404).json(getNotFound());
                 }
             }).catch((err) => {
                 logger.error('API: Error processing get station history data\nstation id: ' + req.params.station_id + '\nRemote IP: ' + ip);
-                res.json(getServerError());
+                res.status(500).json(getServerError());
             });
-        } else { //GET LAST DATA
+        //NO PARAMS -> GET LAST DATA
+        } else { 
             db.querySingleStationLastData(req.params.station_id).then((data) => {
                 if (data) {
-                    res.json(data);
+                    res.status(200).json(data);
                 } else {
-                    res.json(getNotFound());
+                    res.status(404).json(getNotFound());
                 }
             }).catch((err) => {
                 logger.error('API: Error processing get station last data\nstation id: ' + req.params.station_id + '\nRemote IP: ' + ip);
-                res.json(getServerError());
+                res.status(500).json(getServerError());
             });
         }
     }

@@ -53,7 +53,7 @@ module.exports.updateStationData = async function (data) {
         try {
             await database.asynchQuery(insert_temperature, [station.Id, data.temperature, timestamp]);
         } catch (err) {
-            logger.error("DATABASE: Error inserting new Temperature");
+            logger.error("DATABASE: Error inserting new Temperature, message: " + err.message);
             throw err;
         }
     }
@@ -62,7 +62,7 @@ module.exports.updateStationData = async function (data) {
         try {
             await database.asynchQuery(insert_pressure, [station.Id, data.pressure, timestamp]);
         } catch (err) {
-            logger.error("DATABASE: Error inserting new Pressure");
+            logger.error("DATABASE: Error inserting new Pressure, message: " + err.message);
             throw err;
         }
     }
@@ -71,7 +71,7 @@ module.exports.updateStationData = async function (data) {
         try {
             await database.asynchQuery(insert_humidity, [station.Id, data.humidity, timestamp]);
         } catch (err) {
-            logger.error("DATABASE: Error inserting new Humidity");
+            logger.error("DATABASE: Error inserting new Humidity, message: " + err.message);
             throw err;
         }
     }
@@ -80,7 +80,7 @@ module.exports.updateStationData = async function (data) {
         try {
             await database.asynchQuery(insert_rain, [station.Id, data.rain, timestamp]);
         } catch (err) {
-            logger.error("DATABASE: Error inserting new Rain");
+            logger.error("DATABASE: Error inserting new Rain, message: " + err.message);
             throw err;
         }
     }
@@ -89,7 +89,7 @@ module.exports.updateStationData = async function (data) {
         try {
             await database.asynchQuery(insert_wind, [station.Id, data.wind.speed, data.wind.direction, timestamp]);
         } catch (err) {
-            logger.error("DATABASE: Error inserting new Wind");
+            logger.error("DATABASE: Error inserting new Wind, message: " + err.message);
             throw err;
         }
     }
@@ -98,7 +98,7 @@ module.exports.updateStationData = async function (data) {
         try {
             await database.asynchQuery(insert_lighting, [station.Id, data.lighting, timestamp]);
         } catch (err) {
-            logger.error("DATABASE: Error inserting new AirQuality");
+            logger.error("DATABASE: Error inserting new Lighting, message: " + err.message);
             throw err;
         }
     }
@@ -107,7 +107,7 @@ module.exports.updateStationData = async function (data) {
         try {
             await database.asynchQuery(insert_air_quality, [station.Id, data.air_quality.PM25, data.air_quality.PM10, timestamp]);
         } catch (err) {
-            logger.error("DATABASE: Error inserting new AirQuality");
+            logger.error("DATABASE: Error inserting new AirQuality, message: " + err.message);
             throw err;
         }
     }
@@ -116,7 +116,7 @@ module.exports.updateStationData = async function (data) {
     try {
         await database.asynchQuery(station_last_update, [timestamp, station.Id]);
     } catch (err) {
-        logger.error("DATABASE: Error updating LastUpdate");
+        logger.error("DATABASE: Error updating LastUpdate, message: " + err.message);
         throw err;
     }
 
@@ -129,7 +129,7 @@ module.exports.updateStationData = async function (data) {
                 station.Id
             ]);
         } catch (err) {
-            logger.error("DATABASE: Error updating model and firmware version");
+            logger.error("DATABASE: Error init tables, message: " + err.message);
             throw err;
         }
     }

@@ -1,5 +1,5 @@
 FROM node:15
-COPY . /MeteoServer
+COPY ./src /MeteoServer
 WORKDIR /MeteoServer
 RUN npm install
 EXPOSE 3000

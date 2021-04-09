@@ -16,7 +16,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   app:
-    build: ./src
+    build: .
     image: node:15
     ports: 
       - 3000:3000

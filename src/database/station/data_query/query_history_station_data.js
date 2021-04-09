@@ -176,7 +176,7 @@ module.exports.queryHistoryStationData = async function (station_id, timestamp_s
             data.air_quality = "N/A"
         }
     } catch (err) {
-        logger.error("DATABASE: Error getting history station data");
+        logger.error("DATABASE: Error getting history station data, message: " + err.message);
         throw err;
     }
     return data;

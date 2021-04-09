@@ -6,7 +6,7 @@ module.exports.deleteStation = async function (id) {
     try {
         res = await database.asynchQuery(delete_user_query, [id]);
     } catch (err) {
-        logger.error("DATABASE: Error deleting station id: " + id);
+        logger.error("DATABASE: Error deleting station id: " + id + ", message: " + err.message);
         throw err;
     }
     return res;

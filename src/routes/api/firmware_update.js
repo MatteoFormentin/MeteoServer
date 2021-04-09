@@ -8,7 +8,7 @@ var fs = require('fs');
 /* GET update for station. Param station_model will be choosen by the station */
 router.get('/:station_model', function (req, res, next) {
     //Check if request come from an ESP8266
-    //TODO: PLACE ON THE FOLLOWING IF TOKEN CHECK
+    //TODO: PLACE ON THE FOLLOWING IF TOKEN CHECK (AUTH)
     if (req.get('User-Agent') === 'ESP8266-http-Update') {
         var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
@@ -32,12 +32,11 @@ router.get('/:station_model', function (req, res, next) {
             //If no update found or onboard version greater
             else {
                 logger.info('API: firmware update requerst for station\nmodel:' + req.params.station_model + '\nStation IP: ' + ip + '\nFirmware already at last version')
-                res.status(500);
-                res.send('500 No update available');
+                res.status(500).send('500 No update available');
             }
         }).catch((err) => {
             logger.error("API: Error processing firmware update for station\nmodel: " + req.params.station_model + '\nStation IP: ' + ip)
-            res.json(
+            res.status(500).json(
                 {
                     error: {
                         //errors: [],
@@ -50,8 +49,7 @@ router.get('/:station_model', function (req, res, next) {
     }
     //If not an ESP8266 Unauthorized
     else {
-        res.status(403);
-        res.send('403 Forbidden');
+        res.status(403).send('403 Forbidden');
     }
 });
 

@@ -17,7 +17,7 @@ module.exports.deleteSingleHumidity = async function (id, stamp) {
     try {
         res = await database.asynchQuery('DELETE FROM Humidity WHERE Id = ? AND Stamp = ?', [id, stamp]);
     } catch (err) {
-        logger.error("DATABASE: Error deleting from Humidity item: " + id + ',' + stamp);
+        logger.error("DATABASE: Error deleting from Humidity item: " + id + ',' + stamp + ", message: " + err.message);
         throw err
     }
     return res;

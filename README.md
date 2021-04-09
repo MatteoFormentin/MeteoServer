@@ -22,5 +22,4 @@ Check the Wiki for doc and API description.
 ## LICENSE
 
 All software is released under MIT License.
-
 *Copyright (c) 2019 Matteo Formentin*

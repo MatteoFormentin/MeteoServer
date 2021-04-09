@@ -7,8 +7,7 @@ router.post('/', function (req, res, next) {
     let data = req.body;
     if (!data) {
         logger.error('API: Bad request from station update (no data sended)\nStation IP: ' + ip);
-        res.status(400);
-        res.json(
+        res.status(400).json(
             {
                 error: {
                     //errors: [],
@@ -22,12 +21,10 @@ router.post('/', function (req, res, next) {
     db.updateStationData(data).then((result) => {
         if (result) {
             logger.info("API: New data from station\nModel:" + data.model + '\nStation IP: ' + ip);
-            res.status(200);
-            res.send('ok');
+            res.status(200).send('ok');
         } else {
             logger.info("API: Unathorized data update\nData: " + JSON.stringify(data) + '\nStation IP: ' + ip);
-            res.status(401);
-            res.json(
+            res.status(401).json(
                 {
                     error: {
                         //errors: [],
@@ -39,7 +36,7 @@ router.post('/', function (req, res, next) {
         }
     }).catch((err) => {
         logger.error("API: Error processing station update\nData: " + JSON.stringify(data) + '\nStation IP: ' + ip);
-        res.json(
+        res.status(500).json(
             {
                 error: {
                     //errors: [],

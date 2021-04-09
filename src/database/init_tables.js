@@ -137,6 +137,7 @@ module.exports = async function initTables() {
             ');'
         );
     } catch (err) {
+        logger.error("DATABASE: Can't connect to database. Check configuration.");
         throw err;
     }
 };

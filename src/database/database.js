@@ -63,7 +63,7 @@ database.asynchQuery = util.promisify(database.query);
 
 var initTables = require("./init_tables");
 initTables().catch((err) => {
-    logger.error("DATABASE: Error initializing tables")
+    logger.error("DATABASE: Error initializing tables, message: " + err.message)
     process.exit();
 })
 

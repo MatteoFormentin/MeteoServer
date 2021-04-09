@@ -1,4 +1,6 @@
 var express = require('express');
+const { v4: uuidv4 } = require('uuid');
+
 
 module.exports.createStation = async function (station_name, location, latitude, longitude, altitude) {
 
@@ -16,7 +18,7 @@ module.exports.createStation = async function (station_name, location, latitude,
             timestamp
         ]);
     } catch (err) {
-        logger.error("DATABASE: Error creating station");
+        logger.error("DATABASE: Error creating station, message: " + err.message);
         throw err;
     }
     return res;
