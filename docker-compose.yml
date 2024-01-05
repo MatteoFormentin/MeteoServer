@@ -26,6 +26,7 @@ services:
       DB_NAME: ${DB_NAME}
       USER_DB: ${USER_DB}
       PASS_DB: ${PASS_DB}
+  
   adminer:
     image: adminer:latest
     ports: 
